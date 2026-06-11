@@ -80,10 +80,20 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
 @keyframes spin{to{transform:rotate(360deg)}}
 .row2{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
 .hint{font-size:.78rem;color:var(--ink-soft);display:inline-flex;align-items:center;gap:5px}
-.install{display:inline-flex;align-items:center;gap:7px;background:#fff;border:2px solid var(--g3);
-  color:var(--g3);font-weight:700;font-size:.9rem;padding:9px 16px;border-radius:14px;cursor:pointer;
-  font-family:'Rubik';transition:.18s}
-.install:hover{background:var(--g3);color:#fff;transform:translateY(-2px) scale(1.02)}
+.install{display:inline-flex;align-items:center;gap:5px;background:transparent;border:1.5px solid #e2d4f3;
+  color:var(--g3);font-weight:600;font-size:.74rem;padding:5px 11px;border-radius:10px;cursor:pointer;
+  font-family:'Rubik';transition:.18s;opacity:.85}
+.install:hover{background:var(--g3);color:#fff;border-color:var(--g3);opacity:1;transform:translateY(-1px)}
+/* כשהאפליקציה כבר מותקנת ונפתחת כאפליקציה - אין צורך בכפתור ההתקנה */
+@media(display-mode:standalone){.install{display:none}}
+/* רמז גלילה: שיהיה ברור שיש עוד תוכן למטה */
+.scrolldown{display:flex;flex-direction:column;align-items:center;gap:1px;margin:14px auto 0;width:100%;
+  background:none;border:0;cursor:pointer;color:var(--ink-soft);font-family:'Rubik';font-weight:600;font-size:.78rem;
+  transition:opacity .45s;animation:fadecue 1s .5s both}
+.scrolldown .chev{font-size:1.4rem;line-height:.7;color:var(--g2);animation:bobcue 1.5s ease-in-out infinite}
+.scrolldown.gone{opacity:0;pointer-events:none}
+@keyframes bobcue{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+@keyframes fadecue{from{opacity:0}to{opacity:1}}
 
 /* section heads */
 .sh{font-family:'Baloo 2';font-weight:800;font-size:1.55rem;margin:34px 4px 6px;display:flex;align-items:center;gap:10px}
@@ -150,7 +160,7 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
 .ask .e{font-size:1.05rem}
 
 /* glossary */
-.gloss{display:flex;flex-wrap:wrap;gap:10px}
+.gloss{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
 .gchip{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:2px solid #f1e7f6;
   border-radius:16px;padding:11px 16px;cursor:pointer;font-weight:700;font-size:.92rem;transition:.2s;box-shadow:0 8px 18px -16px rgba(42,26,62,.6)}
 .gchip:hover{border-color:transparent;transform:translateY(-3px) scale(1.03);color:#fff;background:var(--spine)}
@@ -171,6 +181,13 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
 
 .foot{text-align:center;color:var(--ink-soft);font-size:.8rem;margin-top:46px;line-height:1.7}
 .foot b{color:var(--ink)}
+.signup{display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;background:#fff;border:2px solid #f1e7f6;
+  border-radius:15px;padding:11px 18px;color:var(--g3);font-weight:700;font-size:.88rem;text-decoration:none;
+  transition:.2s;box-shadow:0 10px 22px -18px rgba(42,26,62,.6)}
+.signup:hover{border-color:transparent;background:var(--spine);background-size:180% auto;color:#fff;transform:translateY(-2px) scale(1.02)}
+.signup small{font-weight:400;opacity:.8}
+.signup.ghost{color:var(--ink-soft)}
+.links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:6px}
 .pv{position:fixed;top:10px;right:10px;background:var(--ink);color:#fff;font-size:.7rem;padding:5px 12px;border-radius:999px;opacity:.8;z-index:30}
 
 .modal{position:fixed;inset:0;background:rgba(42,26,62,.55);display:none;align-items:center;justify-content:center;z-index:60;padding:24px;backdrop-filter:blur(4px)}
@@ -209,6 +226,10 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
     </div>
   </header>
 
+  <button class="scrolldown" id="scrollCue" onclick="document.querySelector('.sh').scrollIntoView({behavior:'smooth'})">
+    <span>יש עוד הרבה למטה</span><span class="chev">⌄</span>
+  </button>
+
   <div class="sh disp io"><span class="emj">💬</span> לא יודעים מה לשאול?</div>
   <div class="sub-hint io">הבטחנו שמונדיאלה תגיד לכם מה לשאול. לחצ/י על שאלה והיא נפתחת מוכנה, אפס מאמץ 👇</div>
   <div class="qboard io">
@@ -223,7 +244,7 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
   </div>
 
   <div class="sh disp io"><span class="emj">📺</span> מה רואים עכשיו <span class="live-dot"></span></div>
-  <div class="sub-hint io">👆 לכל משחק: "כל מה שצריך" לכל המידע, או "משפטי ווסאח" למשפטים מצחיקים לזרוק תוך כדי 😎</div>
+  <div class="sub-hint io">👆 לכל משחק: "כל מה שצריך" לכל המידע, או "משפטי ווסאח" לאמירות של ידענים לזרוק תוך כדי 😎</div>
   <div class="today io"></div>
 
   <div class="sh disp io"><span class="emj">🌍</span> הבתים</div>
@@ -238,9 +259,15 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
     <button class="gchip" onclick="askGloss('var')"><span class="e">📺</span> VAR</button>
     <button class="gchip" onclick="askGloss('red')"><span class="e">🟥</span> כרטיס אדום</button>
     <button class="gchip" onclick="askGloss('advance')"><span class="e">🧮</span> איך עולים?</button>
+    <button class="gchip" onclick="askGloss('corner')"><span class="e">📐</span> קרן <small>corner</small></button>
+    <button class="gchip" onclick="askGloss('yellow')"><span class="e">🟨</span> כרטיס צהוב</button>
+    <button class="gchip" onclick="askGloss('stoppage')"><span class="e">⏱️</span> תוספת זמן</button>
   </div>
 
   <div class="foot io">
+    <div class="links">
+      <a class="signup" href="https://www.karin-arad.com/blog" target="_blank" rel="noopener">📖 יהיה נחמד אם תבקרו אצלי <small>· הבלוג שלי, לא חובה - תיהנו</small></a>
+    </div><br>
     הסימונים שלך נשמרים אצלך במכשיר · מונדיאלה נבדלה נפתחת ב-ChatGPT שלך<br>
     כל 48 הנבחרות · כל לוח שלב הבתים בשעון ישראל. <b>השעות מומרות אוטומטית</b> · תמיד אפשר לאמת מול השידור הרשמי.
   </div>
@@ -271,7 +298,7 @@ function pick(a){if(a.length<2)return a[0];let i,p=_last.get(a);do{i=Math.floor(
 
 // כל פנייה נפתחת ב-ChatGPT עם האופי של מונדיאלה + התאריך של היום מוטמעים. אפס הדבקה.
 function ask(q){
-  const persona=`את מונדיאלה נבדלה, מדריכה כיפית וחמה למונדיאל 2026 לכל מי שמתחיל מאפס בכדורגל. היום ${todayHe}. עני בעברית, קצר, חם ופאנצ'י, בלי שיפוט ובלי התנשאות, עם עקיצה קלילה ואוהבת על גברים סטרייטים פה ושם בצחוק. ההומור והעקיצה הם קריצה קטנה בלבד - תיבול, לא העיקר. תמיד תני קודם תוכן אמיתי ומעמיק, במיוחד על השחקנים והסיפור, ולעולם אל תסיימי בבדיחה במקום במידע. אם צוין במפורש איזה משחק מתקיים היום - דברי רק עליו ועל השחקנים שמשחקים בו, ואל תזכירי שחקן או נבחרת שלא קשורים אליו. אם לא צוין משחק ואת לא בטוחה מה משוחק היום - אמרי בכנות שצריך לאמת מול לוח רשמי, אל תנחשי ואל תמציאי משחקים, תוצאות, הרכבים או שחקנים.`;
+  const persona=`את מונדיאלה נבדלה, מדריכה חמה ומבודחת למונדיאל 2026 לכל מי שמתחיל מאפס בכדורגל. היום ${todayHe}. עני בעברית, קצר וברור, בטון קליל ומבודח - בלי שיפוט, בלי התנשאות, ובלי פאנצ'ים, בדיחות או עקיצות. החן שלך הוא בידע ובחיבה, לא בקטעים. תמיד תני תוכן אמיתי ומעמיק, במיוחד על השחקנים והסיפור. אם צוין במפורש איזה משחק מתקיים היום - דברי רק עליו ועל השחקנים שמשחקים בו, ואל תזכירי שחקן או נבחרת שלא קשורים אליו. אם לא צוין משחק ואת לא בטוחה מה משוחק היום - אמרי בכנות שצריך לאמת מול לוח רשמי, אל תנחשי ואל תמציאי משחקים, תוצאות, הרכבים או שחקנים.`;
   window.open("https://chatgpt.com/?q="+encodeURIComponent(persona+"\n\n"+q),"_blank");
 }
 let tt;function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),2600);}
@@ -292,10 +319,9 @@ const Q={
   `תכיני לי את היום: כל המשחקים של היום במונדיאל 2026 לפי שעון ישראל, מהמוקדם למאוחר.`
  ],
  wasach:[
-  `תני לי 3 משפטי ווסאח עוקצניים ומצחיקים לזרוק תוך כדי המשחקים של היום במונדיאל 2026, שאשמע כמו ותיק/ה. טריים ומותאמים למשחקים של היום.`,
-  `אני רוצה להישמע כאילו אני מבין/ה כדורגל הערב. תני לי כמה משפטי קישקוש-מקצועי עוקצניים למשחקים של היום.`,
-  `תפרקי לי 3 פאנצ'ים מצחיקים לזרוק על השחקנים או המאמן במשחקים של היום, בלי להעליב יותר מדי.`,
-  `תני לי משפט פתיחה אחד חזק ומצחיק שאפשר לזרוק ברגע שמתיישבים לראות את המשחק היום, שכולם יצחקו.`
+  `תני לי 3 משפטי ווסאח של ידענים למשחקים של היום במונדיאל 2026 - אמירות חדות ומדויקות (טקטיקה, היסטוריה, שחקן מפתח) שמראות שאני מבין/ה כדורגל. בלי בדיחות ובלי שטויות.`,
+  `אני רוצה להישמע כמו ותיק/ה הערב: תני לי כמה תובנות חכמות וקצרות על המשחקים של היום - דברים שרק מי שמבין יודע.`,
+  `תני לי 3 נקודות מפתח על המשחקים של היום שכדאי לדעת - מה מכריע ועל מי להסתכל - כדי לדבר עליהם כמו מבין/ה.`
  ],
  beginner:[
   `אני אפס בכדורגל. תסבירי לי בקצרה ובכיף איך מבינים מונדיאל, מאיפה מתחילים?`,
@@ -332,14 +358,14 @@ function askQ(k){ask(pick(Q[k]));}
 
 // משחקי היום - השאלה מותאמת למשחק הספציפי, והזווית מתחלפת בכל לחיצה
 function matchAsk(h,a){ask(pick([
-  `ספרי לי לעומק על ${h} נגד ${a} היום במונדיאל 2026, עם דגש על השחקנים: 2-3 כוכבים מכל צד - מי הם, מה מיוחד בהם ועל מי הכי כדאי לעקוב. הוסיפי את הסיפור והרקע של המשחק, והזווית הכי מעניינת לעקוב אחריה. בסוף משפט אחד להרשים בו חברים, וקריצה קטנה אחת בלבד בסגנון מונדיאלה. המידע הוא העיקר, ההומור רק תיבול.`,
-  `אני הולך/ת לראות ${h} נגד ${a} היום ורוצה להבין לעומק - בעיקר את השחקנים. מי הכוכבים של שתי הנבחרות, מה הסיפור של כל אחד ועל מי לעקוב, ומה הדרמה הגדולה של המשחק. תוכן ראשון, בלי הרבה בדיחות - אולי קריצה קטנה אחת בסוף.`,
-  `תעמיקי לי על ${h} נגד ${a} היום: מי השחקנים שחייבים להכיר בכל צד ולמה דווקא הם, מה הרקע והסיפור של המשחק, ועל מה לשים לב במהלך 90 הדקות. סיימי במשפט אחד חכם להרשים בו חברים - לא בבדיחה.`
+  `ספרי לי לעומק על ${h} נגד ${a} היום במונדיאל 2026, עם דגש על השחקנים: 2-3 כוכבים מכל צד - מי הם, מה מיוחד בהם ועל מי הכי כדאי לעקוב. הוסיפי את הסיפור והרקע של המשחק, והזווית הכי מעניינת לעקוב אחריה. טון קליל ומבודח אבל ענייני, וסיימי במשפט חכם אחד שאפשר להרשים בו חברים.`,
+  `אני הולך/ת לראות ${h} נגד ${a} היום ורוצה להבין לעומק - בעיקר את השחקנים. מי הכוכבים של שתי הנבחרות, מה הסיפור של כל אחד ועל מי לעקוב, ומה הדרמה הגדולה של המשחק. ענייני וקליל, בלי בדיחות.`,
+  `תעמיקי לי על ${h} נגד ${a} היום: מי השחקנים שחייבים להכיר בכל צד ולמה דווקא הם, מה הרקע והסיפור של המשחק, ועל מה לשים לב במהלך 90 הדקות. סיימי במשפט חכם אחד להרשים בו חברים.`
 ]));}
 function matchWasach(h,a){ask(pick([
-  `תני לי 3 משפטי ווסאח עוקצניים למשחק ${h} נגד ${a} היום, שאשמע כמו ותיק/ה. טריים ומותאמים דווקא למשחק הזה.`,
-  `${h} נגד ${a} - תני לי כמה פאנצ'ים מצחיקים לזרוק תוך כדי, בלי להעליב יותר מדי.`,
-  `אני רוצה להרשים ב-${h} נגד ${a}: תני לי משפט אחד חכם ומצחיק על אחת הנבחרות שאפשר לזרוק באמצע.`
+  `תני לי 3 משפטי ווסאח של ידענים על ${h} נגד ${a} היום - אמירות חדות ומדויקות על טקטיקה, היסטוריה או שחקן מפתח, שאפשר לזרוק תוך כדי ולהישמע כמו מי שבאמת מבין כדורגל. בלי בדיחות ובלי שטויות.`,
+  `אני רוצה להישמע מבין/ה ב-${h} נגד ${a}: תני לי כמה תובנות קצרות וחכמות על הנבחרות או השחקנים - דברים שרק מי שמבין יודע, מדויק ונקי.`,
+  `תני לי 3 נקודות מפתח על ${h} נגד ${a} שכדאי לדעת - מה יכריע, על מי להסתכל, ומה הרקע - כדי לדבר על המשחק כמו ותיק/ה.`
 ]));}
 
 // מילון - הסבר בפשטות, מתחלף בכל לחיצה
@@ -348,7 +374,10 @@ const GLOSS={
  penalty:[`תסבירי לי בפשטות מה זה פנדל ולמה הוא כל כך דרמטי?`,`מתי נותנים פנדל ולמה כולם משתגעים כשזה קורה?`],
  var:[`תסבירי לי בפשטות מה זה VAR ולמה עוצרים את המשחק?`,`VAR - מה זה, למה זה לוקח כל כך הרבה זמן, ולמה כולם מתעצבנים מזה?`],
  red:[`תסבירי לי בפשטות מה זה כרטיס אדום ואיך זה משנה את המשחק?`,`כרטיס אדום מול כרטיס צהוב - מה ההבדל ולמה זו דרמה?`],
- advance:[`תסבירי לי בפשטות איך עובדת שיטת הבתים והניקוד במונדיאל 2026, ומי עולה הלאה?`,`איך יודעים מי עולה מהבית במונדיאל 2026? תסבירי לי את הניקוד בפשטות.`]
+ advance:[`תסבירי לי בפשטות איך עובדת שיטת הבתים והניקוד במונדיאל 2026, ומי עולה הלאה?`,`איך יודעים מי עולה מהבית במונדיאל 2026? תסבירי לי את הניקוד בפשטות.`],
+ corner:[`תסבירי לי בפשטות מה זה בעיטת קרן, מתי נפסקת, ולמה זה הזדמנות טובה לגול?`,`קרן - מתי נותנים אותה ולמה כולם מתרגשים?`],
+ yellow:[`תסבירי לי בפשטות מה זה כרטיס צהוב, על מה מקבלים אותו, ומה קורה אם מקבלים שניים?`,`כרטיס צהוב מול אדום - מה ההבדל בקצרה?`],
+ stoppage:[`תסבירי לי בפשטות מה זה תוספת זמן (דקות פציעות) ולמה המשחק לא נגמר בדיוק ב-90 דקות?`,`למה השופט מוסיף דקות בסוף המשחק, ואיך יודעים כמה?`]
 };
 function askGloss(k){ask(pick(GLOSS[k]));}
 
@@ -364,11 +393,11 @@ function askSchedule(){const l=todayMatches();ask(l.length?pick([
   `אילו משחקים יש היום ומחר במונדיאל 2026 (שעון ישראל)? אם את לא בטוחה, אמרי שצריך לאמת מול לוח רשמי.`
 ]));}
 function askWasach(){const l=todayMatches();const m=l.length?l.map(f=>`${f.home} נגד ${f.away}`).join(' ו-'):'';ask(l.length?pick([
-  `${todayLine()}תני לי 3 משפטי ווסאח עוקצניים ומצחיקים דווקא למשחק ${m}, שאשמע כמו ותיק/ה. רק על הנבחרות והשחקנים שבמשחק הזה, בלי להמציא.`,
-  `אני רוצה להישמע מקצוען/ית במשחק ${m} היום: תני לי כמה פאנצ'ים מצחיקים על הנבחרות או המאמנים שבו, בלי להעליב יותר מדי.`,
-  `${todayLine()}תני לי משפט פתיחה אחד חזק ומצחיק לזרוק כשמתיישבים לראות את ${m}, שמתאים בדיוק למשחק הזה.`
+  `${todayLine()}תני לי 3 משפטי ווסאח של ידענים על ${m} - אמירות חדות ומדויקות (טקטיקה, היסטוריה, שחקן מפתח) שאפשר לזרוק תוך כדי המשחק ולהישמע כמו מי שמבין כדורגל. רק על הנבחרות והשחקנים שבמשחק, בלי בדיחות ובלי להמציא.`,
+  `אני רוצה להישמע כמו ותיק/ה ב-${m} היום: תני לי כמה תובנות חכמות וקצרות על הנבחרות, הטקטיקה או השחקנים - דברים שרק מי שמבין יודע, מדויק ונקי.`,
+  `${todayLine()}תני לי 3 נקודות מפתח על ${m} שכדאי לדעת לפני המשחק - מה מכריע, על מי להסתכל ומה ההיסטוריה - כדי לדבר עליו כמו מבין/ה.`
 ]):pick([
-  `בדקי איזה משחק משוחק היום (${todayHe}) במונדיאל 2026, ותני לי 3 משפטי ווסאח עוקצניים דווקא עליו. אם לא בטוחה - אמרי שצריך לאמת, אל תמציאי.`
+  `בדקי איזה משחק משוחק היום (${todayHe}) במונדיאל 2026, ותני לי 3 משפטי ווסאח של ידענים עליו - תובנות חדות ומדויקות שמראות שאני מבין/ה כדורגל. אם לא בטוחה - אמרי שצריך לאמת, אל תמציאי.`
 ]));}
 function askPartner(){const t=todayLine();ask(t?pick([
   `${t}איזה מהמשחקים האלה הכי כיף לראות היום עם בן/בת הזוג, גם בלי להבין כדורגל? למה דווקא הוא, ומה להגיד תוך כדי?`,
@@ -378,8 +407,8 @@ function askPartner(){const t=todayLine();ask(t?pick([
 ]));}
 // הכפתור הראשי: מה שצריך לדעת היום במונדיאל - מבוסס על המשחקים האמיתיים של היום
 function askToday(){const l=todayMatches();ask(l.length?pick([
-  `${todayLine()}תני לי תקציר קצר וכיפי של מה שחשוב לדעת היום במונדיאל 2026: על המשחק/ים האלה - מי הכוכבים, מה הסיפור, ועל מי הכי כדאי לשים לב הערב. עומק על השחקנים, קריצה קטנה אחת מותרת בסוף.`,
-  `${todayLine()}מה הדבר הכי חשוב לדעת היום במונדיאל 2026? ספרי לי לעומק על המשחק/ים של היום - השחקנים, הסיפור והזווית לעקוב אחריה - בלי הרבה בדיחות, התוכן הוא העיקר.`
+  `${todayLine()}תני לי תקציר קצר וכיפי של מה שחשוב לדעת היום במונדיאל 2026: על המשחק/ים האלה - מי הכוכבים, מה הסיפור, ועל מי הכי כדאי לשים לב הערב. עומק על השחקנים, טון קליל וענייני.`,
+  `${todayLine()}מה הדבר הכי חשוב לדעת היום במונדיאל 2026? ספרי לי לעומק על המשחק/ים של היום - השחקנים, הסיפור והזווית לעקוב אחריה. ענייני וקליל, בלי בדיחות.`
 ]):pick([
   `מה שצריך לדעת היום (${todayHe}) במונדיאל 2026: בדקי אילו משחקים יש היום ותני תקציר קצר וכיפי על הכי חשוב - מי משחק, מי הכוכבים ומה הסיפור. אם אין משחקים היום, אמרי מה הדבר החם עכשיו בטורניר. אל תמציאי.`
 ]));}
@@ -590,6 +619,8 @@ setTimeout(()=>document.querySelectorAll('.io:not(.in)').forEach(el=>el.classLis
 // install
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
+// כשמתחילים לגלול - מסתירים את רמז הגלילה
+window.addEventListener('scroll',()=>{const c=document.getElementById('scrollCue');if(c&&window.scrollY>120)c.classList.add('gone');},{passive:true});
 function install(){
   if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.finally(()=>deferredPrompt=null);}
   else{document.getElementById('iosModal').classList.add('show');}
