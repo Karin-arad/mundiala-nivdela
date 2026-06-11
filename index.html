@@ -237,7 +237,7 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
     <button class="qq" onclick="askWasach()"><span class="qe">🗣️</span><span class="qt">משפטי ווסאח להיום</span><span class="qa">←</span></button>
     <button class="qq" onclick="askQ('beginner')"><span class="qe">🤓</span><span class="qt">אני אפס בכדורגל, מאיפה מתחילים?</span><span class="qa">←</span></button>
     <button class="qq" onclick="askPartner()"><span class="qe">🍿</span><span class="qt">מה לראות עם בן/בת הזוג?</span><span class="qa">←</span></button>
-    <button class="qq" onclick="askQ('stars')"><span class="qe">🌟</span><span class="qt">מי הכוכבים שאסור לפספס?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askStars()"><span class="qe">🌟</span><span class="qt">מי הכוכבים שאסור לפספס?</span><span class="qa">←</span></button>
     <button class="qq" onclick="askQ('favorites')"><span class="qe">🏆</span><span class="qt">מי הולך לזכות?</span><span class="qa">←</span></button>
     <button class="qq" onclick="askQ('drama')"><span class="qe">🔥</span><span class="qt">מה הדרמה הכי גדולה השנה?</span><span class="qa">←</span></button>
     <button class="qq" onclick="askQ('rules')"><span class="qe">📖</span><span class="qt">תסבירי את החוקים הבסיסיים</span><span class="qa">←</span></button>
@@ -411,6 +411,14 @@ function askToday(){const l=todayMatches();ask(l.length?pick([
   `${todayLine()}מה הדבר הכי חשוב לדעת היום במונדיאל 2026? ספרי לי לעומק על המשחק/ים של היום - השחקנים, הסיפור והזווית לעקוב אחריה. ענייני וקליל, בלי בדיחות.`
 ]):pick([
   `מה שצריך לדעת היום (${todayHe}) במונדיאל 2026: בדקי אילו משחקים יש היום ותני תקציר קצר וכיפי על הכי חשוב - מי משחק, מי הכוכבים ומה הסיפור. אם אין משחקים היום, אמרי מה הדבר החם עכשיו בטורניר. אל תמציאי.`
+]));}
+// כוכבים - מעוגן למשחקי היום (לא כוכב כללי של הטורניר)
+function askStars(){const t=todayLine();ask(t?pick([
+  `${t}מי הכוכבים לשים לב אליהם במשחקים האלה היום - 2-3 שחקנים מכל משחק, מי הם ולמה דווקא הם שווי צפייה. רק שחקנים שמשחקים היום, בלי להמציא.`,
+  `${t}על אילו שחקנים הכי כדאי לעקוב במשחקים של היום? תני לי את הכוכבים של המשחקים האלה ומה מיוחד בכל אחד.`
+]):pick([
+  `מי הכוכבים הכי גדולים במונדיאל 2026 שאסור לפספס, ולמה דווקא הם?`,
+  `אם אני זוכר/ת רק 5 שמות מכל המונדיאל - מי הם צריכים להיות ולמה?`
 ]));}
 
 // ===== all 48 teams, 12 groups =====
