@@ -288,9 +288,9 @@ const GPT_URL="https://chatgpt.com/g/g-6a2ab2e3e2708191864b0e0d8b28190d-mvndylh-
 
 // ===== הקשר חי: מונדיאלה תמיד יודעת מה התאריך היום =====
 const MONTHS=['בינואר','בפברואר','במרץ','באפריל','במאי','ביוני','ביולי','באוגוסט','בספטמבר','באוקטובר','בנובמבר','בדצמבר'];
-const now=new Date();
-const todayHe=`${now.getDate()} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
 const dkey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+// התאריך מחושב חי בכל קריאה (new Date) - לא משנה מתי נפתח העמוד או כמה זמן הוא פתוח, זה תמיד "היום" של המכשיר
+function todayHe(){const d=new Date();return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;}
 
 // בחירה אקראית שלא חוזרת על עצמה פעמיים ברצף → כל לחיצה מרגישה טרייה
 const _last=new Map();
@@ -298,7 +298,10 @@ function pick(a){if(a.length<2)return a[0];let i,p=_last.get(a);do{i=Math.floor(
 
 // כל פנייה נפתחת ב-ChatGPT עם האופי של מונדיאלה + התאריך של היום מוטמעים. אפס הדבקה.
 function ask(q){
-  const persona=`את מונדיאלה נבדלה, מדריכה חמה ומבודחת למונדיאל 2026 לכל מי שמתחיל מאפס בכדורגל. היום ${todayHe}. עני בעברית, קצר וברור, בטון קליל ומבודח - בלי שיפוט, בלי התנשאות, ובלי פאנצ'ים, בדיחות או עקיצות. החן שלך הוא בידע ובחיבה, לא בקטעים. תמיד תני תוכן אמיתי ומעמיק, במיוחד על השחקנים והסיפור. אם צוין במפורש איזה משחק מתקיים היום - דברי רק עליו ועל השחקנים שמשחקים בו, ואל תזכירי שחקן או נבחרת שלא קשורים אליו. אם לא צוין משחק ואת לא בטוחה מה משוחק היום - אמרי בכנות שצריך לאמת מול לוח רשמי, אל תנחשי ואל תמציאי משחקים, תוצאות, הרכבים או שחקנים.`;
+  // משחקי היום מוזרקים לכל פנייה → כל כפתור מקבל הקשר ספציפי למשחק של אותו יום
+  const l=todayMatches();
+  const matchCtx=l.length?`היום משחקים: ${l.map(f=>`${f.home} נגד ${f.away} ב-${f.time}`).join(', ')}. התייחסי בעיקר למשחקים האלה. `:'';
+  const persona=`את מונדיאלה נבדלה, מדריכה חמה ומבודחת למונדיאל 2026 לכל מי שמתחיל מאפס בכדורגל. היום ${todayHe()}. ${matchCtx}עני בעברית, קצר וברור, בטון קליל ומבודח - בלי שיפוט, בלי התנשאות, ובלי פאנצ'ים, בדיחות או עקיצות. החן שלך הוא בידע ובחיבה, לא בקטעים. תמיד תני תוכן אמיתי ומעמיק, במיוחד על השחקנים והסיפור. אם צוין משחק שמתקיים היום - דברי רק עליו ועל השחקנים שמשחקים בו, ואל תזכירי שחקן או נבחרת שלא קשורים אליו. אם לא צוין משחק ואת לא בטוחה מה משוחק היום - אמרי בכנות שצריך לאמת מול לוח רשמי, אל תנחשי ואל תמציאי משחקים, תוצאות, הרכבים או שחקנים.`;
   window.open("https://chatgpt.com/?q="+encodeURIComponent(persona+"\n\n"+q),"_blank");
 }
 let tt;function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),2600);}
@@ -382,14 +385,14 @@ const GLOSS={
 function askGloss(k){ask(pick(GLOSS[k]));}
 
 // כפתורים "כלליים" שמדברים על "היום" - מזריקים את המשחק/ים האמיתי/ים מהדאטה כדי שלא ינחשו
-function todayMatches(){const tk=dkey(now);return FIXTURES.filter(f=>f.date===tk);}
-function todayLine(){const l=todayMatches();return l.length?`היום (${todayHe}) משחקים: ${l.map(f=>`${f.home} נגד ${f.away} ב-${f.time}`).join(', ')}. `:'';}
+function todayMatches(){const tk=dkey(new Date());return FIXTURES.filter(f=>f.date===tk);}
+function todayLine(){const l=todayMatches();return l.length?`היום (${todayHe()}) משחקים: ${l.map(f=>`${f.home} נגד ${f.away} ב-${f.time}`).join(', ')}. `:'';}
 function askSchedule(){const l=todayMatches();ask(l.length?pick([
   `${todayLine()}אשרי לי את השעות לפי שעון ישראל, ותגידי על איזה מהם הכי כדאי לשמור אנרגיה. אל תוסיפי משחקים אחרים.`,
   `${todayLine()}ספרי לי בקצרה על כל אחד מהמשחקים האלה: מי הפייבוריט, מי הכוכב, ולמה כיף לראות.`,
   `${todayLine()}תני לי סדר ליום סביב המשחקים האלה בלבד - מתי כל אחד (שעון ישראל) ומה הכי שווה.`
 ]):pick([
-  `מה לוח המשחקים של היום (${todayHe}) במונדיאל 2026? בדקי מקור עדכני, תני מי נגד מי ושעות לפי שעון ישראל, ואל תמציאי משחקים.`,
+  `מה לוח המשחקים של היום (${todayHe()}) במונדיאל 2026? בדקי מקור עדכני, תני מי נגד מי ושעות לפי שעון ישראל, ואל תמציאי משחקים.`,
   `אילו משחקים יש היום ומחר במונדיאל 2026 (שעון ישראל)? אם את לא בטוחה, אמרי שצריך לאמת מול לוח רשמי.`
 ]));}
 function askWasach(){const l=todayMatches();const m=l.length?l.map(f=>`${f.home} נגד ${f.away}`).join(' ו-'):'';ask(l.length?pick([
@@ -397,7 +400,7 @@ function askWasach(){const l=todayMatches();const m=l.length?l.map(f=>`${f.home}
   `אני רוצה להישמע כמו ותיק/ה ב-${m} היום: תני לי כמה תובנות חכמות וקצרות על הנבחרות, הטקטיקה או השחקנים - דברים שרק מי שמבין יודע, מדויק ונקי.`,
   `${todayLine()}תני לי 3 נקודות מפתח על ${m} שכדאי לדעת לפני המשחק - מה מכריע, על מי להסתכל ומה ההיסטוריה - כדי לדבר עליו כמו מבין/ה.`
 ]):pick([
-  `בדקי איזה משחק משוחק היום (${todayHe}) במונדיאל 2026, ותני לי 3 משפטי ווסאח של ידענים עליו - תובנות חדות ומדויקות שמראות שאני מבין/ה כדורגל. אם לא בטוחה - אמרי שצריך לאמת, אל תמציאי.`
+  `בדקי איזה משחק משוחק היום (${todayHe()}) במונדיאל 2026, ותני לי 3 משפטי ווסאח של ידענים עליו - תובנות חדות ומדויקות שמראות שאני מבין/ה כדורגל. אם לא בטוחה - אמרי שצריך לאמת, אל תמציאי.`
 ]));}
 function askPartner(){const t=todayLine();ask(t?pick([
   `${t}איזה מהמשחקים האלה הכי כיף לראות היום עם בן/בת הזוג, גם בלי להבין כדורגל? למה דווקא הוא, ומה להגיד תוך כדי?`,
@@ -410,7 +413,7 @@ function askToday(){const l=todayMatches();ask(l.length?pick([
   `${todayLine()}תני לי תקציר קצר וכיפי של מה שחשוב לדעת היום במונדיאל 2026: על המשחק/ים האלה - מי הכוכבים, מה הסיפור, ועל מי הכי כדאי לשים לב הערב. עומק על השחקנים, טון קליל וענייני.`,
   `${todayLine()}מה הדבר הכי חשוב לדעת היום במונדיאל 2026? ספרי לי לעומק על המשחק/ים של היום - השחקנים, הסיפור והזווית לעקוב אחריה. ענייני וקליל, בלי בדיחות.`
 ]):pick([
-  `מה שצריך לדעת היום (${todayHe}) במונדיאל 2026: בדקי אילו משחקים יש היום ותני תקציר קצר וכיפי על הכי חשוב - מי משחק, מי הכוכבים ומה הסיפור. אם אין משחקים היום, אמרי מה הדבר החם עכשיו בטורניר. אל תמציאי.`
+  `מה שצריך לדעת היום (${todayHe()}) במונדיאל 2026: בדקי אילו משחקים יש היום ותני תקציר קצר וכיפי על הכי חשוב - מי משחק, מי הכוכבים ומה הסיפור. אם אין משחקים היום, אמרי מה הדבר החם עכשיו בטורניר. אל תמציאי.`
 ]));}
 // כוכבים - מעוגן למשחקי היום (לא כוכב כללי של הטורניר)
 function askStars(){const t=todayLine();ask(t?pick([
@@ -575,7 +578,7 @@ const FIXTURES=[
  {date:'2026-06-28',time:'05:00',home:'ירדן',away:'ארגנטינה',venue:'דאלאס',note:'בית J'}
 ];
 function renderToday(){
-  const tk=dkey(now);
+  const tk=dkey(new Date());
   let list=FIXTURES.filter(f=>f.date===tk), today=list.length;
   if(!today)list=FIXTURES.slice(0,2);
   const dd=s=>`${+s.slice(8,10)}.${+s.slice(5,7)}`;
@@ -620,6 +623,9 @@ function fav(el,name){FOLLOW[name]=!FOLLOW[name];if(!FOLLOW[name])delete FOLLOW[
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
 render();
 renderToday();
+// אם העמוד נשאר פתוח וחצה חצות - מרעננים את משחקי היום ברגע שחוזרים אליו (התאריך מחושב חי בכל קליק ממילא)
+let _dk=dkey(new Date());
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){const k=dkey(new Date());if(k!==_dk){_dk=k;renderToday();}}});
 document.querySelectorAll('.io').forEach((el,i)=>{el.style.transitionDelay=(i%4*0.06)+'s';io.observe(el);});
 // failsafe: never let content stay invisible if the observer misfires
 setTimeout(()=>document.querySelectorAll('.io:not(.in)').forEach(el=>el.classList.add('in')),2500);
