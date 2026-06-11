@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מונדיאלה נבדלה · מדריך המונדיאל 2026</title>
+<meta name="description" content="המדריך הכיפי למונדיאל 2026 לכל מי שרוצה להיכנס לעניין">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#FF4D9D">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="מונדיאלה נבדלה">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFF5F2; --ink:#2A1A3E; --ink-soft:#7C6C8E;
+  --g1:#FF5A5A; --g2:#FF4D9D; --g3:#8B5CF6;     /* solid accents drawn from the rainbow */
+  --mint:#1FC8AE; --amber:#FFC24B;
+  --card:#ffffff; --r:24px;
+  /* the signature: a pride rainbow, used as ONE cohesive gradient across the app 🏳️‍🌈 */
+  --spine:linear-gradient(110deg,#FF5252,#FF8A3D 20%,#FFC24B 38%,#37BE6E 56%,#3B8DFF 74%,#9B5DE5);
+  --shadow:0 20px 44px -22px rgba(139,92,246,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
+  -webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
+.disp{font-family:'Baloo 2',cursive}
+
+/* ===== animated background ===== */
+.bgfx{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5;mix-blend-mode:multiply}
+.b1{width:46vw;height:46vw;background:#FFC6D9;top:-12vw;right:-8vw;animation:drift1 18s ease-in-out infinite}
+.b2{width:42vw;height:42vw;background:#D9C7FF;bottom:-14vw;left:-10vw;animation:drift2 22s ease-in-out infinite}
+.b3{width:34vw;height:34vw;background:#C2F4EC;top:38%;left:46%;animation:drift3 16s ease-in-out infinite}
+@keyframes drift1{50%{transform:translate(-6vw,7vw) scale(1.12)}}
+@keyframes drift2{50%{transform:translate(7vw,-5vw) scale(1.15)}}
+@keyframes drift3{50%{transform:translate(-8vw,-6vw) scale(.85)}}
+
+.wrap{max-width:1080px;margin:0 auto;padding:24px 18px 90px}
+
+/* entrance */
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+.r1{animation-delay:.05s}.r2{animation-delay:.15s}.r3{animation-delay:.25s}.r4{animation-delay:.35s}
+.io{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.io.in{opacity:1;transform:none}
+
+/* ===== HERO ===== */
+.hero{position:relative;background:var(--card);border-radius:30px;padding:28px 26px 24px;
+  box-shadow:var(--shadow);overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;padding:2px;border-radius:30px;
+  background:var(--spine);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;opacity:.55}
+.hwrap{display:flex;gap:20px;align-items:center;flex-wrap:wrap;position:relative}
+.hicon{width:94px;height:94px;border-radius:24px;flex:none;object-fit:cover;
+  box-shadow:0 14px 30px -10px rgba(155,93,229,.55);animation:bob 5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-4deg)}}
+.htxt{flex:1;min-width:230px}
+.brand{display:inline-flex;align-items:center;gap:7px;background:var(--spine);color:#fff;
+  font-weight:700;font-size:.76rem;padding:5px 14px;border-radius:999px;box-shadow:0 6px 16px -6px rgba(255,77,157,.6)}
+.htxt h1{font-family:'Baloo 2';font-weight:800;font-size:2.6rem;line-height:1;margin:10px 0 3px;
+  background:var(--spine);-webkit-background-clip:text;background-clip:text;color:transparent}
+.htxt .by{font-weight:700;color:var(--ink);font-size:1rem;margin-bottom:7px}
+.htxt p{color:var(--ink-soft);font-size:1rem;max-width:46ch}
+.hero-cta{position:relative;width:100%;display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.askbig{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  padding:17px;border:0;border-radius:18px;cursor:pointer;font-family:'Rubik';font-weight:700;font-size:1.1rem;color:#fff;
+  background:var(--spine);background-size:200% auto;box-shadow:0 16px 30px -12px rgba(255,77,157,.6);
+  transition:.2s;animation:breathe 3.2s ease-in-out infinite}
+@keyframes breathe{50%{box-shadow:0 20px 40px -12px rgba(155,93,229,.7)}}
+.askbig:hover{transform:translateY(-2px);background-position:right center}
+.askbig::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);
+  animation:shine 3.6s ease-in-out infinite}
+@keyframes shine{0%,60%{left:-60%}100%{left:120%}}
+.askbig .e{font-size:1.35rem;animation:spin 7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.row2{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+.hint{font-size:.78rem;color:var(--ink-soft);display:inline-flex;align-items:center;gap:5px}
+.install{display:inline-flex;align-items:center;gap:7px;background:#fff;border:2px solid var(--g3);
+  color:var(--g3);font-weight:700;font-size:.9rem;padding:9px 16px;border-radius:14px;cursor:pointer;
+  font-family:'Rubik';transition:.18s}
+.install:hover{background:var(--g3);color:#fff;transform:translateY(-2px) scale(1.02)}
+
+/* section heads */
+.sh{font-family:'Baloo 2';font-weight:800;font-size:1.55rem;margin:34px 4px 6px;display:flex;align-items:center;gap:10px}
+.sh .emj{font-size:1.35rem;display:inline-block;animation:wob 3s ease-in-out infinite}
+@keyframes wob{50%{transform:rotate(12deg) scale(1.1)}}
+.sub-hint{font-size:.84rem;color:var(--ink-soft);margin:0 6px 14px;display:flex;align-items:center;gap:6px}
+.live-dot{width:9px;height:9px;border-radius:50%;background:var(--g1);display:inline-block;margin-inline-start:6px;
+  box-shadow:0 0 0 0 rgba(255,107,107,.6);animation:ping 1.6s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 9px rgba(255,107,107,0)}100%{box-shadow:0 0 0 0 rgba(255,107,107,0)}}
+
+/* today */
+.today{background:#fff;border-radius:var(--r);padding:6px;box-shadow:0 16px 38px -24px rgba(155,93,229,.45)}
+.trow{display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:18px;flex-wrap:wrap;transition:.2s}
+.trow:hover{background:#fff8fb}
+.trow+.trow{border-top:2px dashed #f4e8f2}
+.ttime{font-family:'Baloo 2';font-weight:800;font-size:1.05rem;color:var(--g2);width:58px;text-align:center;line-height:1.05;flex:none}
+.ttime small{display:block;font-family:'Rubik';font-weight:500;font-size:.66rem;color:var(--ink-soft)}
+.tmatch{flex:1;min-width:140px;font-weight:700}
+.tmatch small{display:block;font-weight:400;color:var(--ink-soft);font-size:.8rem}
+.chatpill{display:inline-flex;align-items:center;gap:7px;border:0;cursor:pointer;font-family:'Rubik';
+  font-weight:700;font-size:.84rem;color:#fff;padding:10px 15px;border-radius:13px;
+  background:var(--spine);background-size:160% auto;box-shadow:0 8px 18px -8px rgba(255,77,157,.5);transition:.18s}
+.chatpill:hover{transform:translateY(-2px);background-position:right}
+.chatpill.ghost{background:#fff;color:var(--g3);border:2px solid #ece0fb;box-shadow:none}
+.chatpill.ghost:hover{background:#f7f1ff;transform:translateY(-2px)}
+.tbtns{display:flex;gap:8px;flex-wrap:wrap}
+
+/* groups */
+.groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px}
+.gcard{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 18px 40px -26px rgba(42,26,62,.5);transition:.25s}
+.gcard:hover{transform:translateY(-4px);box-shadow:0 26px 50px -26px rgba(155,93,229,.5)}
+.ghead{display:flex;align-items:center;gap:12px;padding:16px 18px;color:#fff;background:var(--spine);background-size:200% auto;position:relative;overflow:hidden}
+.ghead::after{content:"⚽";position:absolute;left:-6px;top:-10px;font-size:62px;opacity:.12;transform:rotate(-14deg)}
+.g2pos{background-position:right}
+.gletter{font-family:'Baloo 2';font-weight:800;font-size:1.6rem;width:48px;height:48px;display:grid;place-items:center;border-radius:15px;background:rgba(255,255,255,.28);flex:none;position:relative}
+.ghead .gt{font-weight:700;font-size:1.05rem}
+.ghead .gs{font-size:.76rem;opacity:.95}
+.teams{padding:8px 10px 12px}
+.team{border-radius:16px;padding:11px 12px;transition:.18s}
+.team:hover{background:#fff7fb}
+.ttop{display:flex;align-items:center;gap:10px}
+.star{font-size:1.25rem;cursor:pointer;color:#d9cfe4;transition:.2s;flex:none;line-height:1}
+.star:hover{transform:scale(1.2)}
+.star.on{color:var(--amber);animation:burst .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes burst{0%{transform:scale(.5)}60%{transform:scale(1.35)}100%{transform:scale(1)}}
+.tn{flex:1;font-weight:700}
+.tn .lat{font-weight:400;font-size:.72rem;color:var(--ink-soft);margin-inline-start:6px}
+.sticker{font-size:.68rem;font-weight:700;padding:4px 11px;border-radius:999px;white-space:nowrap}
+.st-contender{background:#EEE3FF;color:#7B3FE4}
+.st-darkhorse{background:#FFE0E0;color:#D6402F}
+.st-underdog{background:#DBF3E6;color:#1F9E63}
+.st-host{background:#FFEDCB;color:#C9821A}
+.tbody{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.team.open .tbody{max-height:300px}
+.tbody-in{padding:10px 2px 4px}
+.tstory{font-size:.88rem;color:var(--ink-soft);margin-bottom:9px}
+.pls{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.pl{font-size:.72rem;background:#f6eefb;border-radius:9px;padding:4px 9px;font-weight:500}
+.askwrap{display:flex;flex-direction:column;gap:5px;align-items:flex-start}
+.ask{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font-family:'Rubik';
+  font-weight:700;font-size:.92rem;color:#fff;padding:11px 18px;border-radius:14px;
+  background:var(--g3);box-shadow:0 10px 22px -10px rgba(139,92,246,.55);transition:.2s}
+.ask:hover{transform:translateY(-2px) scale(1.03);background:var(--spine)}
+.ask .e{font-size:1.05rem}
+
+/* glossary */
+.gloss{display:flex;flex-wrap:wrap;gap:10px}
+.gchip{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:2px solid #f1e7f6;
+  border-radius:16px;padding:11px 16px;cursor:pointer;font-weight:700;font-size:.92rem;transition:.2s;box-shadow:0 8px 18px -16px rgba(42,26,62,.6)}
+.gchip:hover{border-color:transparent;transform:translateY(-3px) scale(1.03);color:#fff;background:var(--spine)}
+.gchip:hover small{color:rgba(255,255,255,.85)}
+.gchip .e{font-size:1.15rem}
+.gchip small{color:var(--ink-soft);font-weight:400;font-size:.72rem;transition:.2s}
+
+/* suggested questions board (zero-effort "what to ask") */
+.qboard{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:11px}
+.qq{display:flex;align-items:center;gap:10px;text-align:right;background:#fff;border:2px solid #f1e7f6;
+  border-radius:17px;padding:14px 15px;cursor:pointer;font-family:'Rubik';font-weight:600;font-size:.93rem;
+  color:var(--ink);transition:.2s;box-shadow:0 8px 18px -16px rgba(42,26,62,.6)}
+.qq:hover{border-color:transparent;transform:translateY(-3px) scale(1.02);color:#fff;background:var(--spine);background-size:180% auto}
+.qq .qe{font-size:1.25rem;flex:none}
+.qq span.qt{flex:1}
+.qq .qa{opacity:.45;font-size:1rem;transition:.2s}
+.qq:hover .qa{opacity:1;transform:translateX(-3px)}
+
+.foot{text-align:center;color:var(--ink-soft);font-size:.8rem;margin-top:46px;line-height:1.7}
+.foot b{color:var(--ink)}
+.pv{position:fixed;top:10px;right:10px;background:var(--ink);color:#fff;font-size:.7rem;padding:5px 12px;border-radius:999px;opacity:.8;z-index:30}
+
+.modal{position:fixed;inset:0;background:rgba(42,26,62,.55);display:none;align-items:center;justify-content:center;z-index:60;padding:24px;backdrop-filter:blur(4px)}
+.modal.show{display:flex;animation:rise .3s ease}
+.sheet{background:#fff;border-radius:26px;padding:26px 24px;max-width:380px;text-align:center;box-shadow:0 30px 60px -20px rgba(0,0,0,.4)}
+.sheet h3{font-family:'Baloo 2';font-size:1.4rem;margin-bottom:8px}
+.sheet p{color:var(--ink-soft);font-size:.95rem;margin-bottom:8px;line-height:1.6}
+.sheet .ok{margin-top:12px;background:var(--spine);color:#fff;border:0;border-radius:14px;padding:11px 24px;font-weight:700;font-family:'Rubik';cursor:pointer}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;
+  padding:11px 20px;border-radius:13px;font-size:.88rem;opacity:0;transition:.3s;pointer-events:none;z-index:70}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}.io{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="bgfx"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
+<div class="wrap">
+
+  <header class="hero reveal r1">
+    <div class="hwrap">
+      <img class="hicon" src="icon.png" alt="מונדיאלה נבדלה">
+      <div class="htxt">
+        <span class="brand">⚽ מדריך המונדיאל · 2026</span>
+        <h1 class="disp">מונדיאלה נבדלה</h1>
+        <div class="by">לראות כדורגל עם החברֵה, בלי להיות הנודניק ששואל שאלות 🙄⚽</div>
+        <p>לכל מי שרוצה להיות חלק מהחגיגה המשוגעת הזאת, או פשוט לא לאבד חצי מהחברים ל-40 יום. מונדיאלה נבדלה היא המלווה שלכם: כל שאלה, בלי שיפוט. היא תספר לכם למה זה מעניין ומה הסיפור של כל נבחרת. היא אפילו תגיד לכם מה לשאול.</p>
+      </div>
+    </div>
+    <div class="hero-cta">
+      <button class="askbig" onclick="askToday()">
+        <span class="e">⚽</span> מה צריך לדעת היום במונדיאל</button>
+      <div class="row2">
+        <span class="hint">👆 לחצ/י לשיחה · מונדיאלה נפתחת והשאלה מוכנה</span>
+        <button class="install" id="installBtn" onclick="install()">📲 התקנה לטלפון</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sh disp io"><span class="emj">💬</span> לא יודעים מה לשאול?</div>
+  <div class="sub-hint io">הבטחנו שמונדיאלה תגיד לכם מה לשאול. לחצ/י על שאלה והיא נפתחת מוכנה, אפס מאמץ 👇</div>
+  <div class="qboard io">
+    <button class="qq" onclick="askSchedule()"><span class="qe">⏰</span><span class="qt">לוח המשחקים, תאריכים ושעות</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askWasach()"><span class="qe">🗣️</span><span class="qt">משפטי ווסאח להיום</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askQ('beginner')"><span class="qe">🤓</span><span class="qt">אני אפס בכדורגל, מאיפה מתחילים?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askPartner()"><span class="qe">🍿</span><span class="qt">מה לראות עם בן/בת הזוג?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askQ('stars')"><span class="qe">🌟</span><span class="qt">מי הכוכבים שאסור לפספס?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askQ('favorites')"><span class="qe">🏆</span><span class="qt">מי הולך לזכות?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askQ('drama')"><span class="qe">🔥</span><span class="qt">מה הדרמה הכי גדולה השנה?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askQ('rules')"><span class="qe">📖</span><span class="qt">תסבירי את החוקים הבסיסיים</span><span class="qa">←</span></button>
+  </div>
+
+  <div class="sh disp io"><span class="emj">📺</span> מה רואים עכשיו <span class="live-dot"></span></div>
+  <div class="sub-hint io">👆 לכל משחק: "כל מה שצריך" לכל המידע, או "משפטי ווסאח" למשפטים מצחיקים לזרוק תוך כדי 😎</div>
+  <div class="today io"></div>
+
+  <div class="sh disp io"><span class="emj">🌍</span> הבתים</div>
+  <div class="sub-hint io">👆 לחצ/י על נבחרת כדי לפתוח אותה, ואז על הכפתור לשיחה עם מונדיאלה עליה</div>
+  <div class="groups" id="groups"></div>
+
+  <div class="sh disp io"><span class="emj">📖</span> לא הבנת מילה?</div>
+  <div class="sub-hint io">👆 לחצ/י על מילה ומונדיאלה תסביר לך אותה בשיחה, בפשטות</div>
+  <div class="gloss io">
+    <button class="gchip" onclick="askGloss('offside')"><span class="e">🚩</span> נבדל <small>offside</small></button>
+    <button class="gchip" onclick="askGloss('penalty')"><span class="e">⚽</span> פנדל <small>penalty</small></button>
+    <button class="gchip" onclick="askGloss('var')"><span class="e">📺</span> VAR</button>
+    <button class="gchip" onclick="askGloss('red')"><span class="e">🟥</span> כרטיס אדום</button>
+    <button class="gchip" onclick="askGloss('advance')"><span class="e">🧮</span> איך עולים?</button>
+  </div>
+
+  <div class="foot io">
+    הסימונים שלך נשמרים אצלך במכשיר · מונדיאלה נבדלה נפתחת ב-ChatGPT שלך<br>
+    כל 48 הנבחרות · כל לוח שלב הבתים בשעון ישראל. <b>השעות מומרות אוטומטית</b> · תמיד אפשר לאמת מול השידור הרשמי.
+  </div>
+</div>
+
+<div class="modal" id="iosModal" onclick="if(event.target===this)closeIos()">
+  <div class="sheet">
+    <h3>📲 התקנה למסך הבית</h3>
+    <p>כדי שמונדיאלה תהיה כמו אפליקציה על הטלפון:</p>
+    <p>1. לחצ/י על כפתור <b>השיתוף</b> בדפדפן ⬆️<br>2. בחר/י <b>"הוסף למסך הבית"</b><br>3. זהו · האייקון על המסך 🎉</p>
+    <button class="ok" onclick="closeIos()">הבנתי</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const GPT_URL="https://chatgpt.com/g/g-6a2ab2e3e2708191864b0e0d8b28190d-mvndylh-nbdlh"; // הבוט המלא (דלת עומק)
+
+// ===== הקשר חי: מונדיאלה תמיד יודעת מה התאריך היום =====
+const MONTHS=['בינואר','בפברואר','במרץ','באפריל','במאי','ביוני','ביולי','באוגוסט','בספטמבר','באוקטובר','בנובמבר','בדצמבר'];
+const now=new Date();
+const todayHe=`${now.getDate()} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+const dkey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+
+// בחירה אקראית שלא חוזרת על עצמה פעמיים ברצף → כל לחיצה מרגישה טרייה
+const _last=new Map();
+function pick(a){if(a.length<2)return a[0];let i,p=_last.get(a);do{i=Math.floor(Math.random()*a.length)}while(i===p);_last.set(a,i);return a[i];}
+
+// כל פנייה נפתחת ב-ChatGPT עם האופי של מונדיאלה + התאריך של היום מוטמעים. אפס הדבקה.
+function ask(q){
+  const persona=`את מונדיאלה נבדלה, מדריכה כיפית וחמה למונדיאל 2026 לכל מי שמתחיל מאפס בכדורגל. היום ${todayHe}. עני בעברית, קצר, חם ופאנצ'י, בלי שיפוט ובלי התנשאות, עם עקיצה קלילה ואוהבת על גברים סטרייטים פה ושם בצחוק. ההומור והעקיצה הם קריצה קטנה בלבד - תיבול, לא העיקר. תמיד תני קודם תוכן אמיתי ומעמיק, במיוחד על השחקנים והסיפור, ולעולם אל תסיימי בבדיחה במקום במידע. אם צוין במפורש איזה משחק מתקיים היום - דברי רק עליו ועל השחקנים שמשחקים בו, ואל תזכירי שחקן או נבחרת שלא קשורים אליו. אם לא צוין משחק ואת לא בטוחה מה משוחק היום - אמרי בכנות שצריך לאמת מול לוח רשמי, אל תנחשי ואל תמציאי משחקים, תוצאות, הרכבים או שחקנים.`;
+  window.open("https://chatgpt.com/?q="+encodeURIComponent(persona+"\n\n"+q),"_blank");
+}
+let tt;function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),2600);}
+
+// ===== מנוע השאלות: כל כפתור מגריל ניסוח חי, מגוון ומעודכן =====
+const Q={
+ start:[
+  `אני מתחיל/ה לגמרי בכדורגל ורוצה להיכנס למונדיאל 2026. מאיפה מתחילים, איך הטורניר בנוי ומה הכי כיף לראות?`,
+  `תכף מונדיאל 2026 ואני אפס בכדורגל. תני לי את ההתחלה הכי פשוטה וכיפית, בלי להציף אותי.`,
+  `אני רוצה ליהנות ממונדיאל 2026 בלי להתבייש שאני לא מבין/ה כלום. מה 3 הדברים הראשונים שכדאי לי לדעת?`,
+  `מה הכי שווה לדעת היום לקראת מונדיאל 2026 אם אני בא/ה בלי שום רקע בכדורגל?`,
+  `הסבירי לי את מונדיאל 2026 כאילו אני אורח/ת במסיבה שכולם מדברים עליו ואני רוצה להתחבר. מאיפה מתחילים?`
+ ],
+ schedule:[
+  `מה לוח המשחקים של היום במונדיאל 2026? תני לי מי נגד מי והשעות לפי שעון ישראל, ובדקי מקור עדכני.`,
+  `אילו משחקים יש היום ומחר במונדיאל 2026 ובאיזו שעה (שעון ישראל)? ומה הכי שווה לראות?`,
+  `תעשי לי סדר: מה משחקים היום במונדיאל 2026, מתי, ועל איזה משחק הכי כדאי לשמור אנרגיה?`,
+  `תכיני לי את היום: כל המשחקים של היום במונדיאל 2026 לפי שעון ישראל, מהמוקדם למאוחר.`
+ ],
+ wasach:[
+  `תני לי 3 משפטי ווסאח עוקצניים ומצחיקים לזרוק תוך כדי המשחקים של היום במונדיאל 2026, שאשמע כמו ותיק/ה. טריים ומותאמים למשחקים של היום.`,
+  `אני רוצה להישמע כאילו אני מבין/ה כדורגל הערב. תני לי כמה משפטי קישקוש-מקצועי עוקצניים למשחקים של היום.`,
+  `תפרקי לי 3 פאנצ'ים מצחיקים לזרוק על השחקנים או המאמן במשחקים של היום, בלי להעליב יותר מדי.`,
+  `תני לי משפט פתיחה אחד חזק ומצחיק שאפשר לזרוק ברגע שמתיישבים לראות את המשחק היום, שכולם יצחקו.`
+ ],
+ beginner:[
+  `אני אפס בכדורגל. תסבירי לי בקצרה ובכיף איך מבינים מונדיאל, מאיפה מתחילים?`,
+  `מה המינימום שאני חייב/ת להבין בכדורגל כדי ליהנות ממשחק מונדיאל בלי ללכת לאיבוד?`,
+  `תני לי שיעור מונדיאל ל-5 דקות: רק מה שחשוב, בלי הרצאות.`
+ ],
+ partner:[
+  `איזה משחק הכי כיף לראות היום עם בן/בת הזוג, גם בלי להבין כדורגל? למה דווקא הוא?`,
+  `אנחנו רוצים ערב כדורגל זוגי היום. איזה משחק הכי דרמטי וכיף לצפייה משותפת?`,
+  `תמליצי על משחק אחד להיום שגם מי שלא אוהב/ת כדורגל ייהנה ממנו, ומה להגיד תוך כדי כדי שיהיה כיף.`
+ ],
+ stars:[
+  `מי הכוכבים הכי גדולים במונדיאל 2026 שאסור לפספס, ולמה דווקא הם?`,
+  `אם אני זוכר/ת רק 5 שמות מכל המונדיאל - מי הם צריכים להיות ולמה?`,
+  `מי השחקן שכולם ידברו עליו במונדיאל 2026, ומה הסיפור שלו?`
+ ],
+ favorites:[
+  `מי הנבחרות המועמדות לזכות במונדיאל 2026, ומי הסוסים השחורים שיכולים להפתיע?`,
+  `אם היית מהמרת - מי לוקח/ת את מונדיאל 2026, ומי הנבחרת שתפתיע את כולם?`,
+  `תני לי טבלת סיכויים קצרה למונדיאל 2026: הפייבוריטיות, ומי שיכול/ה לקלקל להן.`
+ ],
+ drama:[
+  `מה הסיפורים והדרמות הכי מעניינים במונדיאל 2026? מי תחת לחץ, מי במשחק האחרון של הקריירה?`,
+  `תני לי את הרכילות הגדולה של מונדיאל 2026: יריבויות, נקמות וכוכבים בסוף הדרך.`,
+  `מה הדבר הכי דרמטי שיכול לקרות במונדיאל 2026, ועל מי כדאי לי לעקוב בשביל הסיפור?`
+ ],
+ rules:[
+  `תסבירי לי בפשטות את החוקים הכי בסיסיים בכדורגל שצריך כדי ליהנות ממשחק.`,
+  `מה 3 החוקים שאם אבין אותם כבר לא אהיה אבוד/ה במשחק כדורגל?`,
+  `תסבירי לי כדורגל ב-2 דקות: כמה שחקנים, כמה זמן, ואיך קובעים מי ניצח.`
+ ]
+};
+function askQ(k){ask(pick(Q[k]));}
+
+// משחקי היום - השאלה מותאמת למשחק הספציפי, והזווית מתחלפת בכל לחיצה
+function matchAsk(h,a){ask(pick([
+  `ספרי לי לעומק על ${h} נגד ${a} היום במונדיאל 2026, עם דגש על השחקנים: 2-3 כוכבים מכל צד - מי הם, מה מיוחד בהם ועל מי הכי כדאי לעקוב. הוסיפי את הסיפור והרקע של המשחק, והזווית הכי מעניינת לעקוב אחריה. בסוף משפט אחד להרשים בו חברים, וקריצה קטנה אחת בלבד בסגנון מונדיאלה. המידע הוא העיקר, ההומור רק תיבול.`,
+  `אני הולך/ת לראות ${h} נגד ${a} היום ורוצה להבין לעומק - בעיקר את השחקנים. מי הכוכבים של שתי הנבחרות, מה הסיפור של כל אחד ועל מי לעקוב, ומה הדרמה הגדולה של המשחק. תוכן ראשון, בלי הרבה בדיחות - אולי קריצה קטנה אחת בסוף.`,
+  `תעמיקי לי על ${h} נגד ${a} היום: מי השחקנים שחייבים להכיר בכל צד ולמה דווקא הם, מה הרקע והסיפור של המשחק, ועל מה לשים לב במהלך 90 הדקות. סיימי במשפט אחד חכם להרשים בו חברים - לא בבדיחה.`
+]));}
+function matchWasach(h,a){ask(pick([
+  `תני לי 3 משפטי ווסאח עוקצניים למשחק ${h} נגד ${a} היום, שאשמע כמו ותיק/ה. טריים ומותאמים דווקא למשחק הזה.`,
+  `${h} נגד ${a} - תני לי כמה פאנצ'ים מצחיקים לזרוק תוך כדי, בלי להעליב יותר מדי.`,
+  `אני רוצה להרשים ב-${h} נגד ${a}: תני לי משפט אחד חכם ומצחיק על אחת הנבחרות שאפשר לזרוק באמצע.`
+]));}
+
+// מילון - הסבר בפשטות, מתחלף בכל לחיצה
+const GLOSS={
+ offside:[`תסבירי לי בפשטות מה זה נבדל בכדורגל, ולמה זה משנה כשרואים משחק?`,`נבדל - תסבירי לי כאילו אני בן/בת 10, עם דוגמה פשוטה.`,`למה כל הזמן שורקים נבדל ומבטלים גולים? תסבירי לי בקצרה.`],
+ penalty:[`תסבירי לי בפשטות מה זה פנדל ולמה הוא כל כך דרמטי?`,`מתי נותנים פנדל ולמה כולם משתגעים כשזה קורה?`],
+ var:[`תסבירי לי בפשטות מה זה VAR ולמה עוצרים את המשחק?`,`VAR - מה זה, למה זה לוקח כל כך הרבה זמן, ולמה כולם מתעצבנים מזה?`],
+ red:[`תסבירי לי בפשטות מה זה כרטיס אדום ואיך זה משנה את המשחק?`,`כרטיס אדום מול כרטיס צהוב - מה ההבדל ולמה זו דרמה?`],
+ advance:[`תסבירי לי בפשטות איך עובדת שיטת הבתים והניקוד במונדיאל 2026, ומי עולה הלאה?`,`איך יודעים מי עולה מהבית במונדיאל 2026? תסבירי לי את הניקוד בפשטות.`]
+};
+function askGloss(k){ask(pick(GLOSS[k]));}
+
+// כפתורים "כלליים" שמדברים על "היום" - מזריקים את המשחק/ים האמיתי/ים מהדאטה כדי שלא ינחשו
+function todayMatches(){const tk=dkey(now);return FIXTURES.filter(f=>f.date===tk);}
+function todayLine(){const l=todayMatches();return l.length?`היום (${todayHe}) משחקים: ${l.map(f=>`${f.home} נגד ${f.away} ב-${f.time}`).join(', ')}. `:'';}
+function askSchedule(){const l=todayMatches();ask(l.length?pick([
+  `${todayLine()}אשרי לי את השעות לפי שעון ישראל, ותגידי על איזה מהם הכי כדאי לשמור אנרגיה. אל תוסיפי משחקים אחרים.`,
+  `${todayLine()}ספרי לי בקצרה על כל אחד מהמשחקים האלה: מי הפייבוריט, מי הכוכב, ולמה כיף לראות.`,
+  `${todayLine()}תני לי סדר ליום סביב המשחקים האלה בלבד - מתי כל אחד (שעון ישראל) ומה הכי שווה.`
+]):pick([
+  `מה לוח המשחקים של היום (${todayHe}) במונדיאל 2026? בדקי מקור עדכני, תני מי נגד מי ושעות לפי שעון ישראל, ואל תמציאי משחקים.`,
+  `אילו משחקים יש היום ומחר במונדיאל 2026 (שעון ישראל)? אם את לא בטוחה, אמרי שצריך לאמת מול לוח רשמי.`
+]));}
+function askWasach(){const l=todayMatches();const m=l.length?l.map(f=>`${f.home} נגד ${f.away}`).join(' ו-'):'';ask(l.length?pick([
+  `${todayLine()}תני לי 3 משפטי ווסאח עוקצניים ומצחיקים דווקא למשחק ${m}, שאשמע כמו ותיק/ה. רק על הנבחרות והשחקנים שבמשחק הזה, בלי להמציא.`,
+  `אני רוצה להישמע מקצוען/ית במשחק ${m} היום: תני לי כמה פאנצ'ים מצחיקים על הנבחרות או המאמנים שבו, בלי להעליב יותר מדי.`,
+  `${todayLine()}תני לי משפט פתיחה אחד חזק ומצחיק לזרוק כשמתיישבים לראות את ${m}, שמתאים בדיוק למשחק הזה.`
+]):pick([
+  `בדקי איזה משחק משוחק היום (${todayHe}) במונדיאל 2026, ותני לי 3 משפטי ווסאח עוקצניים דווקא עליו. אם לא בטוחה - אמרי שצריך לאמת, אל תמציאי.`
+]));}
+function askPartner(){const t=todayLine();ask(t?pick([
+  `${t}איזה מהמשחקים האלה הכי כיף לראות היום עם בן/בת הזוג, גם בלי להבין כדורגל? למה דווקא הוא, ומה להגיד תוך כדי?`,
+  `${t}אנחנו רוצים ערב כדורגל זוגי. מבין המשחקים האלה - מה הכי דרמטי וכיף לצפייה משותפת?`
+]):pick([
+  `בדקי מה משוחק היום במונדיאל 2026, ותמליצי על משחק אחד שכיף לראות עם בן/בת הזוג גם בלי רקע בכדורגל. אל תמציאי, ואמרי אם צריך לאמת.`
+]));}
+// הכפתור הראשי: מה שצריך לדעת היום במונדיאל - מבוסס על המשחקים האמיתיים של היום
+function askToday(){const l=todayMatches();ask(l.length?pick([
+  `${todayLine()}תני לי תקציר קצר וכיפי של מה שחשוב לדעת היום במונדיאל 2026: על המשחק/ים האלה - מי הכוכבים, מה הסיפור, ועל מי הכי כדאי לשים לב הערב. עומק על השחקנים, קריצה קטנה אחת מותרת בסוף.`,
+  `${todayLine()}מה הדבר הכי חשוב לדעת היום במונדיאל 2026? ספרי לי לעומק על המשחק/ים של היום - השחקנים, הסיפור והזווית לעקוב אחריה - בלי הרבה בדיחות, התוכן הוא העיקר.`
+]):pick([
+  `מה שצריך לדעת היום (${todayHe}) במונדיאל 2026: בדקי אילו משחקים יש היום ותני תקציר קצר וכיפי על הכי חשוב - מי משחק, מי הכוכבים ומה הסיפור. אם אין משחקים היום, אמרי מה הדבר החם עכשיו בטורניר. אל תמציאי.`
+]));}
+
+// ===== all 48 teams, 12 groups =====
+const ST={host:'מארחת',contender:'מועמדת',darkhorse:'סוס שחור',underdog:'אנדרדוג'};
+const GROUPS=[
+ {id:'A',teams:[
+  {he:'מקסיקו',lat:'Mexico',s:'host',p:['Ochoa','Edson Álvarez','Raúl Jiménez'],st:'מארחת ותיקה: לחץ, אמוציה ואגפים. פותחת את כל הטורניר מול קהל ביתי ענק.'},
+  {he:'דרום קוריאה',lat:'South Korea',s:'darkhorse',p:['Son Heung-min','Lee Kang-in','Kim Min-jae'],st:'כוח אסייתי מבוסס, קצב ויציאה מהירה. כמה רחוק סון יוביל?'},
+  {he:'דרום אפריקה',lat:'South Africa',s:'underdog',p:['Ronwen Williams','Teboho Mokoena','Lyle Foster'],st:'אנדרדוג מסודרת עם מעברים · חזרה לבמה אחרי שנים.'},
+  {he:'צ׳כיה',lat:'Czechia',s:'underdog',p:['Patrik Schick','Tomáš Souček','Adam Hložek'],st:'אירופית פיזית ולא נעימה, חיה על כדורים שניים.'}]},
+ {id:'B',teams:[
+  {he:'קנדה',lat:'Canada',s:'host',p:['Alphonso Davies','Jonathan David','Stephen Eustáquio'],st:'מארחת עם דור מהיר ומלהיב · רוצה להצדיק את ההייפ.'},
+  {he:'שוויץ',lat:'Switzerland',s:'darkhorse',p:['Granit Xhaka','Gregor Kobel','Dan Ndoye'],st:'יציבה מאוד לנוקאאוט: סדר, איזון וקור רוח.'},
+  {he:'קטאר',lat:'Qatar',s:'underdog',p:['Akram Afif','Almoez Ali','Hassan Al-Haydos'],st:'טכנית ותלויה בכוכבים המוכרים, Afif במרכז.'},
+  {he:'בוסניה',lat:'Bosnia',s:'underdog',p:['Edin Džeko','Ermedin Demirović','Amar Dedić'],st:'נבחרת ניסיון, משחק ישיר ורגש · עוד ריצה לדור הוותיק.'}]},
+ {id:'C',teams:[
+  {he:'ברזיל',lat:'Brazil',s:'contender',p:['Vinícius Júnior','Neymar','Raphinha'],st:'מועמדת לתואר: כוכבים, קצב ואגפים. גאוות אומה שרוצה לחזור לפסגה.'},
+  {he:'מרוקו',lat:'Morocco',s:'darkhorse',p:['Achraf Hakimi','Brahim Díaz','Yassine Bounou'],st:'כבר לא הפתעה · כוח אמיתי. מנסה לחזור על חצי-הגמר של 2022.'},
+  {he:'סקוטלנד',lat:'Scotland',s:'underdog',p:['Andy Robertson','Scott McTominay','John McGinn'],st:'קשוחה וקשה לשבירה: כנפיים, כדורים שניים ולחימה.'},
+  {he:'האיטי',lat:'Haiti',s:'underdog',p:['Frantzdy Pierrot','Duckens Nazon','Johny Placide'],st:'סיפור הרגש של הבית · הופעה ראשונה זה דורות.'}]},
+ {id:'D',teams:[
+  {he:'ארה״ב',lat:'USA',s:'host',p:['Christian Pulisic','Tyler Adams','Weston McKennie'],st:'מארחת אתלטית עם ציפייה גבוהה · צריכה לעמוד בלחץ הביתי.'},
+  {he:'טורקיה',lat:'Türkiye',s:'darkhorse',p:['Hakan Çalhanoğlu','Arda Güler','Kenan Yıldız'],st:'כישרון צעיר עם תקרה גבוהה · להפוך פוטנציאל לתוצאה.'},
+  {he:'פרגוואי',lat:'Paraguay',s:'underdog',p:['Julio Enciso','Miguel Almirón','Gustavo Gómez'],st:'קשוחה עם קצה התקפי · יכולה לגנוב בית.'},
+  {he:'אוסטרליה',lat:'Australia',s:'underdog',p:['Mathew Ryan','Jackson Irvine','Harry Souttar'],st:'ממושמעת ולא מוותרת · עוד סיפור אנדרדוג.'}]},
+ {id:'E',teams:[
+  {he:'גרמניה',lat:'Germany',s:'contender',p:['Jamal Musiala','Florian Wirtz','Joshua Kimmich'],st:'מועמדת בכירה עם עומק · חזרה למעמד עילית.'},
+  {he:'אקוודור',lat:'Ecuador',s:'darkhorse',p:['Moisés Caicedo','Piero Hincapié','Enner Valencia'],st:'סוס שחור ברור: הגנה קשוחה ומתפרצת, יכולה ללכת רחוק.'},
+  {he:'חוף השנהב',lat:'Ivory Coast',s:'darkhorse',p:['Franck Kessié','Amad Diallo','Simon Adingra'],st:'חזקה ומסוכנת קדימה · אם הכישרון יתחבר.'},
+  {he:'קוראסאו',lat:'Curaçao',s:'underdog',p:['Leandro Bacuna','Tahith Chong','Eloy Room'],st:'דביוטנטית עם בסיס הולנדי · מבנה ראשון בבמה הזו.'}]},
+ {id:'F',teams:[
+  {he:'הולנד',lat:'Netherlands',s:'contender',p:['Virgil van Dijk','Frenkie de Jong','Cody Gakpo'],st:'קונטנדרית מסוכנת · צריכה חדות באזורים מכריעים.'},
+  {he:'יפן',lat:'Japan',s:'darkhorse',p:['Takefusa Kubo','Wataru Endō','Daichi Kamada'],st:'מודרנית, מאומנת ומהירה · עוד קפיצת מדרגה.'},
+  {he:'שוודיה',lat:'Sweden',s:'darkhorse',p:['Alexander Isak','Viktor Gyökeres','Lucas Bergvall'],st:'חלוצים חמים ונבחרת רעבה · צמד חלוצים מסוכן.'},
+  {he:'תוניסיה',lat:'Tunisia',s:'underdog',p:['Hannibal Mejbri','Ellyes Skhiri','Elias Achouri'],st:'קומפקטית ועקשנית · לגרור אותך למשחק צמוד.'}]},
+ {id:'G',teams:[
+  {he:'בלגיה',lat:'Belgium',s:'darkhorse',p:['Kevin De Bruyne','Romelu Lukaku','Jérémy Doku'],st:'דור מעבר עם הרבה איכות · הוותיקים במבחן אחרון.'},
+  {he:'מצרים',lat:'Egypt',s:'darkhorse',p:['Mohamed Salah','Omar Marmoush','Mohamed El Shenawy'],st:'סלאח במרכז, קולקטיב קשוח סביבו · הוא חייב להכריע.'},
+  {he:'איראן',lat:'Iran',s:'underdog',p:['Mehdi Taremi','Alireza Jahanbakhsh','Alireza Beiranvand'],st:'קשוחה ומאורגנת: בלוק נמוך ויציאות חדות, יעילות במקום יופי.'},
+  {he:'ניו זילנד',lat:'New Zealand',s:'underdog',p:['Chris Wood','Liberato Cacace','Marko Stamenić'],st:'אנדרדוג פיזית: כדורים ארוכים, רוח קרב וניגוחים.'}]},
+ {id:'H',teams:[
+  {he:'ספרד',lat:'Spain',s:'contender',p:['Lamine Yamal','Rodri','Pedri'],st:'אלופת אירופה ומועמדת #1: החזקת כדור, לחץ ועידון טכני. תלויה בכושר של יאמל.'},
+  {he:'אורוגוואי',lat:'Uruguay',s:'darkhorse',p:['Federico Valverde','Manuel Ugarte','Darwin Núñez'],st:'חזקה, לוחצת ומוכשרת · דור הביניים חייב לספק.'},
+  {he:'כף ורדה',lat:'Cabo Verde',s:'underdog',p:['Logan Costa','Jamiro Monteiro','Ryan Mendes'],st:'דביוטנטית קשוחה ומאורגנת · בכורה בלי פחד.'},
+  {he:'ערב הסעודית',lat:'Saudi Arabia',s:'underdog',p:['Salem Al-Dawsari','Saud Abdulhamid','Mohamed Kanno'],st:'אינטנסיבית ולא צפויה · שוב מחפשת הפתעה.'}]},
+ {id:'I',teams:[
+  {he:'צרפת',lat:'France',s:'contender',p:['Kylian Mbappé','Ousmane Dembélé','William Saliba'],st:'מועמדת ראשית לזכייה: מהירות, עומק והמון איכות. שפע הכישרון צריך סדר.'},
+  {he:'סנגל',lat:'Senegal',s:'darkhorse',p:['Sadio Mané','Lamine Camara','Nicolas Jackson'],st:'אפריקאית בכירה עם כוח אמיתי · לא רק לעבור בית.'},
+  {he:'נורווגיה',lat:'Norway',s:'darkhorse',p:['Erling Haaland','Martin Ødegaard','Alexander Sørloth'],st:'תלויה בשניים אבל מסוכנת · Haaland הוא הכוח.'},
+  {he:'עיראק',lat:'Iraq',s:'underdog',p:['Aymen Hussein','Zidane Iqbal','Ali Jassim'],st:'ישירה ומלאת רגש: קצב, דחיפה קדימה ואגרסיביות.'}]},
+ {id:'J',teams:[
+  {he:'ארגנטינה',lat:'Argentina',s:'contender',p:['Lionel Messi','Julián Álvarez','Enzo Fernández'],st:'אלופה מכהנת וחכמה מאוד: שליטה, סבלנות ופגיעה בזמן. הסיבוב האחרון של מסי.'},
+  {he:'אוסטריה',lat:'Austria',s:'darkhorse',p:['David Alaba','Marcel Sabitzer','Marko Arnautović'],st:'סוס שחור לוחץ: פרסינג, אנרגיה וישירות.'},
+  {he:'אלג׳יריה',lat:'Algeria',s:'underdog',p:['Riyad Mahrez','Amine Gouiri','Rayan Aït-Nouri'],st:'טכנית ומוכשרת · כדורגל זורם עם כישרון בקווים.'},
+  {he:'ירדן',lat:'Jordan',s:'underdog',p:['Mousa Al-Tamari','Ali Olwan','Yazan Al-Naimat'],st:'דביוטנטית מרגשת: מתגוננת ואז טסה קדימה. בכורה היסטורית.'}]},
+ {id:'K',teams:[
+  {he:'פורטוגל',lat:'Portugal',s:'contender',p:['Cristiano Ronaldo','Bruno Fernandes','Vitinha'],st:'עמוקה מאוד ומועמדת ריאלית · פחות תלות בסמל, יותר מערכת.'},
+  {he:'קולומביה',lat:'Colombia',s:'darkhorse',p:['Luis Díaz','James Rodríguez','Richard Ríos'],st:'מאוזנת ומסוכנת · שילוב יפה בין קשרים יצירתיים.'},
+  {he:'קונגו',lat:'DR Congo',s:'underdog',p:['Yoane Wissa','Cédric Bakambu','Aaron Wan-Bissaka'],st:'אתלטית ומסוכנת במעברים: ריצה קדימה ודו-קרבים.'},
+  {he:'אוזבקיסטן',lat:'Uzbekistan',s:'underdog',p:['Abdukodir Khusanov','Eldor Shomurodov','Abbosbek Fayzullaev'],st:'דביוטנטית מאורגנת: משמעת, הגנה ורגעי איכות.'}]},
+ {id:'L',teams:[
+  {he:'אנגליה',lat:'England',s:'contender',p:['Harry Kane','Jude Bellingham','Bukayo Saka'],st:'עמוקה ומועמדת טבעית · הכישרון צריך להפוך לתואר (הקללה הנצחית).'},
+  {he:'קרואטיה',lat:'Croatia',s:'darkhorse',p:['Luka Modrić','Joško Gvardiol','Mateo Kovačić'],st:'מנוסה, חכמה וקשה · עוד ריצה לדור האגדי.'},
+  {he:'גאנה',lat:'Ghana',s:'underdog',p:['Thomas Partey','Iñaki Williams','Antoine Semenyo'],st:'כישרון ופיזיות עם מעט חוסר יציבות · הקדמי צריך להכריע.'},
+  {he:'פנמה',lat:'Panama',s:'underdog',p:['Adalberto Carrasquilla','Aníbal Godoy','Ismael Díaz'],st:'ממושמעת ומאומנת · קשה מאוד לשבירה.'}]}
+];
+const FOLLOW=JSON.parse(localStorage.getItem('mn_follow')||'{}');
+
+// נבחרות - הזווית מתחלפת בכל לחיצה (סיפור / כוכב / סטייל / טריוויה), והשאלה תמיד צמודה לנבחרת הזו
+const TEAM_ANGLES=[
+ t=>`ספרי לי בקצרה על ${t.he} במונדיאל 2026 (${ST[t.s]}). הכוכבים: ${t.p.join(', ')}. למה כיף לראות אותם ומה לשים לב?`,
+ t=>`למה שווה לעקוב אחרי ${t.he} במונדיאל 2026? תני לי סיפור אחד מעניין והשחקן שאסור לפספס.`,
+ t=>`אם אני אוהד/ת ${t.he} ליום אחד - מה צריך לדעת? כוכבים, סטייל משחק וסיכוי אמיתי במונדיאל 2026.`,
+ t=>`ספרי לי על ${t.he}: מי הכוכב הכי שווה (${t.p[0]}?), איך הם משחקים וכמה רחוק הם יכולים להגיע במונדיאל 2026?`,
+ t=>`תני לי טריוויה או סיפור מגניב על ${t.he} שאפשר לזרוק בארוחה מול חברים שרואים את המונדיאל.`
+];
+function teamAsk(t){ask(pick(TEAM_ANGLES)(t));}
+function askTeam(gid,ti){const g=GROUPS.find(x=>x.id===gid);if(g)teamAsk(g.teams[ti]);}
+
+// משחקי היום - מבוסס-דאטה ומודע-לתאריך. מה שלא ידוע, מונדיאלה מביאה חי.
+// לוח שלב הבתים המלא של מונדיאל 2026 (72 משחקים), שעות מומרות לשעון ישראל (UK+2)
+const FIXTURES=[
+ {date:'2026-06-11',time:'22:00',home:'מקסיקו',away:'דרום אפריקה',venue:'אצטקה',note:'משחק הפתיחה'},
+ {date:'2026-06-12',time:'05:00',home:'דרום קוריאה',away:'צ׳כיה',venue:'גוודלחרה',note:'בית A'},
+ {date:'2026-06-12',time:'22:00',home:'קנדה',away:'בוסניה',venue:'טורונטו',note:'בית B'},
+ {date:'2026-06-13',time:'04:00',home:'ארה״ב',away:'פרגוואי',venue:'לוס אנג׳לס',note:'בית D'},
+ {date:'2026-06-13',time:'22:00',home:'קטאר',away:'שוויץ',venue:'סנטה קלרה',note:'בית B'},
+ {date:'2026-06-14',time:'01:00',home:'ברזיל',away:'מרוקו',venue:'ניו ג׳רזי',note:'בית C'},
+ {date:'2026-06-14',time:'04:00',home:'האיטי',away:'סקוטלנד',venue:'בוסטון',note:'בית C'},
+ {date:'2026-06-14',time:'07:00',home:'אוסטרליה',away:'טורקיה',venue:'ונקובר',note:'בית D'},
+ {date:'2026-06-14',time:'20:00',home:'גרמניה',away:'קוראסאו',venue:'יוסטון',note:'בית E'},
+ {date:'2026-06-14',time:'23:00',home:'הולנד',away:'יפן',venue:'דאלאס',note:'בית F'},
+ {date:'2026-06-15',time:'02:00',home:'חוף השנהב',away:'אקוודור',venue:'פילדלפיה',note:'בית E'},
+ {date:'2026-06-15',time:'05:00',home:'שוודיה',away:'תוניסיה',venue:'מונטריי',note:'בית F'},
+ {date:'2026-06-15',time:'19:00',home:'ספרד',away:'כף ורדה',venue:'אטלנטה',note:'בית H'},
+ {date:'2026-06-15',time:'22:00',home:'בלגיה',away:'מצרים',venue:'סיאטל',note:'בית G'},
+ {date:'2026-06-16',time:'01:00',home:'ערב הסעודית',away:'אורוגוואי',venue:'מיאמי',note:'בית H'},
+ {date:'2026-06-16',time:'04:00',home:'איראן',away:'ניו זילנד',venue:'לוס אנג׳לס',note:'בית G'},
+ {date:'2026-06-16',time:'22:00',home:'צרפת',away:'סנגל',venue:'ניו ג׳רזי',note:'בית I'},
+ {date:'2026-06-17',time:'01:00',home:'עיראק',away:'נורווגיה',venue:'בוסטון',note:'בית I'},
+ {date:'2026-06-17',time:'04:00',home:'ארגנטינה',away:'אלג׳יריה',venue:'קנזס סיטי',note:'בית J'},
+ {date:'2026-06-17',time:'07:00',home:'אוסטריה',away:'ירדן',venue:'סנטה קלרה',note:'בית J'},
+ {date:'2026-06-17',time:'20:00',home:'פורטוגל',away:'קונגו',venue:'יוסטון',note:'בית K'},
+ {date:'2026-06-17',time:'23:00',home:'אנגליה',away:'קרואטיה',venue:'דאלאס',note:'בית L'},
+ {date:'2026-06-18',time:'02:00',home:'גאנה',away:'פנמה',venue:'טורונטו',note:'בית L'},
+ {date:'2026-06-18',time:'05:00',home:'אוזבקיסטן',away:'קולומביה',venue:'מקסיקו סיטי',note:'בית K'},
+ {date:'2026-06-18',time:'19:00',home:'צ׳כיה',away:'דרום אפריקה',venue:'אטלנטה',note:'בית A'},
+ {date:'2026-06-18',time:'22:00',home:'שוויץ',away:'בוסניה',venue:'לוס אנג׳לס',note:'בית B'},
+ {date:'2026-06-19',time:'01:00',home:'קנדה',away:'קטאר',venue:'ונקובר',note:'בית B'},
+ {date:'2026-06-19',time:'04:00',home:'מקסיקו',away:'דרום קוריאה',venue:'גוודלחרה',note:'בית A'},
+ {date:'2026-06-19',time:'22:00',home:'ארה״ב',away:'אוסטרליה',venue:'סיאטל',note:'בית D'},
+ {date:'2026-06-20',time:'01:00',home:'סקוטלנד',away:'מרוקו',venue:'בוסטון',note:'בית C'},
+ {date:'2026-06-20',time:'03:30',home:'ברזיל',away:'האיטי',venue:'פילדלפיה',note:'בית C'},
+ {date:'2026-06-20',time:'06:00',home:'טורקיה',away:'פרגוואי',venue:'סנטה קלרה',note:'בית D'},
+ {date:'2026-06-20',time:'20:00',home:'הולנד',away:'שוודיה',venue:'יוסטון',note:'בית F'},
+ {date:'2026-06-20',time:'23:00',home:'גרמניה',away:'חוף השנהב',venue:'טורונטו',note:'בית E'},
+ {date:'2026-06-21',time:'03:00',home:'אקוודור',away:'קוראסאו',venue:'קנזס סיטי',note:'בית E'},
+ {date:'2026-06-21',time:'07:00',home:'תוניסיה',away:'יפן',venue:'מונטריי',note:'בית F'},
+ {date:'2026-06-21',time:'19:00',home:'ספרד',away:'ערב הסעודית',venue:'אטלנטה',note:'בית H'},
+ {date:'2026-06-21',time:'22:00',home:'בלגיה',away:'איראן',venue:'לוס אנג׳לס',note:'בית G'},
+ {date:'2026-06-22',time:'01:00',home:'אורוגוואי',away:'כף ורדה',venue:'מיאמי',note:'בית H'},
+ {date:'2026-06-22',time:'04:00',home:'ניו זילנד',away:'מצרים',venue:'ונקובר',note:'בית G'},
+ {date:'2026-06-22',time:'20:00',home:'ארגנטינה',away:'אוסטריה',venue:'דאלאס',note:'בית J'},
+ {date:'2026-06-23',time:'00:00',home:'צרפת',away:'עיראק',venue:'פילדלפיה',note:'בית I'},
+ {date:'2026-06-23',time:'03:00',home:'נורווגיה',away:'סנגל',venue:'טורונטו',note:'בית I'},
+ {date:'2026-06-23',time:'06:00',home:'ירדן',away:'אלג׳יריה',venue:'סנטה קלרה',note:'בית J'},
+ {date:'2026-06-23',time:'20:00',home:'פורטוגל',away:'אוזבקיסטן',venue:'יוסטון',note:'בית K'},
+ {date:'2026-06-23',time:'23:00',home:'אנגליה',away:'גאנה',venue:'בוסטון',note:'בית L'},
+ {date:'2026-06-24',time:'02:00',home:'פנמה',away:'קרואטיה',venue:'בוסטון',note:'בית L'},
+ {date:'2026-06-24',time:'05:00',home:'קולומביה',away:'קונגו',venue:'גוודלחרה',note:'בית K'},
+ {date:'2026-06-24',time:'22:00',home:'שוויץ',away:'קנדה',venue:'ונקובר',note:'בית B'},
+ {date:'2026-06-24',time:'22:00',home:'בוסניה',away:'קטאר',venue:'סיאטל',note:'בית B'},
+ {date:'2026-06-25',time:'01:00',home:'מרוקו',away:'האיטי',venue:'אטלנטה',note:'בית C'},
+ {date:'2026-06-25',time:'01:00',home:'סקוטלנד',away:'ברזיל',venue:'מיאמי',note:'בית C'},
+ {date:'2026-06-25',time:'04:00',home:'דרום אפריקה',away:'דרום קוריאה',venue:'מונטריי',note:'בית A'},
+ {date:'2026-06-25',time:'04:00',home:'צ׳כיה',away:'מקסיקו',venue:'מקסיקו סיטי',note:'בית A'},
+ {date:'2026-06-25',time:'23:00',home:'קוראסאו',away:'חוף השנהב',venue:'פילדלפיה',note:'בית E'},
+ {date:'2026-06-25',time:'23:00',home:'אקוודור',away:'גרמניה',venue:'ניו ג׳רזי',note:'בית E'},
+ {date:'2026-06-26',time:'02:00',home:'תוניסיה',away:'הולנד',venue:'קנזס סיטי',note:'בית F'},
+ {date:'2026-06-26',time:'02:00',home:'יפן',away:'שוודיה',venue:'דאלאס',note:'בית F'},
+ {date:'2026-06-26',time:'05:00',home:'טורקיה',away:'ארה״ב',venue:'לוס אנג׳לס',note:'בית D'},
+ {date:'2026-06-26',time:'05:00',home:'פרגוואי',away:'אוסטרליה',venue:'סנטה קלרה',note:'בית D'},
+ {date:'2026-06-26',time:'22:00',home:'נורווגיה',away:'צרפת',venue:'בוסטון',note:'בית I'},
+ {date:'2026-06-26',time:'22:00',home:'סנגל',away:'עיראק',venue:'טורונטו',note:'בית I'},
+ {date:'2026-06-27',time:'03:00',home:'כף ורדה',away:'ערב הסעודית',venue:'יוסטון',note:'בית H'},
+ {date:'2026-06-27',time:'03:00',home:'אורוגוואי',away:'ספרד',venue:'גוודלחרה',note:'בית H'},
+ {date:'2026-06-27',time:'06:00',home:'ניו זילנד',away:'בלגיה',venue:'ונקובר',note:'בית G'},
+ {date:'2026-06-27',time:'06:00',home:'מצרים',away:'איראן',venue:'סיאטל',note:'בית G'},
+ {date:'2026-06-28',time:'00:00',home:'פנמה',away:'אנגליה',venue:'ניו ג׳רזי',note:'בית L'},
+ {date:'2026-06-28',time:'00:00',home:'קרואטיה',away:'גאנה',venue:'פילדלפיה',note:'בית L'},
+ {date:'2026-06-28',time:'02:30',home:'קולומביה',away:'פורטוגל',venue:'מיאמי',note:'בית K'},
+ {date:'2026-06-28',time:'02:30',home:'קונגו',away:'אוזבקיסטן',venue:'אטלנטה',note:'בית K'},
+ {date:'2026-06-28',time:'05:00',home:'אלג׳יריה',away:'אוסטריה',venue:'קנזס סיטי',note:'בית J'},
+ {date:'2026-06-28',time:'05:00',home:'ירדן',away:'ארגנטינה',venue:'דאלאס',note:'בית J'}
+];
+function renderToday(){
+  const tk=dkey(now);
+  let list=FIXTURES.filter(f=>f.date===tk), today=list.length;
+  if(!today)list=FIXTURES.slice(0,2);
+  const dd=s=>`${+s.slice(8,10)}.${+s.slice(5,7)}`;
+  const rows=list.map(f=>`
+    <div class="trow">
+      <div class="ttime">${f.time}<small>${dd(f.date)}</small></div>
+      <div class="tmatch">${f.home} נגד ${f.away}<small>${f.note} · ${f.venue}</small></div>
+      <div class="tbtns">
+        <button class="chatpill" onclick="matchAsk('${f.home}','${f.away}')">💬 כל מה שצריך</button>
+        <button class="chatpill ghost" onclick="matchWasach('${f.home}','${f.away}')">🗣️ משפטי ווסאח</button>
+      </div>
+    </div>`).join('');
+  const live=`
+    <div class="trow">
+      <div class="ttime">🔴<small>חי</small></div>
+      <div class="tmatch">מה עוד משחקים ${today?'היום':'בקרוב'}?<small>מונדיאלה תביא לוח עדכני לפי שעון ישראל</small></div>
+      <div class="tbtns"><button class="chatpill" onclick="askSchedule()">⏰ הלוח של היום</button></div>
+    </div>`;
+  document.querySelector('.today').innerHTML=rows+live;
+}
+function render(){
+  document.getElementById('groups').innerHTML=GROUPS.map((g,gi)=>`
+   <div class="gcard io">
+     <div class="ghead ${gi%2?'g2pos':''}"><div class="gletter">${g.id}</div>
+       <div><div class="gt">בית ${g.id}</div><div class="gs">2 עולות + סיכוי למקום שלישי</div></div></div>
+     <div class="teams">${g.teams.map((t,ti)=>`
+       <div class="team" onclick="if(!event.target.closest('button,.star'))this.classList.toggle('open')">
+         <div class="ttop"><span class="star ${FOLLOW[t.he]?'on':''}" onclick="fav(this,'${t.he}')">★</span>
+           <span class="tn">${t.he}<span class="lat">${t.lat}</span></span><span class="sticker st-${t.s}">${ST[t.s]}</span></div>
+         <div class="tbody"><div class="tbody-in">
+           <div class="tstory">${t.st}</div>
+           <div class="pls">${t.p.map(p=>`<span class="pl">${p}</span>`).join('')}</div>
+           <div class="askwrap"><button class="ask" onclick="askTeam('${g.id}',${ti})"><span class="e">⚽</span> ספרו לי על ${t.he} →</button>
+             <span class="hint">👆 לחצ/י לשיחה עם מונדיאלה</span></div>
+         </div></div>
+       </div>`).join('')}</div>
+   </div>`).join('');
+}
+function fav(el,name){FOLLOW[name]=!FOLLOW[name];if(!FOLLOW[name])delete FOLLOW[name];el.classList.toggle('on');localStorage.setItem('mn_follow',JSON.stringify(FOLLOW));}
+
+// scroll reveal (render first so generated cards are observed too)
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+render();
+renderToday();
+document.querySelectorAll('.io').forEach((el,i)=>{el.style.transitionDelay=(i%4*0.06)+'s';io.observe(el);});
+// failsafe: never let content stay invisible if the observer misfires
+setTimeout(()=>document.querySelectorAll('.io:not(.in)').forEach(el=>el.classList.add('in')),2500);
+
+// install
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
+function install(){
+  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.finally(()=>deferredPrompt=null);}
+  else{document.getElementById('iosModal').classList.add('show');}
+}
+function closeIos(){document.getElementById('iosModal').classList.remove('show');}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+</script>
+</body>
+</html>
