@@ -284,7 +284,7 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
       <a class="signup ghost" href="https://www.karin-arad.com/blog" target="_blank" rel="noopener" data-i18n="foot_blog">📖 הבלוג שלי</a>
     </div><br>
     <span data-i18n="foot_text">הסימונים שלך נשמרים אצלך במכשיר · מונדיאלה נבדלה נפתחת ב-ChatGPT שלך<br>
-    כל 48 הנבחרות · כל לוח שלב הבתים בשעון ישראל. <b>השעות מומרות אוטומטית</b> · תמיד אפשר לאמת מול השידור הרשמי.</span>
+    כל 48 הנבחרות · כל לוח שלב הבתים מוצג אוטומטית <b>לפי השעון המקומי שלך</b> · תמיד אפשר לאמת מול השידור הרשמי.</span>
   </div>
 </div>
 
@@ -314,6 +314,13 @@ function locDate(){const d=new Date(),day=d.getDate(),y=d.getFullYear(),m=d.getM
   if(LANG==='de')return `${day}. ${MONTHS_DE[m]} ${y}`;
   return `${day} ${MONTHS_HE[m]} ${y}`;}
 
+// ===== זמני המשחקים: שמורים בשעון ישראל (יוני 2026 = UTC+3), מוצגים אוטומטית בשעון המקומי של המכשיר =====
+const _pad=n=>String(n).padStart(2,'0');
+function fxDate(f){const [Y,Mo,D]=f.date.split('-').map(Number);const [H,Mi]=f.time.split(':').map(Number);return new Date(Date.UTC(Y,Mo-1,D,H-3,Mi));} // -3 = היסט שעון ישראל ביוני
+function fxTime(f){const d=fxDate(f);return `${_pad(d.getHours())}:${_pad(d.getMinutes())}`;}   // שעה מקומית של המכשיר
+function fxKey(f){const d=fxDate(f);return `${d.getFullYear()}-${_pad(d.getMonth()+1)}-${_pad(d.getDate())}`;} // תאריך מקומי
+function fxDD(f){const d=fxDate(f);return `${d.getDate()}.${d.getMonth()+1}`;}                  // יום.חודש מקומי
+
 // ===== טבלת הטקסטים של הממשק =====
 const T={
  he:{brand:'⚽ מדריך המונדיאל · 2026',h1:'מונדיאלה נבדלה',
@@ -338,13 +345,13 @@ const T={
   gl_red:'כרטיס אדום',gl_advance:'איך עולים?',gl_corner:'קרן <small>corner</small>',
   gl_yellow:'כרטיס צהוב',gl_stoppage:'תוספת זמן',
   foot_signup:'💌 יהיה נחמד אם תירשמו <small>· לרשימת התפוצה שלי, לא חובה</small>',foot_blog:'📖 הבלוג שלי',
-  foot_text:'הסימונים שלך נשמרים אצלך במכשיר · מונדיאלה נבדלה נפתחת ב-ChatGPT שלך<br>כל 48 הנבחרות · כל לוח שלב הבתים בשעון ישראל. <b>השעות מומרות אוטומטית</b> · תמיד אפשר לאמת מול השידור הרשמי.',
+  foot_text:'הסימונים שלך נשמרים אצלך במכשיר · מונדיאלה נבדלה נפתחת ב-ChatGPT שלך<br>כל 48 הנבחרות · כל לוח שלב הבתים מוצג אוטומטית <b>לפי השעון המקומי שלך</b> · תמיד אפשר לאמת מול השידור הרשמי.',
   ios_h:'📲 התקנה למסך הבית',ios_p1:'כדי שמונדיאלה תהיה כמו אפליקציה על הטלפון:',
   ios_p2:'1. לחצ/י על כפתור <b>השיתוף</b> בדפדפן ⬆️<br>2. בחר/י <b>"הוסף למסך הבית"</b><br>3. זהו · האייקון על המסך 🎉',ios_ok:'הבנתי',
   group:'בית',groupSub:'2 עולות + סיכוי למקום שלישי',vs:'נגד',
   allInfo:'💬 כל מה שצריך',wasachBtn:'🗣️ משפטי ווסאח',live:'חי',
   moreToday:'מה עוד משחקים היום?',moreSoon:'מה עוד משחקים בקרוב?',
-  moreSub:'מונדיאלה תביא לוח עדכני לפי שעון ישראל',schedBtn:'⏰ הלוח של היום',
+  moreSub:'מונדיאלה תביא לוח עדכני לפי השעון המקומי שלך',schedBtn:'⏰ הלוח של היום',
   tellAbout:'ספרו לי על',teamHint:'👆 לחצ/י לשיחה עם מונדיאלה',opening:'משחק הפתיחה'},
  en:{brand:'⚽ World Cup Guide · 2026',h1:'Mundiala Nivdala',
   tagline:'Watch football with the gang — without being the one who keeps asking questions 🙄⚽',
@@ -368,13 +375,13 @@ const T={
   gl_red:'Red card',gl_advance:'How do they advance?',gl_corner:'Corner',
   gl_yellow:'Yellow card',gl_stoppage:'Stoppage time',
   foot_signup:'💌 It’d be lovely if you subscribed <small>· to my newsletter, no pressure</small>',foot_blog:'📖 My blog',
-  foot_text:'Your picks are saved on your device · Mundiala opens in your own ChatGPT<br>All 48 teams · the full group stage, in Israel time. <b>Times are converted automatically</b> · always verify against the official broadcast.',
+  foot_text:'Your picks are saved on your device · Mundiala opens in your own ChatGPT<br>All 48 teams · the full group stage, shown automatically <b>in your local time</b> · always verify against the official broadcast.',
   ios_h:'📲 Add to home screen',ios_p1:'To make Mundiala feel like an app on your phone:',
   ios_p2:'1. Tap the <b>Share</b> button in the browser ⬆️<br>2. Choose <b>“Add to Home Screen”</b><br>3. Done · the icon is on your screen 🎉',ios_ok:'Got it',
   group:'Group',groupSub:'Top 2 advance + best-third chance',vs:'vs',
   allInfo:'💬 Everything',wasachBtn:'🗣️ Pundit lines',live:'LIVE',
   moreToday:'What else is on today?',moreSoon:'What’s on soon?',
-  moreSub:'Mundiala brings an up-to-date schedule in Israel time',schedBtn:'⏰ Today’s schedule',
+  moreSub:'Mundiala brings an up-to-date schedule in your local time',schedBtn:'⏰ Today’s schedule',
   tellAbout:'Tell me about',teamHint:'👆 Tap to chat with Mundiala',opening:'Opening match'},
  de:{brand:'⚽ WM-Guide · 2026',h1:'Mundiala Nivdala',
   tagline:'Fußball mit der Clique schauen — ohne die nervige Person zu sein, die ständig fragt 🙄⚽',
@@ -398,13 +405,13 @@ const T={
   gl_red:'Rote Karte',gl_advance:'Wie kommt man weiter?',gl_corner:'Eckball',
   gl_yellow:'Gelbe Karte',gl_stoppage:'Nachspielzeit',
   foot_signup:'💌 Schön, wenn du dich einträgst <small>· für meinen Newsletter, kein Muss</small>',foot_blog:'📖 Mein Blog',
-  foot_text:'Deine Markierungen werden auf deinem Gerät gespeichert · Mundiala öffnet sich in deinem eigenen ChatGPT<br>Alle 48 Teams · die komplette Gruppenphase, in israelischer Zeit. <b>Zeiten werden automatisch umgerechnet</b> · immer mit der offiziellen Übertragung abgleichen.',
+  foot_text:'Deine Markierungen werden auf deinem Gerät gespeichert · Mundiala öffnet sich in deinem eigenen ChatGPT<br>Alle 48 Teams · die komplette Gruppenphase, automatisch <b>in deiner lokalen Zeit</b> · immer mit der offiziellen Übertragung abgleichen.',
   ios_h:'📲 Zum Startbildschirm hinzufügen',ios_p1:'Damit sich Mundiala wie eine App auf deinem Handy anfühlt:',
   ios_p2:'1. Tippe im Browser auf <b>Teilen</b> ⬆️<br>2. Wähle <b>„Zum Home-Bildschirm“</b><br>3. Fertig · das Icon ist auf deinem Bildschirm 🎉',ios_ok:'Verstanden',
   group:'Gruppe',groupSub:'Top 2 weiter + Chance als bester Dritter',vs:'gegen',
   allInfo:'💬 Alles Wichtige',wasachBtn:'🗣️ Experten-Sprüche',live:'LIVE',
   moreToday:'Was läuft heute noch?',moreSoon:'Was läuft demnächst?',
-  moreSub:'Mundiala bringt einen aktuellen Spielplan in israelischer Zeit',schedBtn:'⏰ Heutiger Spielplan',
+  moreSub:'Mundiala bringt einen aktuellen Spielplan in deiner lokalen Zeit',schedBtn:'⏰ Heutiger Spielplan',
   tellAbout:'Erzähl mir über',teamHint:'👆 Tippen, um mit Mundiala zu chatten',opening:'Eröffnungsspiel'}
 };
 
@@ -494,14 +501,14 @@ function pick(a){if(a.length<2)return a[0];let i,p=_last.get(a);do{i=Math.floor(
 function buildPersona(){
   const l=todayMatches();
   if(LANG==='en'){
-    const ctx=l.length?`Today’s matches: ${l.map(f=>`${tn(f.home)} vs ${tn(f.away)} at ${f.time}`).join(', ')}. Focus mainly on these. `:'';
+    const ctx=l.length?`Today’s matches (my local time): ${l.map(f=>`${tn(f.home)} vs ${tn(f.away)} at ${fxTime(f)}`).join(', ')}. Focus mainly on these. `:'';
     return `You are Mundiala Nivdala, a warm, witty guide to the 2026 World Cup for anyone starting football from zero. Today is ${locDate()}. ${ctx}Answer in English, short and clear, in a light, amused tone — no judgment, no condescension, and no punchlines or jokes. Your charm is in knowledge and warmth, not gags. Always give real, in-depth content, especially about the players and the story. If a match is taking place today, talk only about it and the players in it, and don’t mention unrelated players or teams. If no match is specified and you’re not sure what’s on today, honestly say it should be verified against an official schedule — don’t guess or invent matches, results, line-ups or players.`;
   }
   if(LANG==='de'){
-    const ctx=l.length?`Heutige Spiele: ${l.map(f=>`${tn(f.home)} gegen ${tn(f.away)} um ${f.time}`).join(', ')}. Konzentriere dich vor allem darauf. `:'';
+    const ctx=l.length?`Heutige Spiele (meine lokale Zeit): ${l.map(f=>`${tn(f.home)} gegen ${tn(f.away)} um ${fxTime(f)}`).join(', ')}. Konzentriere dich vor allem darauf. `:'';
     return `Du bist Mundiala Nivdala, eine warmherzige, witzige Begleiterin zur WM 2026 für alle, die bei null mit Fußball anfangen. Heute ist ${locDate()}. ${ctx}Antworte auf Deutsch, kurz und klar, in einem leichten, amüsierten Ton — ohne Urteil, ohne Herablassung und ohne Pointen oder Witze. Dein Charme liegt in Wissen und Zuneigung, nicht in Gags. Liefere immer echten, fundierten Inhalt, besonders über die Spieler und die Geschichte. Wenn heute ein Spiel stattfindet, sprich nur darüber und über die beteiligten Spieler und erwähne keine unbeteiligten Spieler oder Teams. Wenn kein Spiel angegeben ist und du nicht sicher bist, was heute läuft, sag ehrlich, dass es mit einem offiziellen Spielplan abgeglichen werden sollte — rate nicht und erfinde keine Spiele, Ergebnisse, Aufstellungen oder Spieler.`;
   }
-  const matchCtx=l.length?`היום משחקים: ${l.map(f=>`${f.home} נגד ${f.away} ב-${f.time}`).join(', ')}. התייחסי בעיקר למשחקים האלה. `:'';
+  const matchCtx=l.length?`היום משחקים (לפי השעון המקומי שלי): ${l.map(f=>`${f.home} נגד ${f.away} ב-${fxTime(f)}`).join(', ')}. התייחסי בעיקר למשחקים האלה. `:'';
   return `את מונדיאלה נבדלה, מדריכה חמה ומבודחת למונדיאל 2026 לכל מי שמתחיל מאפס בכדורגל. היום ${locDate()}. ${matchCtx}עני בעברית, קצר וברור, בטון קליל ומבודח - בלי שיפוט, בלי התנשאות, ובלי פאנצ'ים, בדיחות או עקיצות. החן שלך הוא בידע ובחיבה, לא בקטעים. תמיד תני תוכן אמיתי ומעמיק, במיוחד על השחקנים והסיפור. אם צוין משחק שמתקיים היום - דברי רק עליו ועל השחקנים שמשחקים בו, ואל תזכירי שחקן או נבחרת שלא קשורים אליו. אם לא צוין משחק ואת לא בטוחה מה משוחק היום - אמרי בכנות שצריך לאמת מול לוח רשמי, אל תנחשי ואל תמציאי משחקים, תוצאות, הרכבים או שחקנים.`;
 }
 // כל פנייה נפתחת ב-ChatGPT עם הפרסונה והתאריך מוטמעים. אפס הדבקה.
@@ -524,10 +531,10 @@ const Q={
   `Die WM 2026 steht vor der Tür und ich habe null Ahnung von Fußball. Gib mir den einfachsten, unterhaltsamsten Einstieg, ohne mich zu überfordern.`
  ]},
  schedule:{he:[
-  `מה לוח המשחקים של היום במונדיאל 2026? תני לי מי נגד מי והשעות לפי שעון ישראל, ובדקי מקור עדכני.`,
-  `אילו משחקים יש היום ומחר במונדיאל 2026 ובאיזו שעה (שעון ישראל)? ומה הכי שווה לראות?`,
+  `מה לוח המשחקים של היום במונדיאל 2026? תני לי מי נגד מי והשעות (ציין/י באיזה אזור זמן), ובדקי מקור עדכני.`,
+  `אילו משחקים יש היום ומחר במונדיאל 2026 ובאיזו שעה (ציין/י את אזור הזמן)? ומה הכי שווה לראות?`,
   `תעשי לי סדר: מה משחקים היום במונדיאל 2026, מתי, ועל איזה משחק הכי כדאי לשמור אנרגיה?`,
-  `תכיני לי את היום: כל המשחקים של היום במונדיאל 2026 לפי שעון ישראל, מהמוקדם למאוחר.`
+  `תכיני לי את היום: כל המשחקים של היום במונדיאל 2026 (ציין/י את אזור הזמן), מהמוקדם למאוחר.`
  ],en:[
   `What’s today’s match schedule at the 2026 World Cup? Tell me who plays whom and the kick-off times, and check an up-to-date source.`,
   `Which matches are on today and tomorrow at the 2026 World Cup, and at what time? And which one is most worth watching?`
@@ -661,27 +668,28 @@ const GLOSS={
 function askGloss(k){ask(pick(GLOSS[k][LANG]||GLOSS[k].he));}
 
 // כפתורים "כלליים" שמדברים על "היום" - מזריקים את המשחק/ים האמיתי/ים מהדאטה כדי שלא ינחשו
-function todayMatches(){const tk=dkey(new Date());return FIXTURES.filter(f=>f.date===tk);}
+// "היום" = לפי היום המקומי של המכשיר, והמשחקים ממוינים לפי הזמן האמיתי
+function todayMatches(){const tk=dkey(new Date());return FIXTURES.filter(f=>fxKey(f)===tk).sort((a,b)=>fxDate(a)-fxDate(b));}
 function todayLine(){const l=todayMatches();if(!l.length)return '';
-  if(LANG==='en')return `Today (${locDate()}) matches: ${l.map(f=>`${tn(f.home)} vs ${tn(f.away)} at ${f.time}`).join(', ')}. `;
-  if(LANG==='de')return `Heute (${locDate()}) Spiele: ${l.map(f=>`${tn(f.home)} gegen ${tn(f.away)} um ${f.time}`).join(', ')}. `;
-  return `היום (${locDate()}) משחקים: ${l.map(f=>`${f.home} נגד ${f.away} ב-${f.time}`).join(', ')}. `;}
+  if(LANG==='en')return `Today (${locDate()}) matches (my local time): ${l.map(f=>`${tn(f.home)} vs ${tn(f.away)} at ${fxTime(f)}`).join(', ')}. `;
+  if(LANG==='de')return `Heute (${locDate()}) Spiele (meine lokale Zeit): ${l.map(f=>`${tn(f.home)} gegen ${tn(f.away)} um ${fxTime(f)}`).join(', ')}. `;
+  return `היום (${locDate()}) משחקים (לפי השעון המקומי שלי): ${l.map(f=>`${f.home} נגד ${f.away} ב-${fxTime(f)}`).join(', ')}. `;}
 // שמות המשחקים של היום, מחוברים ב"ו-"/"and"/"und", בשפה הנבחרת
 function todayMatchNames(){const l=todayMatches();if(!l.length)return '';const j=LANG==='en'?' and ':(LANG==='de'?' und ':' ו-');return l.map(f=>`${tn(f.home)} ${T[LANG].vs} ${tn(f.away)}`).join(j);}
 
 function askSchedule(){const l=todayMatches(),t=todayLine();ask(l.length?pick(({
- he:[`${t}אשרי לי את השעות לפי שעון ישראל, ותגידי על איזה מהם הכי כדאי לשמור אנרגיה. אל תוסיפי משחקים אחרים.`,
+ he:[`${t}על איזה מהמשחקים האלה הכי כדאי לשמור אנרגיה, ולמה? אל תוסיפי משחקים אחרים.`,
   `${t}ספרי לי בקצרה על כל אחד מהמשחקים האלה: מי הפייבוריט, מי הכוכב, ולמה כיף לראות.`,
-  `${t}תני לי סדר ליום סביב המשחקים האלה בלבד - מתי כל אחד (שעון ישראל) ומה הכי שווה.`],
- en:[`${t}Confirm the kick-off times (Israel time) and tell me which one is most worth saving energy for. Don’t add other matches.`,
+  `${t}תני לי סדר ליום סביב המשחקים האלה בלבד - מתי כל אחד ומה הכי שווה.`],
+ en:[`${t}Tell me which of these matches is most worth saving energy for, and why. Don’t add other matches.`,
   `${t}Tell me briefly about each of these matches: who’s the favorite, who’s the star, and why it’s fun to watch.`],
- de:[`${t}Bestätige die Anstoßzeiten (israelische Zeit) und sag mir, für welches Spiel ich am meisten Energie aufsparen sollte. Füge keine anderen Spiele hinzu.`,
+ de:[`${t}Sag mir, für welches dieser Spiele ich am meisten Energie aufsparen sollte und warum. Füge keine anderen Spiele hinzu.`,
   `${t}Erzähl mir kurz zu jedem dieser Spiele: wer ist Favorit, wer ist der Star, und warum macht es Spaß zu schauen.`]
 })[LANG]):pick(({
- he:[`מה לוח המשחקים של היום (${locDate()}) במונדיאל 2026? בדקי מקור עדכני, תני מי נגד מי ושעות לפי שעון ישראל, ואל תמציאי משחקים.`,
-  `אילו משחקים יש היום ומחר במונדיאל 2026 (שעון ישראל)? אם את לא בטוחה, אמרי שצריך לאמת מול לוח רשמי.`],
- en:[`What’s today’s (${locDate()}) match schedule at the 2026 World Cup? Check an up-to-date source, give who plays whom and kick-off times in Israel time, and don’t invent matches.`],
- de:[`Wie sieht der heutige (${locDate()}) Spielplan der WM 2026 aus? Prüfe eine aktuelle Quelle, nenne wer gegen wen spielt und die Anstoßzeiten in israelischer Zeit, und erfinde keine Spiele.`]
+ he:[`מה לוח המשחקים של היום (${locDate()}) במונדיאל 2026? בדקי מקור עדכני, תני מי נגד מי ושעות (ציין/י את אזור הזמן), ואל תמציאי משחקים.`,
+  `אילו משחקים יש היום ומחר במונדיאל 2026 (ציין/י את אזור הזמן)? אם את לא בטוחה, אמרי שצריך לאמת מול לוח רשמי.`],
+ en:[`What’s today’s (${locDate()}) match schedule at the 2026 World Cup? Check an up-to-date source, give who plays whom and kick-off times (state the timezone), and don’t invent matches.`],
+ de:[`Wie sieht der heutige (${locDate()}) Spielplan der WM 2026 aus? Prüfe eine aktuelle Quelle, nenne wer gegen wen spielt und die Anstoßzeiten (nenne die Zeitzone), und erfinde keine Spiele.`]
 })[LANG]));}
 
 function askWasach(){const l=todayMatches(),t=todayLine(),m=todayMatchNames();ask(l.length?pick(({
@@ -830,7 +838,7 @@ function teamAsk(t){ask(pick(TEAM_ANGLES[LANG]||TEAM_ANGLES.he)(t));}
 function askTeam(gid,ti){const g=GROUPS.find(x=>x.id===gid);if(g)teamAsk(g.teams[ti]);}
 
 // משחקי היום - מבוסס-דאטה ומודע-לתאריך. מה שלא ידוע, מונדיאלה מביאה חי.
-// לוח שלב הבתים המלא של מונדיאל 2026 (72 משחקים), שעות מומרות לשעון ישראל (UK+2)
+// לוח שלב הבתים המלא של מונדיאל 2026 (72 משחקים), שעות שמורות בשעון ישראל (יוני=UTC+3); מוצגות אוטומטית בשעון המקומי של המכשיר
 const FIXTURES=[
  {date:'2026-06-11',time:'22:00',home:'מקסיקו',away:'דרום אפריקה',venue:'אצטקה',note:'משחק הפתיחה'},
  {date:'2026-06-12',time:'05:00',home:'דרום קוריאה',away:'צ׳כיה',venue:'גוודלחרה',note:'בית A'},
@@ -906,14 +914,12 @@ const FIXTURES=[
  {date:'2026-06-28',time:'05:00',home:'ירדן',away:'ארגנטינה',venue:'דאלאס',note:'בית J'}
 ];
 function renderToday(){
-  const tk=dkey(new Date());
-  let list=FIXTURES.filter(f=>f.date===tk), today=list.length;
+  let list=todayMatches(), today=list.length;
   if(!today)list=FIXTURES.slice(0,2);
-  const dd=s=>`${+s.slice(8,10)}.${+s.slice(5,7)}`;
   const tx=T[LANG];
   const rows=list.map(f=>`
     <div class="trow">
-      <div class="ttime">${f.time}<small>${dd(f.date)}</small></div>
+      <div class="ttime">${fxTime(f)}<small>${fxDD(f)}</small></div>
       <div class="tmatch">${tn(f.home)} ${tx.vs} ${tn(f.away)}<small>${nn(f.note)} · ${vn(f.venue)}</small></div>
       <div class="tbtns">
         <button class="chatpill" onclick="matchAsk('${f.home}','${f.away}')">${tx.allInfo}</button>
