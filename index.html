@@ -200,86 +200,100 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
   padding:11px 20px;border-radius:13px;font-size:.88rem;opacity:0;transition:.3s;pointer-events:none;z-index:70}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}.io{opacity:1;transform:none}}
+
+/* ===== language toggle ===== */
+.langbar{position:fixed;top:12px;inset-inline-start:12px;z-index:40;display:inline-flex;gap:3px;
+  background:rgba(255,255,255,.86);backdrop-filter:blur(8px);border:1.5px solid #f0e4f7;border-radius:999px;
+  padding:3px;box-shadow:0 10px 24px -14px rgba(42,26,62,.55)}
+.langbar button{border:0;cursor:pointer;font-family:'Rubik';font-weight:700;font-size:.78rem;color:var(--ink-soft);
+  background:transparent;padding:6px 12px;border-radius:999px;transition:.18s;line-height:1}
+.langbar button:hover{color:var(--ink)}
+.langbar button.on{color:#fff;background:var(--spine);background-size:160% auto;box-shadow:0 6px 14px -6px rgba(255,77,157,.6)}
 </style>
 </head>
 <body>
 <div class="bgfx"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
+<div class="langbar" id="langbar">
+  <button data-lang="he" onclick="setLang('he')">עב</button>
+  <button data-lang="en" onclick="setLang('en')">EN</button>
+  <button data-lang="de" onclick="setLang('de')">DE</button>
+</div>
 <div class="wrap">
 
   <header class="hero reveal r1">
     <div class="hwrap">
       <img class="hicon" src="icon.png" alt="מונדיאלה נבדלה">
       <div class="htxt">
-        <span class="brand">⚽ מדריך המונדיאל · 2026</span>
-        <h1 class="disp">מונדיאלה נבדלה</h1>
-        <div class="by">לראות כדורגל עם החברֵה, בלי להיות הנודניק ששואל שאלות 🙄⚽</div>
-        <p>לכל מי שרוצה להיות חלק מהחגיגה המשוגעת הזאת, או פשוט לא לאבד חצי מהחברים ל-40 יום. מונדיאלה נבדלה היא המלווה שלכם: כל שאלה, בלי שיפוט. היא תספר לכם למה זה מעניין ומה הסיפור של כל נבחרת. היא אפילו תגיד לכם מה לשאול.</p>
+        <span class="brand" data-i18n="brand">⚽ מדריך המונדיאל · 2026</span>
+        <h1 class="disp" data-i18n="h1">מונדיאלה נבדלה</h1>
+        <div class="by" data-i18n="tagline">לראות כדורגל עם החברֵה, בלי להיות הנודניק ששואל שאלות 🙄⚽</div>
+        <p data-i18n="desc">לכל מי שרוצה להיות חלק מהחגיגה המשוגעת הזאת, או פשוט לא לאבד חצי מהחברים ל-40 יום. מונדיאלה נבדלה היא המלווה שלכם: כל שאלה, בלי שיפוט. היא תספר לכם למה זה מעניין ומה הסיפור של כל נבחרת. היא אפילו תגיד לכם מה לשאול.</p>
       </div>
     </div>
     <div class="hero-cta">
-      <button class="askbig" onclick="askToday()">
+      <button class="askbig" onclick="askToday()" data-i18n="askbig">
         <span class="e">⚽</span> מה צריך לדעת היום במונדיאל</button>
       <div class="row2">
-        <span class="hint">👆 לחצ/י לשיחה · מונדיאלה נפתחת והשאלה מוכנה</span>
-        <button class="install" id="installBtn" onclick="install()">📲 התקנה לטלפון</button>
+        <span class="hint" data-i18n="heroHint">👆 לחצ/י לשיחה · מונדיאלה נפתחת והשאלה מוכנה</span>
+        <button class="install" id="installBtn" onclick="install()" data-i18n="install">📲 התקנה לטלפון</button>
       </div>
     </div>
   </header>
 
   <button class="scrolldown" id="scrollCue" onclick="document.querySelector('.sh').scrollIntoView({behavior:'smooth'})">
-    <span>יש עוד הרבה למטה</span><span class="chev">⌄</span>
+    <span data-i18n="scrollcue">יש עוד הרבה למטה</span><span class="chev">⌄</span>
   </button>
 
-  <div class="sh disp io"><span class="emj">💬</span> לא יודעים מה לשאול?</div>
-  <div class="sub-hint io">הבטחנו שמונדיאלה תגיד לכם מה לשאול. לחצ/י על שאלה והיא נפתחת מוכנה, אפס מאמץ 👇</div>
+  <div class="sh disp io" data-i18n="sh_ask"><span class="emj">💬</span> לא יודעים מה לשאול?</div>
+  <div class="sub-hint io" data-i18n="sub_ask">הבטחנו שמונדיאלה תגיד לכם מה לשאול. לחצ/י על שאלה והיא נפתחת מוכנה, אפס מאמץ 👇</div>
   <div class="qboard io">
-    <button class="qq" onclick="askSchedule()"><span class="qe">⏰</span><span class="qt">לוח המשחקים, תאריכים ושעות</span><span class="qa">←</span></button>
-    <button class="qq" onclick="askWasach()"><span class="qe">🗣️</span><span class="qt">משפטי ווסאח להיום</span><span class="qa">←</span></button>
-    <button class="qq" onclick="askQ('beginner')"><span class="qe">🤓</span><span class="qt">אני אפס בכדורגל, מאיפה מתחילים?</span><span class="qa">←</span></button>
-    <button class="qq" onclick="askPartner()"><span class="qe">🍿</span><span class="qt">מה לראות עם בן/בת הזוג?</span><span class="qa">←</span></button>
-    <button class="qq" onclick="askStars()"><span class="qe">🌟</span><span class="qt">מי הכוכבים שאסור לפספס?</span><span class="qa">←</span></button>
-    <button class="qq" onclick="askQ('favorites')"><span class="qe">🏆</span><span class="qt">מי הולך לזכות?</span><span class="qa">←</span></button>
-    <button class="qq" onclick="askQ('drama')"><span class="qe">🔥</span><span class="qt">מה הדרמה הכי גדולה השנה?</span><span class="qa">←</span></button>
-    <button class="qq" onclick="askQ('rules')"><span class="qe">📖</span><span class="qt">תסבירי את החוקים הבסיסיים</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askSchedule()"><span class="qe">⏰</span><span class="qt" data-i18n="qq_schedule">לוח המשחקים, תאריכים ושעות</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askWasach()"><span class="qe">🗣️</span><span class="qt" data-i18n="qq_wasach">משפטי ווסאח להיום</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askQ('beginner')"><span class="qe">🤓</span><span class="qt" data-i18n="qq_beginner">אני אפס בכדורגל, מאיפה מתחילים?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askPartner()"><span class="qe">🍿</span><span class="qt" data-i18n="qq_partner">מה לראות עם בן/בת הזוג?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askStars()"><span class="qe">🌟</span><span class="qt" data-i18n="qq_stars">מי הכוכבים שאסור לפספס?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askQ('favorites')"><span class="qe">🏆</span><span class="qt" data-i18n="qq_favorites">מי הולך לזכות?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askQ('drama')"><span class="qe">🔥</span><span class="qt" data-i18n="qq_drama">מה הדרמה הכי גדולה השנה?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askQ('rules')"><span class="qe">📖</span><span class="qt" data-i18n="qq_rules">תסבירי את החוקים הבסיסיים</span><span class="qa">←</span></button>
   </div>
 
-  <div class="sh disp io"><span class="emj">📺</span> מה רואים עכשיו <span class="live-dot"></span></div>
-  <div class="sub-hint io">👆 לכל משחק: "כל מה שצריך" לכל המידע, או "משפטי ווסאח" לאמירות של ידענים לזרוק תוך כדי 😎</div>
+  <div class="sh disp io" data-i18n="sh_today"><span class="emj">📺</span> מה רואים עכשיו <span class="live-dot"></span></div>
+  <div class="sub-hint io" data-i18n="sub_today">👆 לכל משחק: "כל מה שצריך" לכל המידע, או "משפטי ווסאח" לאמירות של ידענים לזרוק תוך כדי 😎</div>
   <div class="today io"></div>
 
-  <div class="sh disp io"><span class="emj">🌍</span> הבתים</div>
-  <div class="sub-hint io">👆 לחצ/י על נבחרת כדי לפתוח אותה, ואז על הכפתור לשיחה עם מונדיאלה עליה</div>
+  <div class="sh disp io" data-i18n="sh_groups"><span class="emj">🌍</span> הבתים</div>
+  <div class="sub-hint io" data-i18n="sub_groups">👆 לחצ/י על נבחרת כדי לפתוח אותה, ואז על הכפתור לשיחה עם מונדיאלה עליה</div>
   <div class="groups" id="groups"></div>
 
-  <div class="sh disp io"><span class="emj">📖</span> לא הבנת מילה?</div>
-  <div class="sub-hint io">👆 לחצ/י על מילה ומונדיאלה תסביר לך אותה בשיחה, בפשטות</div>
+  <div class="sh disp io" data-i18n="sh_gloss"><span class="emj">📖</span> לא הבנת מילה?</div>
+  <div class="sub-hint io" data-i18n="sub_gloss">👆 לחצ/י על מילה ומונדיאלה תסביר לך אותה בשיחה, בפשטות</div>
   <div class="gloss io">
-    <button class="gchip" onclick="askGloss('offside')"><span class="e">🚩</span> נבדל <small>offside</small></button>
-    <button class="gchip" onclick="askGloss('penalty')"><span class="e">⚽</span> פנדל <small>penalty</small></button>
-    <button class="gchip" onclick="askGloss('var')"><span class="e">📺</span> VAR</button>
-    <button class="gchip" onclick="askGloss('red')"><span class="e">🟥</span> כרטיס אדום</button>
-    <button class="gchip" onclick="askGloss('advance')"><span class="e">🧮</span> איך עולים?</button>
-    <button class="gchip" onclick="askGloss('corner')"><span class="e">📐</span> קרן <small>corner</small></button>
-    <button class="gchip" onclick="askGloss('yellow')"><span class="e">🟨</span> כרטיס צהוב</button>
-    <button class="gchip" onclick="askGloss('stoppage')"><span class="e">⏱️</span> תוספת זמן</button>
+    <button class="gchip" onclick="askGloss('offside')"><span class="e">🚩</span> <span data-i18n="gl_offside">נבדל <small>offside</small></span></button>
+    <button class="gchip" onclick="askGloss('penalty')"><span class="e">⚽</span> <span data-i18n="gl_penalty">פנדל <small>penalty</small></span></button>
+    <button class="gchip" onclick="askGloss('var')"><span class="e">📺</span> <span data-i18n="gl_var">VAR</span></button>
+    <button class="gchip" onclick="askGloss('red')"><span class="e">🟥</span> <span data-i18n="gl_red">כרטיס אדום</span></button>
+    <button class="gchip" onclick="askGloss('advance')"><span class="e">🧮</span> <span data-i18n="gl_advance">איך עולים?</span></button>
+    <button class="gchip" onclick="askGloss('corner')"><span class="e">📐</span> <span data-i18n="gl_corner">קרן <small>corner</small></span></button>
+    <button class="gchip" onclick="askGloss('yellow')"><span class="e">🟨</span> <span data-i18n="gl_yellow">כרטיס צהוב</span></button>
+    <button class="gchip" onclick="askGloss('stoppage')"><span class="e">⏱️</span> <span data-i18n="gl_stoppage">תוספת זמן</span></button>
   </div>
 
   <div class="foot io">
     <div class="links">
-      <a class="signup" href="https://www.karin-arad.com/subscribe" target="_blank" rel="noopener">💌 יהיה נחמד אם תירשמו <small>· לרשימת התפוצה שלי, לא חובה</small></a>
-      <a class="signup ghost" href="https://www.karin-arad.com/blog" target="_blank" rel="noopener">📖 הבלוג שלי</a>
+      <a class="signup" href="https://www.karin-arad.com/subscribe" target="_blank" rel="noopener" data-i18n="foot_signup">💌 יהיה נחמד אם תירשמו <small>· לרשימת התפוצה שלי, לא חובה</small></a>
+      <a class="signup ghost" href="https://www.karin-arad.com/blog" target="_blank" rel="noopener" data-i18n="foot_blog">📖 הבלוג שלי</a>
     </div><br>
-    הסימונים שלך נשמרים אצלך במכשיר · מונדיאלה נבדלה נפתחת ב-ChatGPT שלך<br>
-    כל 48 הנבחרות · כל לוח שלב הבתים בשעון ישראל. <b>השעות מומרות אוטומטית</b> · תמיד אפשר לאמת מול השידור הרשמי.
+    <span data-i18n="foot_text">הסימונים שלך נשמרים אצלך במכשיר · מונדיאלה נבדלה נפתחת ב-ChatGPT שלך<br>
+    כל 48 הנבחרות · כל לוח שלב הבתים בשעון ישראל. <b>השעות מומרות אוטומטית</b> · תמיד אפשר לאמת מול השידור הרשמי.</span>
   </div>
 </div>
 
 <div class="modal" id="iosModal" onclick="if(event.target===this)closeIos()">
   <div class="sheet">
-    <h3>📲 התקנה למסך הבית</h3>
-    <p>כדי שמונדיאלה תהיה כמו אפליקציה על הטלפון:</p>
-    <p>1. לחצ/י על כפתור <b>השיתוף</b> בדפדפן ⬆️<br>2. בחר/י <b>"הוסף למסך הבית"</b><br>3. זהו · האייקון על המסך 🎉</p>
-    <button class="ok" onclick="closeIos()">הבנתי</button>
+    <h3 data-i18n="ios_h">📲 התקנה למסך הבית</h3>
+    <p data-i18n="ios_p1">כדי שמונדיאלה תהיה כמו אפליקציה על הטלפון:</p>
+    <p data-i18n="ios_p2">1. לחצ/י על כפתור <b>השיתוף</b> בדפדפן ⬆️<br>2. בחר/י <b>"הוסף למסך הבית"</b><br>3. זהו · האייקון על המסך 🎉</p>
+    <button class="ok" onclick="closeIos()" data-i18n="ios_ok">הבנתי</button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -287,146 +301,445 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
 <script>
 const GPT_URL="https://chatgpt.com/g/g-6a2ab2e3e2708191864b0e0d8b28190d-mvndylh-nbdlh"; // הבוט המלא (דלת עומק)
 
-// ===== הקשר חי: מונדיאלה תמיד יודעת מה התאריך היום =====
-const MONTHS=['בינואר','בפברואר','במרץ','באפריל','במאי','ביוני','ביולי','באוגוסט','בספטמבר','באוקטובר','בנובמבר','בדצמבר'];
+// ===== i18n: שלוש שפות, הבחירה נשמרת במכשיר =====
+let LANG=(()=>{const s=localStorage.getItem('mn_lang');return ['he','en','de'].includes(s)?s:'he';})();
+
+const MONTHS_HE=['בינואר','בפברואר','במרץ','באפריל','במאי','ביוני','ביולי','באוגוסט','בספטמבר','באוקטובר','בנובמבר','בדצמבר'];
+const MONTHS_EN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTHS_DE=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 const dkey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-// התאריך מחושב חי בכל קריאה (new Date) - לא משנה מתי נפתח העמוד או כמה זמן הוא פתוח, זה תמיד "היום" של המכשיר
-function todayHe(){const d=new Date();return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;}
+// התאריך מחושב חי בכל קריאה (new Date) - תמיד "היום" של המכשיר, בכל שפה
+function locDate(){const d=new Date(),day=d.getDate(),y=d.getFullYear(),m=d.getMonth();
+  if(LANG==='en')return `${MONTHS_EN[m]} ${day}, ${y}`;
+  if(LANG==='de')return `${day}. ${MONTHS_DE[m]} ${y}`;
+  return `${day} ${MONTHS_HE[m]} ${y}`;}
+
+// ===== טבלת הטקסטים של הממשק =====
+const T={
+ he:{brand:'⚽ מדריך המונדיאל · 2026',h1:'מונדיאלה נבדלה',
+  tagline:'לראות כדורגל עם החברֵה, בלי להיות הנודניק ששואל שאלות 🙄⚽',
+  desc:'לכל מי שרוצה להיות חלק מהחגיגה המשוגעת הזאת, או פשוט לא לאבד חצי מהחברים ל-40 יום. מונדיאלה נבדלה היא המלווה שלכם: כל שאלה, בלי שיפוט. היא תספר לכם למה זה מעניין ומה הסיפור של כל נבחרת. היא אפילו תגיד לכם מה לשאול.',
+  askbig:'<span class="e">⚽</span> מה צריך לדעת היום במונדיאל',
+  heroHint:'👆 לחצ/י לשיחה · מונדיאלה נפתחת והשאלה מוכנה',install:'📲 התקנה לטלפון',
+  scrollcue:'יש עוד הרבה למטה',
+  sh_ask:'<span class="emj">💬</span> לא יודעים מה לשאול?',
+  sub_ask:'הבטחנו שמונדיאלה תגיד לכם מה לשאול. לחצ/י על שאלה והיא נפתחת מוכנה, אפס מאמץ 👇',
+  qq_schedule:'לוח המשחקים, תאריכים ושעות',qq_wasach:'משפטי ווסאח להיום',
+  qq_beginner:'אני אפס בכדורגל, מאיפה מתחילים?',qq_partner:'מה לראות עם בן/בת הזוג?',
+  qq_stars:'מי הכוכבים שאסור לפספס?',qq_favorites:'מי הולך לזכות?',
+  qq_drama:'מה הדרמה הכי גדולה השנה?',qq_rules:'תסבירי את החוקים הבסיסיים',
+  sh_today:'<span class="emj">📺</span> מה רואים עכשיו <span class="live-dot"></span>',
+  sub_today:'👆 לכל משחק: "כל מה שצריך" לכל המידע, או "משפטי ווסאח" לאמירות של ידענים לזרוק תוך כדי 😎',
+  sh_groups:'<span class="emj">🌍</span> הבתים',
+  sub_groups:'👆 לחצ/י על נבחרת כדי לפתוח אותה, ואז על הכפתור לשיחה עם מונדיאלה עליה',
+  sh_gloss:'<span class="emj">📖</span> לא הבנת מילה?',
+  sub_gloss:'👆 לחצ/י על מילה ומונדיאלה תסביר לך אותה בשיחה, בפשטות',
+  gl_offside:'נבדל <small>offside</small>',gl_penalty:'פנדל <small>penalty</small>',gl_var:'VAR',
+  gl_red:'כרטיס אדום',gl_advance:'איך עולים?',gl_corner:'קרן <small>corner</small>',
+  gl_yellow:'כרטיס צהוב',gl_stoppage:'תוספת זמן',
+  foot_signup:'💌 יהיה נחמד אם תירשמו <small>· לרשימת התפוצה שלי, לא חובה</small>',foot_blog:'📖 הבלוג שלי',
+  foot_text:'הסימונים שלך נשמרים אצלך במכשיר · מונדיאלה נבדלה נפתחת ב-ChatGPT שלך<br>כל 48 הנבחרות · כל לוח שלב הבתים בשעון ישראל. <b>השעות מומרות אוטומטית</b> · תמיד אפשר לאמת מול השידור הרשמי.',
+  ios_h:'📲 התקנה למסך הבית',ios_p1:'כדי שמונדיאלה תהיה כמו אפליקציה על הטלפון:',
+  ios_p2:'1. לחצ/י על כפתור <b>השיתוף</b> בדפדפן ⬆️<br>2. בחר/י <b>"הוסף למסך הבית"</b><br>3. זהו · האייקון על המסך 🎉',ios_ok:'הבנתי',
+  group:'בית',groupSub:'2 עולות + סיכוי למקום שלישי',vs:'נגד',
+  allInfo:'💬 כל מה שצריך',wasachBtn:'🗣️ משפטי ווסאח',live:'חי',
+  moreToday:'מה עוד משחקים היום?',moreSoon:'מה עוד משחקים בקרוב?',
+  moreSub:'מונדיאלה תביא לוח עדכני לפי שעון ישראל',schedBtn:'⏰ הלוח של היום',
+  tellAbout:'ספרו לי על',teamHint:'👆 לחצ/י לשיחה עם מונדיאלה',opening:'משחק הפתיחה'},
+ en:{brand:'⚽ World Cup Guide · 2026',h1:'Mundiala Nivdala',
+  tagline:'Watch football with the gang — without being the one who keeps asking questions 🙄⚽',
+  desc:'For anyone who wants to be part of this crazy celebration — or just not lose half their friends for 40 days. Mundiala is your companion: any question, zero judgment. She’ll tell you why it’s interesting and the story behind every team. She’ll even tell you what to ask.',
+  askbig:'<span class="e">⚽</span> What to know today at the World Cup',
+  heroHint:'👆 Tap to chat · Mundiala opens with the question ready',install:'📲 Install on phone',
+  scrollcue:'There’s plenty more below',
+  sh_ask:'<span class="emj">💬</span> Not sure what to ask?',
+  sub_ask:'We promised Mundiala would tell you what to ask. Tap a question and it opens ready — zero effort 👇',
+  qq_schedule:'Match schedule, dates & times',qq_wasach:'Show-off one-liners for today',
+  qq_beginner:'I know nothing about football — where do I start?',qq_partner:'What to watch with my partner?',
+  qq_stars:'Which stars can’t I miss?',qq_favorites:'Who’s going to win?',
+  qq_drama:'What’s the biggest drama this year?',qq_rules:'Explain the basic rules',
+  sh_today:'<span class="emj">📺</span> What’s on now <span class="live-dot"></span>',
+  sub_today:'👆 For each match: “Everything” for the full picture, or “Pundit lines” for expert takes to drop while watching 😎',
+  sh_groups:'<span class="emj">🌍</span> The groups',
+  sub_groups:'👆 Tap a team to open it, then the button to chat with Mundiala about it',
+  sh_gloss:'<span class="emj">📖</span> Didn’t catch a word?',
+  sub_gloss:'👆 Tap a word and Mundiala will explain it simply, in chat',
+  gl_offside:'Offside',gl_penalty:'Penalty',gl_var:'VAR',
+  gl_red:'Red card',gl_advance:'How do they advance?',gl_corner:'Corner',
+  gl_yellow:'Yellow card',gl_stoppage:'Stoppage time',
+  foot_signup:'💌 It’d be lovely if you subscribed <small>· to my newsletter, no pressure</small>',foot_blog:'📖 My blog',
+  foot_text:'Your picks are saved on your device · Mundiala opens in your own ChatGPT<br>All 48 teams · the full group stage, in Israel time. <b>Times are converted automatically</b> · always verify against the official broadcast.',
+  ios_h:'📲 Add to home screen',ios_p1:'To make Mundiala feel like an app on your phone:',
+  ios_p2:'1. Tap the <b>Share</b> button in the browser ⬆️<br>2. Choose <b>“Add to Home Screen”</b><br>3. Done · the icon is on your screen 🎉',ios_ok:'Got it',
+  group:'Group',groupSub:'Top 2 advance + best-third chance',vs:'vs',
+  allInfo:'💬 Everything',wasachBtn:'🗣️ Pundit lines',live:'LIVE',
+  moreToday:'What else is on today?',moreSoon:'What’s on soon?',
+  moreSub:'Mundiala brings an up-to-date schedule in Israel time',schedBtn:'⏰ Today’s schedule',
+  tellAbout:'Tell me about',teamHint:'👆 Tap to chat with Mundiala',opening:'Opening match'},
+ de:{brand:'⚽ WM-Guide · 2026',h1:'Mundiala Nivdala',
+  tagline:'Fußball mit der Clique schauen — ohne die nervige Person zu sein, die ständig fragt 🙄⚽',
+  desc:'Für alle, die Teil dieses verrückten Fests sein wollen — oder einfach 40 Tage lang nicht die Hälfte ihrer Freunde verlieren möchten. Mundiala ist deine Begleiterin: jede Frage, null Urteil. Sie erklärt dir, warum es spannend ist, und die Geschichte hinter jedem Team. Sie sagt dir sogar, was du fragen sollst.',
+  askbig:'<span class="e">⚽</span> Was du heute zur WM wissen musst',
+  heroHint:'👆 Tippen zum Chatten · Mundiala öffnet sich mit fertiger Frage',install:'📲 Aufs Handy installieren',
+  scrollcue:'Weiter unten gibt’s noch viel',
+  sh_ask:'<span class="emj">💬</span> Keine Ahnung, was fragen?',
+  sub_ask:'Wir haben versprochen, Mundiala sagt dir, was du fragen sollst. Tippe eine Frage an, sie öffnet sich fertig — null Aufwand 👇',
+  qq_schedule:'Spielplan, Termine & Zeiten',qq_wasach:'Angeber-Sprüche für heute',
+  qq_beginner:'Ich habe null Ahnung von Fußball — wo fange ich an?',qq_partner:'Was schaue ich mit meinem Partner?',
+  qq_stars:'Welche Stars darf ich nicht verpassen?',qq_favorites:'Wer wird gewinnen?',
+  qq_drama:'Was ist das größte Drama dieses Jahr?',qq_rules:'Erklär mir die Grundregeln',
+  sh_today:'<span class="emj">📺</span> Was läuft jetzt <span class="live-dot"></span>',
+  sub_today:'👆 Für jedes Spiel: „Alles Wichtige“ für den Überblick, oder „Experten-Sprüche“ für clevere Sätze zum Mitreden 😎',
+  sh_groups:'<span class="emj">🌍</span> Die Gruppen',
+  sub_groups:'👆 Tippe ein Team an, dann den Button, um mit Mundiala darüber zu chatten',
+  sh_gloss:'<span class="emj">📖</span> Ein Wort nicht verstanden?',
+  sub_gloss:'👆 Tippe ein Wort an und Mundiala erklärt es dir einfach im Chat',
+  gl_offside:'Abseits',gl_penalty:'Elfmeter',gl_var:'VAR',
+  gl_red:'Rote Karte',gl_advance:'Wie kommt man weiter?',gl_corner:'Eckball',
+  gl_yellow:'Gelbe Karte',gl_stoppage:'Nachspielzeit',
+  foot_signup:'💌 Schön, wenn du dich einträgst <small>· für meinen Newsletter, kein Muss</small>',foot_blog:'📖 Mein Blog',
+  foot_text:'Deine Markierungen werden auf deinem Gerät gespeichert · Mundiala öffnet sich in deinem eigenen ChatGPT<br>Alle 48 Teams · die komplette Gruppenphase, in israelischer Zeit. <b>Zeiten werden automatisch umgerechnet</b> · immer mit der offiziellen Übertragung abgleichen.',
+  ios_h:'📲 Zum Startbildschirm hinzufügen',ios_p1:'Damit sich Mundiala wie eine App auf deinem Handy anfühlt:',
+  ios_p2:'1. Tippe im Browser auf <b>Teilen</b> ⬆️<br>2. Wähle <b>„Zum Home-Bildschirm“</b><br>3. Fertig · das Icon ist auf deinem Bildschirm 🎉',ios_ok:'Verstanden',
+  group:'Gruppe',groupSub:'Top 2 weiter + Chance als bester Dritter',vs:'gegen',
+  allInfo:'💬 Alles Wichtige',wasachBtn:'🗣️ Experten-Sprüche',live:'LIVE',
+  moreToday:'Was läuft heute noch?',moreSoon:'Was läuft demnächst?',
+  moreSub:'Mundiala bringt einen aktuellen Spielplan in israelischer Zeit',schedBtn:'⏰ Heutiger Spielplan',
+  tellAbout:'Erzähl mir über',teamHint:'👆 Tippen, um mit Mundiala zu chatten',opening:'Eröffnungsspiel'}
+};
+
+// ===== תוויות סטטוס + תרגום סיפורי הנבחרות (לפי שם לטיני) =====
+const ST_L={
+ he:{host:'מארחת',contender:'מועמדת',darkhorse:'סוס שחור',underdog:'אנדרדוג'},
+ en:{host:'Host',contender:'Contender',darkhorse:'Dark horse',underdog:'Underdog'},
+ de:{host:'Gastgeber',contender:'Anwärter',darkhorse:'Geheimfavorit',underdog:'Außenseiter'}
+};
+function stx(s){return ST_L[LANG][s];}
+const STORY={
+ 'Mexico':{en:'Veteran host: pressing, emotion and wing play. Opens the whole tournament before a huge home crowd.',de:'Erfahrener Gastgeber: Pressing, Emotion und Flügelspiel. Eröffnet das ganze Turnier vor riesiger Heimkulisse.'},
+ 'South Korea':{en:'An established Asian force with pace and quick transitions. How far can Son carry them?',de:'Etablierte asiatische Macht mit Tempo und schnellem Umschalten. Wie weit trägt Son sie?'},
+ 'South Africa':{en:'A well-organized underdog with quick breaks · back on the big stage after years.',de:'Gut organisierter Außenseiter mit schnellen Kontern · nach Jahren zurück auf der großen Bühne.'},
+ 'Czechia':{en:'A physical, uncomfortable European side that thrives on second balls.',de:'Eine körperbetonte, unbequeme europäische Mannschaft, die von zweiten Bällen lebt.'},
+ 'Canada':{en:'Host with a fast, exciting generation · eager to live up to the hype.',de:'Gastgeber mit einer schnellen, aufregenden Generation · will dem Hype gerecht werden.'},
+ 'Switzerland':{en:'Very solid for the knockouts: structure, balance and composure.',de:'Sehr stabil für die K.-o.-Runde: Ordnung, Balance und Nervenstärke.'},
+ 'Qatar':{en:'Technical and reliant on its familiar stars, with Afif at the heart.',de:'Technisch und abhängig von den bekannten Stars, mit Afif im Zentrum.'},
+ 'Bosnia':{en:'An experienced side, direct and emotional · one more run for the veteran generation.',de:'Eine erfahrene Mannschaft, direkt und emotional · ein letzter Lauf der alten Generation.'},
+ 'Brazil':{en:'A title contender: stars, pace and wing play. A nation’s pride longing to return to the top.',de:'Titelkandidat: Stars, Tempo und Flügelspiel. Der Stolz einer Nation, die zurück an die Spitze will.'},
+ 'Morocco':{en:'No longer a surprise · a real force. Aiming to repeat the 2022 semi-final run.',de:'Keine Überraschung mehr · eine echte Macht. Will das Halbfinale von 2022 wiederholen.'},
+ 'Scotland':{en:'Tough and hard to break down: wingers, second balls and a fight.',de:'Zäh und schwer zu knacken: Flügelspieler, zweite Bälle und Kampf.'},
+ 'Haiti':{en:'The emotional story of the group · a first appearance in generations.',de:'Die emotionale Geschichte der Gruppe · erste Teilnahme seit Generationen.'},
+ 'USA':{en:'An athletic host carrying high expectations · must handle the home pressure.',de:'Athletischer Gastgeber mit hohen Erwartungen · muss dem Heimdruck standhalten.'},
+ 'Türkiye':{en:'Young talent with a high ceiling · turning potential into results.',de:'Junges Talent mit hohem Ceiling · Potenzial in Ergebnisse umwandeln.'},
+ 'Paraguay':{en:'Tough with an attacking edge · could steal the group.',de:'Zäh mit Offensivakzent · könnte die Gruppe stehlen.'},
+ 'Australia':{en:'Disciplined and never-say-die · another underdog story.',de:'Diszipliniert und nie aufgebend · noch eine Außenseitergeschichte.'},
+ 'Germany':{en:'A leading contender with depth · a return to elite status.',de:'Top-Kandidat mit Kadertiefe · Rückkehr in die Spitzenklasse.'},
+ 'Ecuador':{en:'A clear dark horse: tough defense and fast breaks, can go far.',de:'Klarer Geheimfavorit: starke Abwehr und schnelle Konter, kann weit kommen.'},
+ 'Ivory Coast':{en:'Strong and dangerous going forward · if the talent clicks.',de:'Stark und gefährlich nach vorne · wenn das Talent zusammenfindet.'},
+ 'Curaçao':{en:'A debutant with a Dutch core · first time on this stage.',de:'Debütant mit niederländischem Kern · erstmals auf dieser Bühne.'},
+ 'Netherlands':{en:'A dangerous contender · needs sharpness in the decisive areas.',de:'Gefährlicher Anwärter · braucht Schärfe in den entscheidenden Zonen.'},
+ 'Japan':{en:'Modern, well-coached and fast · taking another step up.',de:'Modern, gut trainiert und schnell · der nächste Schritt nach oben.'},
+ 'Sweden':{en:'Red-hot strikers and a hungry side · a dangerous forward duo.',de:'Brandheiße Stürmer und ein hungriges Team · ein gefährliches Sturmduo.'},
+ 'Tunisia':{en:'Compact and stubborn · will drag you into a tight game.',de:'Kompakt und hartnäckig · zieht dich in ein enges Spiel.'},
+ 'Belgium':{en:'A generation in transition with plenty of quality · a last test for the veterans.',de:'Generation im Umbruch mit viel Qualität · ein letzter Test für die Routiniers.'},
+ 'Egypt':{en:'Salah at the center of a tough collective · he has to be decisive.',de:'Salah im Zentrum eines zähen Kollektivs · er muss den Unterschied machen.'},
+ 'Iran':{en:'Tough and organized: a low block and sharp counters, efficiency over flair.',de:'Zäh und organisiert: tiefer Block und scharfe Konter, Effizienz statt Schönheit.'},
+ 'New Zealand':{en:'A physical underdog: long balls, fighting spirit and headers.',de:'Körperlicher Außenseiter: lange Bälle, Kampfgeist und Kopfbälle.'},
+ 'Spain':{en:'European champions and the #1 favorite: possession, pressing and technical finesse. Hinges on Yamal’s form.',de:'Europameister und Topfavorit: Ballbesitz, Pressing und technische Finesse. Hängt an Yamals Form.'},
+ 'Uruguay':{en:'Strong, pressing and talented · the in-between generation must deliver.',de:'Stark, pressend und talentiert · die Zwischengeneration muss liefern.'},
+ 'Cabo Verde':{en:'A tough, organized debutant · a fearless first appearance.',de:'Zäher, organisierter Debütant · ein furchtloses Debüt.'},
+ 'Saudi Arabia':{en:'Intense and unpredictable · chasing another upset.',de:'Intensiv und unberechenbar · auf der Suche nach der nächsten Überraschung.'},
+ 'France':{en:'A prime favorite to win it: speed, depth and huge quality. All that talent needs structure.',de:'Topfavorit auf den Titel: Schnelligkeit, Tiefe und enorme Qualität. So viel Talent braucht Ordnung.'},
+ 'Senegal':{en:'A leading African side with real power · not just there to clear the group.',de:'Führende afrikanische Mannschaft mit echter Power · nicht nur zum Gruppensieg da.'},
+ 'Norway':{en:'Reliant on two men but dangerous · Haaland is the force.',de:'Abhängig von zwei Spielern, aber gefährlich · Haaland ist die Macht.'},
+ 'Iraq':{en:'Direct and full of emotion: tempo, forward drive and aggression.',de:'Direkt und voller Emotion: Tempo, Vorwärtsdrang und Aggressivität.'},
+ 'Argentina':{en:'Reigning champions and very smart: control, patience and timing. Messi’s last ride.',de:'Amtierender Weltmeister und sehr clever: Kontrolle, Geduld und Timing. Messis letzte Runde.'},
+ 'Austria':{en:'A pressing dark horse: intensity, energy and directness.',de:'Pressender Geheimfavorit: Intensität, Energie und Direktheit.'},
+ 'Algeria':{en:'Technical and gifted · flowing football with talent out wide.',de:'Technisch und begabt · flüssiger Fußball mit Talent auf den Außen.'},
+ 'Jordan':{en:'A thrilling debutant: defends then flies forward. A historic first appearance.',de:'Aufregender Debütant: verteidigt und kontert blitzschnell. Ein historisches Debüt.'},
+ 'Portugal':{en:'Very deep and a real contender · less reliance on the icon, more of a system.',de:'Sehr tiefer Kader und echter Anwärter · weniger Abhängigkeit von der Ikone, mehr System.'},
+ 'Colombia':{en:'Balanced and dangerous · a nice blend of creative midfielders.',de:'Ausgewogen und gefährlich · eine schöne Mischung kreativer Mittelfeldspieler.'},
+ 'DR Congo':{en:'Athletic and dangerous in transition: running forward and winning duels.',de:'Athletisch und gefährlich im Umschalten: Tempoläufe und Zweikämpfe.'},
+ 'Uzbekistan':{en:'An organized debutant: discipline, defense and moments of quality.',de:'Organisierter Debütant: Disziplin, Defensive und Qualitätsmomente.'},
+ 'England':{en:'Deep and a natural contender · the talent must finally become a title (the eternal curse).',de:'Tiefer Kader und natürlicher Anwärter · das Talent muss endlich ein Titel werden (der ewige Fluch).'},
+ 'Croatia':{en:'Experienced, smart and tough · one more run for the legendary generation.',de:'Erfahren, clever und zäh · ein letzter Lauf der legendären Generation.'},
+ 'Ghana':{en:'Talent and physicality with some inconsistency · the front line must decide games.',de:'Talent und Physis mit etwas Unbeständigkeit · die Offensive muss entscheiden.'},
+ 'Panama':{en:'Disciplined and well-coached · very hard to break down.',de:'Diszipliniert und gut trainiert · sehr schwer zu knacken.'}
+};
+
+// ===== מיפוי שמות לטיניים לנבחרות וערים (לעברית: כמו שהם; לאנגלית/גרמנית: לטיני) =====
+let _NAME=null;
+function nameMap(){if(_NAME)return _NAME;_NAME={};GROUPS.forEach(g=>g.teams.forEach(t=>{_NAME[t.he]=t.lat;}));return _NAME;}
+function tn(he){return LANG==='he'?he:(nameMap()[he]||he);}
+const VENUE={'אצטקה':'Azteca','גוודלחרה':'Guadalajara','טורונטו':'Toronto','לוס אנג׳לס':'Los Angeles','סנטה קלרה':'Santa Clara','ניו ג׳רזי':'New Jersey','בוסטון':'Boston','ונקובר':'Vancouver','יוסטון':'Houston','דאלאס':'Dallas','פילדלפיה':'Philadelphia','מונטריי':'Monterrey','אטלנטה':'Atlanta','סיאטל':'Seattle','מיאמי':'Miami','קנזס סיטי':'Kansas City','מקסיקו סיטי':'Mexico City'};
+function vn(v){return LANG==='he'?v:(VENUE[v]||v);}
+function nn(note){if(LANG==='he')return note;if(note==='משחק הפתיחה')return T[LANG].opening;const m=note.match(/^בית (.+)$/);return m?`${T[LANG].group} ${m[1]}`:note;}
+function story(t){return LANG==='he'?t.st:((STORY[t.lat]&&STORY[t.lat][LANG])||t.st);}
+
+// ===== החלת השפה: כיוון, טקסטים סטטיים, ורינדור מחדש =====
+function applyLang(){
+  const d=document.documentElement;
+  d.lang=LANG; d.dir=LANG==='he'?'rtl':'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[LANG][k]!=null)el.innerHTML=T[LANG][k];});
+  document.querySelectorAll('#langbar button').forEach(b=>b.classList.toggle('on',b.getAttribute('data-lang')===LANG));
+  render(); renderToday();
+  if(typeof observeIO==='function')observeIO();
+}
+function setLang(l){if(!['he','en','de'].includes(l))return;LANG=l;localStorage.setItem('mn_lang',l);applyLang();}
 
 // בחירה אקראית שלא חוזרת על עצמה פעמיים ברצף → כל לחיצה מרגישה טרייה
 const _last=new Map();
 function pick(a){if(a.length<2)return a[0];let i,p=_last.get(a);do{i=Math.floor(Math.random()*a.length)}while(i===p);_last.set(a,i);return a[i];}
 
-// כל פנייה נפתחת ב-ChatGPT עם האופי של מונדיאלה + התאריך של היום מוטמעים. אפס הדבקה.
-function ask(q){
-  // משחקי היום מוזרקים לכל פנייה → כל כפתור מקבל הקשר ספציפי למשחק של אותו יום
+// ===== הפרסונה לפי שפה: מונדיאלה עונה בשפה שנבחרה =====
+function buildPersona(){
   const l=todayMatches();
+  if(LANG==='en'){
+    const ctx=l.length?`Today’s matches: ${l.map(f=>`${tn(f.home)} vs ${tn(f.away)} at ${f.time}`).join(', ')}. Focus mainly on these. `:'';
+    return `You are Mundiala Nivdala, a warm, witty guide to the 2026 World Cup for anyone starting football from zero. Today is ${locDate()}. ${ctx}Answer in English, short and clear, in a light, amused tone — no judgment, no condescension, and no punchlines or jokes. Your charm is in knowledge and warmth, not gags. Always give real, in-depth content, especially about the players and the story. If a match is taking place today, talk only about it and the players in it, and don’t mention unrelated players or teams. If no match is specified and you’re not sure what’s on today, honestly say it should be verified against an official schedule — don’t guess or invent matches, results, line-ups or players.`;
+  }
+  if(LANG==='de'){
+    const ctx=l.length?`Heutige Spiele: ${l.map(f=>`${tn(f.home)} gegen ${tn(f.away)} um ${f.time}`).join(', ')}. Konzentriere dich vor allem darauf. `:'';
+    return `Du bist Mundiala Nivdala, eine warmherzige, witzige Begleiterin zur WM 2026 für alle, die bei null mit Fußball anfangen. Heute ist ${locDate()}. ${ctx}Antworte auf Deutsch, kurz und klar, in einem leichten, amüsierten Ton — ohne Urteil, ohne Herablassung und ohne Pointen oder Witze. Dein Charme liegt in Wissen und Zuneigung, nicht in Gags. Liefere immer echten, fundierten Inhalt, besonders über die Spieler und die Geschichte. Wenn heute ein Spiel stattfindet, sprich nur darüber und über die beteiligten Spieler und erwähne keine unbeteiligten Spieler oder Teams. Wenn kein Spiel angegeben ist und du nicht sicher bist, was heute läuft, sag ehrlich, dass es mit einem offiziellen Spielplan abgeglichen werden sollte — rate nicht und erfinde keine Spiele, Ergebnisse, Aufstellungen oder Spieler.`;
+  }
   const matchCtx=l.length?`היום משחקים: ${l.map(f=>`${f.home} נגד ${f.away} ב-${f.time}`).join(', ')}. התייחסי בעיקר למשחקים האלה. `:'';
-  const persona=`את מונדיאלה נבדלה, מדריכה חמה ומבודחת למונדיאל 2026 לכל מי שמתחיל מאפס בכדורגל. היום ${todayHe()}. ${matchCtx}עני בעברית, קצר וברור, בטון קליל ומבודח - בלי שיפוט, בלי התנשאות, ובלי פאנצ'ים, בדיחות או עקיצות. החן שלך הוא בידע ובחיבה, לא בקטעים. תמיד תני תוכן אמיתי ומעמיק, במיוחד על השחקנים והסיפור. אם צוין משחק שמתקיים היום - דברי רק עליו ועל השחקנים שמשחקים בו, ואל תזכירי שחקן או נבחרת שלא קשורים אליו. אם לא צוין משחק ואת לא בטוחה מה משוחק היום - אמרי בכנות שצריך לאמת מול לוח רשמי, אל תנחשי ואל תמציאי משחקים, תוצאות, הרכבים או שחקנים.`;
-  window.open("https://chatgpt.com/?q="+encodeURIComponent(persona+"\n\n"+q),"_blank");
+  return `את מונדיאלה נבדלה, מדריכה חמה ומבודחת למונדיאל 2026 לכל מי שמתחיל מאפס בכדורגל. היום ${locDate()}. ${matchCtx}עני בעברית, קצר וברור, בטון קליל ומבודח - בלי שיפוט, בלי התנשאות, ובלי פאנצ'ים, בדיחות או עקיצות. החן שלך הוא בידע ובחיבה, לא בקטעים. תמיד תני תוכן אמיתי ומעמיק, במיוחד על השחקנים והסיפור. אם צוין משחק שמתקיים היום - דברי רק עליו ועל השחקנים שמשחקים בו, ואל תזכירי שחקן או נבחרת שלא קשורים אליו. אם לא צוין משחק ואת לא בטוחה מה משוחק היום - אמרי בכנות שצריך לאמת מול לוח רשמי, אל תנחשי ואל תמציאי משחקים, תוצאות, הרכבים או שחקנים.`;
 }
+// כל פנייה נפתחת ב-ChatGPT עם הפרסונה והתאריך מוטמעים. אפס הדבקה.
+function ask(q){window.open("https://chatgpt.com/?q="+encodeURIComponent(buildPersona()+"\n\n"+q),"_blank");}
 let tt;function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),2600);}
 
 // ===== מנוע השאלות: כל כפתור מגריל ניסוח חי, מגוון ומעודכן =====
 const Q={
- start:[
+ start:{he:[
   `אני מתחיל/ה לגמרי בכדורגל ורוצה להיכנס למונדיאל 2026. מאיפה מתחילים, איך הטורניר בנוי ומה הכי כיף לראות?`,
   `תכף מונדיאל 2026 ואני אפס בכדורגל. תני לי את ההתחלה הכי פשוטה וכיפית, בלי להציף אותי.`,
   `אני רוצה ליהנות ממונדיאל 2026 בלי להתבייש שאני לא מבין/ה כלום. מה 3 הדברים הראשונים שכדאי לי לדעת?`,
   `מה הכי שווה לדעת היום לקראת מונדיאל 2026 אם אני בא/ה בלי שום רקע בכדורגל?`,
   `הסבירי לי את מונדיאל 2026 כאילו אני אורח/ת במסיבה שכולם מדברים עליו ואני רוצה להתחבר. מאיפה מתחילים?`
- ],
- schedule:[
+ ],en:[
+  `I’m a total beginner at football and want to get into the 2026 World Cup. Where do I start, how is the tournament structured, and what’s the most fun to watch?`,
+  `The 2026 World Cup is almost here and I know nothing about football. Give me the simplest, most fun way in, without overwhelming me.`
+ ],de:[
+  `Ich bin absoluter Fußball-Anfänger und will in die WM 2026 reinkommen. Wo fange ich an, wie ist das Turnier aufgebaut und was macht am meisten Spaß zu schauen?`,
+  `Die WM 2026 steht vor der Tür und ich habe null Ahnung von Fußball. Gib mir den einfachsten, unterhaltsamsten Einstieg, ohne mich zu überfordern.`
+ ]},
+ schedule:{he:[
   `מה לוח המשחקים של היום במונדיאל 2026? תני לי מי נגד מי והשעות לפי שעון ישראל, ובדקי מקור עדכני.`,
   `אילו משחקים יש היום ומחר במונדיאל 2026 ובאיזו שעה (שעון ישראל)? ומה הכי שווה לראות?`,
   `תעשי לי סדר: מה משחקים היום במונדיאל 2026, מתי, ועל איזה משחק הכי כדאי לשמור אנרגיה?`,
   `תכיני לי את היום: כל המשחקים של היום במונדיאל 2026 לפי שעון ישראל, מהמוקדם למאוחר.`
- ],
- wasach:[
+ ],en:[
+  `What’s today’s match schedule at the 2026 World Cup? Tell me who plays whom and the kick-off times, and check an up-to-date source.`,
+  `Which matches are on today and tomorrow at the 2026 World Cup, and at what time? And which one is most worth watching?`
+ ],de:[
+  `Wie sieht der heutige Spielplan der WM 2026 aus? Sag mir, wer gegen wen spielt und die Anstoßzeiten, und prüfe eine aktuelle Quelle.`,
+  `Welche Spiele finden heute und morgen bei der WM 2026 statt, und um welche Uhrzeit? Und welches lohnt sich am meisten?`
+ ]},
+ wasach:{he:[
   `תני לי 3 משפטי ווסאח של ידענים למשחקים של היום במונדיאל 2026 - אמירות חדות ומדויקות (טקטיקה, היסטוריה, שחקן מפתח) שמראות שאני מבין/ה כדורגל. בלי בדיחות ובלי שטויות.`,
   `אני רוצה להישמע כמו ותיק/ה הערב: תני לי כמה תובנות חכמות וקצרות על המשחקים של היום - דברים שרק מי שמבין יודע.`,
   `תני לי 3 נקודות מפתח על המשחקים של היום שכדאי לדעת - מה מכריע ועל מי להסתכל - כדי לדבר עליהם כמו מבין/ה.`
- ],
- beginner:[
+ ],en:[
+  `Give me 3 expert one-liners for today’s 2026 World Cup matches — sharp, accurate takes (tactics, history, a key player) that make me sound like I know football. No jokes, no fluff.`,
+  `I want to sound like a veteran tonight: give me a few smart, short insights about today’s matches — things only someone who knows the game would say.`
+ ],de:[
+  `Gib mir 3 Experten-Sprüche zu den heutigen WM-2026-Spielen — pointierte, treffende Aussagen (Taktik, Historie, ein Schlüsselspieler), die mich wie einen Kenner klingen lassen. Keine Witze, kein Geschwafel.`,
+  `Ich will heute Abend wie ein alter Hase klingen: gib mir ein paar kluge, kurze Einsichten zu den heutigen Spielen — Dinge, die nur Kenner wissen.`
+ ]},
+ beginner:{he:[
   `אני אפס בכדורגל. תסבירי לי בקצרה ובכיף איך מבינים מונדיאל, מאיפה מתחילים?`,
   `מה המינימום שאני חייב/ת להבין בכדורגל כדי ליהנות ממשחק מונדיאל בלי ללכת לאיבוד?`,
   `תני לי שיעור מונדיאל ל-5 דקות: רק מה שחשוב, בלי הרצאות.`
- ],
- partner:[
+ ],en:[
+  `I know nothing about football. Explain briefly and in a fun way how to follow the World Cup — where do I start?`,
+  `What’s the bare minimum I need to understand about football to enjoy a World Cup match without getting lost?`
+ ],de:[
+  `Ich habe null Ahnung von Fußball. Erklär mir kurz und unterhaltsam, wie man die WM verfolgt — wo fange ich an?`,
+  `Was muss ich mindestens über Fußball verstehen, um ein WM-Spiel zu genießen, ohne den Faden zu verlieren?`
+ ]},
+ partner:{he:[
   `איזה משחק הכי כיף לראות היום עם בן/בת הזוג, גם בלי להבין כדורגל? למה דווקא הוא?`,
   `אנחנו רוצים ערב כדורגל זוגי היום. איזה משחק הכי דרמטי וכיף לצפייה משותפת?`,
   `תמליצי על משחק אחד להיום שגם מי שלא אוהב/ת כדורגל ייהנה ממנו, ומה להגיד תוך כדי כדי שיהיה כיף.`
- ],
- stars:[
+ ],en:[
+  `Which match is the most fun to watch today with my partner, even without understanding football? Why that one?`,
+  `We want a couples’ football night today. Which match is the most dramatic and fun to watch together?`
+ ],de:[
+  `Welches Spiel macht heute mit meinem Partner am meisten Spaß, auch ohne Fußball zu verstehen? Warum gerade das?`,
+  `Wir wollen heute einen Fußballabend zu zweit. Welches Spiel ist am dramatischsten und schönsten zum gemeinsamen Schauen?`
+ ]},
+ stars:{he:[
   `מי הכוכבים הכי גדולים במונדיאל 2026 שאסור לפספס, ולמה דווקא הם?`,
   `אם אני זוכר/ת רק 5 שמות מכל המונדיאל - מי הם צריכים להיות ולמה?`,
   `מי השחקן שכולם ידברו עליו במונדיאל 2026, ומה הסיפור שלו?`
- ],
- favorites:[
+ ],en:[
+  `Who are the biggest stars at the 2026 World Cup that I can’t miss, and why them specifically?`,
+  `If I only remember 5 names from the whole World Cup — who should they be and why?`
+ ],de:[
+  `Wer sind die größten Stars der WM 2026, die ich nicht verpassen darf, und warum gerade sie?`,
+  `Wenn ich mir nur 5 Namen von der ganzen WM merke — welche sollten es sein und warum?`
+ ]},
+ favorites:{he:[
   `מי הנבחרות המועמדות לזכות במונדיאל 2026, ומי הסוסים השחורים שיכולים להפתיע?`,
   `אם היית מהמרת - מי לוקח/ת את מונדיאל 2026, ומי הנבחרת שתפתיע את כולם?`,
   `תני לי טבלת סיכויים קצרה למונדיאל 2026: הפייבוריטיות, ומי שיכול/ה לקלקל להן.`
- ],
- drama:[
+ ],en:[
+  `Which teams are favorites to win the 2026 World Cup, and which dark horses could surprise everyone?`,
+  `If you were betting — who wins the 2026 World Cup, and which team springs the big surprise?`
+ ],de:[
+  `Welche Teams sind Favoriten auf den WM-2026-Titel, und welche Geheimfavoriten könnten überraschen?`,
+  `Wenn du wetten müsstest — wer holt die WM 2026, und welches Team sorgt für die große Überraschung?`
+ ]},
+ drama:{he:[
   `מה הסיפורים והדרמות הכי מעניינים במונדיאל 2026? מי תחת לחץ, מי במשחק האחרון של הקריירה?`,
   `תני לי את הרכילות הגדולה של מונדיאל 2026: יריבויות, נקמות וכוכבים בסוף הדרך.`,
   `מה הדבר הכי דרמטי שיכול לקרות במונדיאל 2026, ועל מי כדאי לי לעקוב בשביל הסיפור?`
- ],
- rules:[
+ ],en:[
+  `What are the most interesting stories and dramas at the 2026 World Cup? Who’s under pressure, who’s playing their career’s last tournament?`,
+  `Give me the big talking points of the 2026 World Cup: rivalries, revenge tales and stars at the end of the road.`
+ ],de:[
+  `Was sind die spannendsten Geschichten und Dramen der WM 2026? Wer steht unter Druck, wer spielt sein letztes großes Turnier?`,
+  `Gib mir die großen Gesprächsthemen der WM 2026: Rivalitäten, Revanchen und Stars am Ende ihrer Laufbahn.`
+ ]},
+ rules:{he:[
   `תסבירי לי בפשטות את החוקים הכי בסיסיים בכדורגל שצריך כדי ליהנות ממשחק.`,
   `מה 3 החוקים שאם אבין אותם כבר לא אהיה אבוד/ה במשחק כדורגל?`,
   `תסבירי לי כדורגל ב-2 דקות: כמה שחקנים, כמה זמן, ואיך קובעים מי ניצח.`
- ]
+ ],en:[
+  `Explain simply the most basic football rules I need to enjoy a match.`,
+  `What are the 3 rules that, once I get them, mean I’m no longer lost watching football?`
+ ],de:[
+  `Erklär mir einfach die grundlegendsten Fußballregeln, die ich brauche, um ein Spiel zu genießen.`,
+  `Was sind die 3 Regeln, die mich, sobald ich sie verstehe, beim Fußballschauen nicht mehr verloren wirken lassen?`
+ ]}
 };
-function askQ(k){ask(pick(Q[k]));}
+function askQ(k){ask(pick(Q[k][LANG]||Q[k].he));}
 
 // משחקי היום - השאלה מותאמת למשחק הספציפי, והזווית מתחלפת בכל לחיצה
-function matchAsk(h,a){ask(pick([
-  `ספרי לי לעומק על ${h} נגד ${a} היום במונדיאל 2026, עם דגש על השחקנים: 2-3 כוכבים מכל צד - מי הם, מה מיוחד בהם ועל מי הכי כדאי לעקוב. הוסיפי את הסיפור והרקע של המשחק, והזווית הכי מעניינת לעקוב אחריה. טון קליל ומבודח אבל ענייני, וסיימי במשפט חכם אחד שאפשר להרשים בו חברים.`,
-  `אני הולך/ת לראות ${h} נגד ${a} היום ורוצה להבין לעומק - בעיקר את השחקנים. מי הכוכבים של שתי הנבחרות, מה הסיפור של כל אחד ועל מי לעקוב, ומה הדרמה הגדולה של המשחק. ענייני וקליל, בלי בדיחות.`,
-  `תעמיקי לי על ${h} נגד ${a} היום: מי השחקנים שחייבים להכיר בכל צד ולמה דווקא הם, מה הרקע והסיפור של המשחק, ועל מה לשים לב במהלך 90 הדקות. סיימי במשפט חכם אחד להרשים בו חברים.`
-]));}
-function matchWasach(h,a){ask(pick([
-  `תני לי 3 משפטי ווסאח של ידענים על ${h} נגד ${a} היום - אמירות חדות ומדויקות על טקטיקה, היסטוריה או שחקן מפתח, שאפשר לזרוק תוך כדי ולהישמע כמו מי שבאמת מבין כדורגל. בלי בדיחות ובלי שטויות.`,
-  `אני רוצה להישמע מבין/ה ב-${h} נגד ${a}: תני לי כמה תובנות קצרות וחכמות על הנבחרות או השחקנים - דברים שרק מי שמבין יודע, מדויק ונקי.`,
-  `תני לי 3 נקודות מפתח על ${h} נגד ${a} שכדאי לדעת - מה יכריע, על מי להסתכל, ומה הרקע - כדי לדבר על המשחק כמו ותיק/ה.`
-]));}
+function matchAsk(h,a){const H=tn(h),A=tn(a);ask(pick(({
+ he:[
+  `ספרי לי לעומק על ${H} נגד ${A} היום במונדיאל 2026, עם דגש על השחקנים: 2-3 כוכבים מכל צד - מי הם, מה מיוחד בהם ועל מי הכי כדאי לעקוב. הוסיפי את הסיפור והרקע של המשחק, והזווית הכי מעניינת לעקוב אחריה. טון קליל ומבודח אבל ענייני, וסיימי במשפט חכם אחד שאפשר להרשים בו חברים.`,
+  `אני הולך/ת לראות ${H} נגד ${A} היום ורוצה להבין לעומק - בעיקר את השחקנים. מי הכוכבים של שתי הנבחרות, מה הסיפור של כל אחד ועל מי לעקוב, ומה הדרמה הגדולה של המשחק. ענייני וקליל, בלי בדיחות.`,
+  `תעמיקי לי על ${H} נגד ${A} היום: מי השחקנים שחייבים להכיר בכל צד ולמה דווקא הם, מה הרקע והסיפור של המשחק, ועל מה לשים לב במהלך 90 הדקות. סיימי במשפט חכם אחד להרשים בו חברים.`
+ ],
+ en:[
+  `Tell me in depth about ${H} vs ${A} today at the 2026 World Cup, focusing on the players: 2–3 stars on each side — who they are, what makes them special, and who to watch most. Add the story and background of the match and the most interesting angle to follow. Light, amused but substantive tone, and finish with one smart line I can impress friends with.`,
+  `I’m about to watch ${H} vs ${A} today and want real depth — mainly the players. Who are the stars on both sides, each one’s story and who to follow, and what’s the big drama of the match. Substantive and light, no jokes.`
+ ],
+ de:[
+  `Erzähl mir ausführlich über ${H} gegen ${A} heute bei der WM 2026, mit Fokus auf die Spieler: 2–3 Stars je Seite — wer sie sind, was sie besonders macht und wen man am meisten beobachten sollte. Ergänze die Geschichte und den Hintergrund des Spiels und den spannendsten Blickwinkel. Leichter, amüsierter, aber sachlicher Ton, und schließe mit einem klugen Satz, mit dem ich Freunde beeindrucke.`,
+  `Ich schaue heute ${H} gegen ${A} und will echte Tiefe — vor allem die Spieler. Wer sind die Stars beider Teams, die Geschichte jedes Einzelnen und wen man verfolgen sollte, und was ist das große Drama des Spiels. Sachlich und leicht, ohne Witze.`
+ ]
+})[LANG]));}
+function matchWasach(h,a){const H=tn(h),A=tn(a);ask(pick(({
+ he:[
+  `תני לי 3 משפטי ווסאח של ידענים על ${H} נגד ${A} היום - אמירות חדות ומדויקות על טקטיקה, היסטוריה או שחקן מפתח, שאפשר לזרוק תוך כדי ולהישמע כמו מי שבאמת מבין כדורגל. בלי בדיחות ובלי שטויות.`,
+  `אני רוצה להישמע מבין/ה ב-${H} נגד ${A}: תני לי כמה תובנות קצרות וחכמות על הנבחרות או השחקנים - דברים שרק מי שמבין יודע, מדויק ונקי.`,
+  `תני לי 3 נקודות מפתח על ${H} נגד ${A} שכדאי לדעת - מה יכריע, על מי להסתכל, ומה הרקע - כדי לדבר על המשחק כמו ותיק/ה.`
+ ],
+ en:[
+  `Give me 3 expert one-liners about ${H} vs ${A} today — sharp, accurate takes on tactics, history or a key player, that I can drop while watching to sound like someone who really knows football. No jokes, no fluff.`,
+  `I want to sound knowledgeable about ${H} vs ${A}: give me a few short, smart insights about the teams or players — things only someone who gets it would know, precise and clean.`
+ ],
+ de:[
+  `Gib mir 3 Experten-Sprüche zu ${H} gegen ${A} heute — pointierte, treffende Aussagen zu Taktik, Historie oder einem Schlüsselspieler, die ich beim Schauen einwerfen kann, um wie ein echter Kenner zu klingen. Keine Witze, kein Geschwafel.`,
+  `Ich will bei ${H} gegen ${A} kompetent klingen: gib mir ein paar kurze, kluge Einsichten zu den Teams oder Spielern — Dinge, die nur Kenner wissen, präzise und sauber.`
+ ]
+})[LANG]));}
 
 // מילון - הסבר בפשטות, מתחלף בכל לחיצה
 const GLOSS={
- offside:[`תסבירי לי בפשטות מה זה נבדל בכדורגל, ולמה זה משנה כשרואים משחק?`,`נבדל - תסבירי לי כאילו אני בן/בת 10, עם דוגמה פשוטה.`,`למה כל הזמן שורקים נבדל ומבטלים גולים? תסבירי לי בקצרה.`],
- penalty:[`תסבירי לי בפשטות מה זה פנדל ולמה הוא כל כך דרמטי?`,`מתי נותנים פנדל ולמה כולם משתגעים כשזה קורה?`],
- var:[`תסבירי לי בפשטות מה זה VAR ולמה עוצרים את המשחק?`,`VAR - מה זה, למה זה לוקח כל כך הרבה זמן, ולמה כולם מתעצבנים מזה?`],
- red:[`תסבירי לי בפשטות מה זה כרטיס אדום ואיך זה משנה את המשחק?`,`כרטיס אדום מול כרטיס צהוב - מה ההבדל ולמה זו דרמה?`],
- advance:[`תסבירי לי בפשטות איך עובדת שיטת הבתים והניקוד במונדיאל 2026, ומי עולה הלאה?`,`איך יודעים מי עולה מהבית במונדיאל 2026? תסבירי לי את הניקוד בפשטות.`],
- corner:[`תסבירי לי בפשטות מה זה בעיטת קרן, מתי נפסקת, ולמה זה הזדמנות טובה לגול?`,`קרן - מתי נותנים אותה ולמה כולם מתרגשים?`],
- yellow:[`תסבירי לי בפשטות מה זה כרטיס צהוב, על מה מקבלים אותו, ומה קורה אם מקבלים שניים?`,`כרטיס צהוב מול אדום - מה ההבדל בקצרה?`],
- stoppage:[`תסבירי לי בפשטות מה זה תוספת זמן (דקות פציעות) ולמה המשחק לא נגמר בדיוק ב-90 דקות?`,`למה השופט מוסיף דקות בסוף המשחק, ואיך יודעים כמה?`]
+ offside:{he:[`תסבירי לי בפשטות מה זה נבדל בכדורגל, ולמה זה משנה כשרואים משחק?`,`נבדל - תסבירי לי כאילו אני בן/בת 10, עם דוגמה פשוטה.`,`למה כל הזמן שורקים נבדל ומבטלים גולים? תסבירי לי בקצרה.`],en:[`Explain simply what offside is in football, and why it matters when watching a match.`,`Offside — explain it like I’m 10, with a simple example.`],de:[`Erklär mir einfach, was Abseits im Fußball ist und warum es beim Zuschauen wichtig ist.`,`Abseits — erklär es mir, als wäre ich 10, mit einem einfachen Beispiel.`]},
+ penalty:{he:[`תסבירי לי בפשטות מה זה פנדל ולמה הוא כל כך דרמטי?`,`מתי נותנים פנדל ולמה כולם משתגעים כשזה קורה?`],en:[`Explain simply what a penalty is and why it’s so dramatic.`,`When is a penalty given and why does everyone go wild when it happens?`],de:[`Erklär mir einfach, was ein Elfmeter ist und warum er so dramatisch ist.`,`Wann gibt es einen Elfmeter und warum drehen alle durch, wenn es passiert?`]},
+ var:{he:[`תסבירי לי בפשטות מה זה VAR ולמה עוצרים את המשחק?`,`VAR - מה זה, למה זה לוקח כל כך הרבה זמן, ולמה כולם מתעצבנים מזה?`],en:[`Explain simply what VAR is and why the game gets stopped for it.`,`VAR — what is it, why does it take so long, and why does everyone get annoyed by it?`],de:[`Erklär mir einfach, was der VAR ist und warum das Spiel dafür unterbrochen wird.`,`VAR — was ist das, warum dauert es so lange, und warum regen sich alle darüber auf?`]},
+ red:{he:[`תסבירי לי בפשטות מה זה כרטיס אדום ואיך זה משנה את המשחק?`,`כרטיס אדום מול כרטיס צהוב - מה ההבדל ולמה זו דרמה?`],en:[`Explain simply what a red card is and how it changes the game.`,`Red card vs yellow card — what’s the difference and why is it such drama?`],de:[`Erklär mir einfach, was eine Rote Karte ist und wie sie das Spiel verändert.`,`Rote Karte vs. Gelbe Karte — was ist der Unterschied und warum ist es so dramatisch?`]},
+ advance:{he:[`תסבירי לי בפשטות איך עובדת שיטת הבתים והניקוד במונדיאל 2026, ומי עולה הלאה?`,`איך יודעים מי עולה מהבית במונדיאל 2026? תסבירי לי את הניקוד בפשטות.`],en:[`Explain simply how the group stage and points work at the 2026 World Cup, and who advances.`,`How do you know who advances from a group at the 2026 World Cup? Explain the points simply.`],de:[`Erklär mir einfach, wie die Gruppenphase und die Punkte bei der WM 2026 funktionieren und wer weiterkommt.`,`Woran erkennt man, wer aus einer Gruppe bei der WM 2026 weiterkommt? Erklär mir die Punkte einfach.`]},
+ corner:{he:[`תסבירי לי בפשטות מה זה בעיטת קרן, מתי נפסקת, ולמה זה הזדמנות טובה לגול?`,`קרן - מתי נותנים אותה ולמה כולם מתרגשים?`],en:[`Explain simply what a corner kick is, when it’s awarded, and why it’s a good goal chance.`,`Corner — when is it given and why does everyone get excited?`],de:[`Erklär mir einfach, was ein Eckball ist, wann es ihn gibt und warum er eine gute Torchance ist.`,`Eckball — wann gibt es ihn und warum freuen sich alle?`]},
+ yellow:{he:[`תסבירי לי בפשטות מה זה כרטיס צהוב, על מה מקבלים אותו, ומה קורה אם מקבלים שניים?`,`כרטיס צהוב מול אדום - מה ההבדל בקצרה?`],en:[`Explain simply what a yellow card is, what you get it for, and what happens if you get two.`,`Yellow card vs red card — what’s the difference, briefly?`],de:[`Erklär mir einfach, was eine Gelbe Karte ist, wofür man sie bekommt und was passiert, wenn man zwei kassiert.`,`Gelbe Karte vs. Rote Karte — was ist der Unterschied, kurz gesagt?`]},
+ stoppage:{he:[`תסבירי לי בפשטות מה זה תוספת זמן (דקות פציעות) ולמה המשחק לא נגמר בדיוק ב-90 דקות?`,`למה השופט מוסיף דקות בסוף המשחק, ואיך יודעים כמה?`],en:[`Explain simply what stoppage time (injury time) is and why the game doesn’t end exactly at 90 minutes.`,`Why does the referee add minutes at the end, and how do you know how many?`],de:[`Erklär mir einfach, was Nachspielzeit ist und warum das Spiel nicht genau nach 90 Minuten endet.`,`Warum gibt der Schiedsrichter am Ende Minuten dazu, und woher weiß man, wie viele?`]}
 };
-function askGloss(k){ask(pick(GLOSS[k]));}
+function askGloss(k){ask(pick(GLOSS[k][LANG]||GLOSS[k].he));}
 
 // כפתורים "כלליים" שמדברים על "היום" - מזריקים את המשחק/ים האמיתי/ים מהדאטה כדי שלא ינחשו
 function todayMatches(){const tk=dkey(new Date());return FIXTURES.filter(f=>f.date===tk);}
-function todayLine(){const l=todayMatches();return l.length?`היום (${todayHe()}) משחקים: ${l.map(f=>`${f.home} נגד ${f.away} ב-${f.time}`).join(', ')}. `:'';}
-function askSchedule(){const l=todayMatches();ask(l.length?pick([
-  `${todayLine()}אשרי לי את השעות לפי שעון ישראל, ותגידי על איזה מהם הכי כדאי לשמור אנרגיה. אל תוסיפי משחקים אחרים.`,
-  `${todayLine()}ספרי לי בקצרה על כל אחד מהמשחקים האלה: מי הפייבוריט, מי הכוכב, ולמה כיף לראות.`,
-  `${todayLine()}תני לי סדר ליום סביב המשחקים האלה בלבד - מתי כל אחד (שעון ישראל) ומה הכי שווה.`
-]):pick([
-  `מה לוח המשחקים של היום (${todayHe()}) במונדיאל 2026? בדקי מקור עדכני, תני מי נגד מי ושעות לפי שעון ישראל, ואל תמציאי משחקים.`,
-  `אילו משחקים יש היום ומחר במונדיאל 2026 (שעון ישראל)? אם את לא בטוחה, אמרי שצריך לאמת מול לוח רשמי.`
-]));}
-function askWasach(){const l=todayMatches();const m=l.length?l.map(f=>`${f.home} נגד ${f.away}`).join(' ו-'):'';ask(l.length?pick([
-  `${todayLine()}תני לי 3 משפטי ווסאח של ידענים על ${m} - אמירות חדות ומדויקות (טקטיקה, היסטוריה, שחקן מפתח) שאפשר לזרוק תוך כדי המשחק ולהישמע כמו מי שמבין כדורגל. רק על הנבחרות והשחקנים שבמשחק, בלי בדיחות ובלי להמציא.`,
+function todayLine(){const l=todayMatches();if(!l.length)return '';
+  if(LANG==='en')return `Today (${locDate()}) matches: ${l.map(f=>`${tn(f.home)} vs ${tn(f.away)} at ${f.time}`).join(', ')}. `;
+  if(LANG==='de')return `Heute (${locDate()}) Spiele: ${l.map(f=>`${tn(f.home)} gegen ${tn(f.away)} um ${f.time}`).join(', ')}. `;
+  return `היום (${locDate()}) משחקים: ${l.map(f=>`${f.home} נגד ${f.away} ב-${f.time}`).join(', ')}. `;}
+// שמות המשחקים של היום, מחוברים ב"ו-"/"and"/"und", בשפה הנבחרת
+function todayMatchNames(){const l=todayMatches();if(!l.length)return '';const j=LANG==='en'?' and ':(LANG==='de'?' und ':' ו-');return l.map(f=>`${tn(f.home)} ${T[LANG].vs} ${tn(f.away)}`).join(j);}
+
+function askSchedule(){const l=todayMatches(),t=todayLine();ask(l.length?pick(({
+ he:[`${t}אשרי לי את השעות לפי שעון ישראל, ותגידי על איזה מהם הכי כדאי לשמור אנרגיה. אל תוסיפי משחקים אחרים.`,
+  `${t}ספרי לי בקצרה על כל אחד מהמשחקים האלה: מי הפייבוריט, מי הכוכב, ולמה כיף לראות.`,
+  `${t}תני לי סדר ליום סביב המשחקים האלה בלבד - מתי כל אחד (שעון ישראל) ומה הכי שווה.`],
+ en:[`${t}Confirm the kick-off times (Israel time) and tell me which one is most worth saving energy for. Don’t add other matches.`,
+  `${t}Tell me briefly about each of these matches: who’s the favorite, who’s the star, and why it’s fun to watch.`],
+ de:[`${t}Bestätige die Anstoßzeiten (israelische Zeit) und sag mir, für welches Spiel ich am meisten Energie aufsparen sollte. Füge keine anderen Spiele hinzu.`,
+  `${t}Erzähl mir kurz zu jedem dieser Spiele: wer ist Favorit, wer ist der Star, und warum macht es Spaß zu schauen.`]
+})[LANG]):pick(({
+ he:[`מה לוח המשחקים של היום (${locDate()}) במונדיאל 2026? בדקי מקור עדכני, תני מי נגד מי ושעות לפי שעון ישראל, ואל תמציאי משחקים.`,
+  `אילו משחקים יש היום ומחר במונדיאל 2026 (שעון ישראל)? אם את לא בטוחה, אמרי שצריך לאמת מול לוח רשמי.`],
+ en:[`What’s today’s (${locDate()}) match schedule at the 2026 World Cup? Check an up-to-date source, give who plays whom and kick-off times in Israel time, and don’t invent matches.`],
+ de:[`Wie sieht der heutige (${locDate()}) Spielplan der WM 2026 aus? Prüfe eine aktuelle Quelle, nenne wer gegen wen spielt und die Anstoßzeiten in israelischer Zeit, und erfinde keine Spiele.`]
+})[LANG]));}
+
+function askWasach(){const l=todayMatches(),t=todayLine(),m=todayMatchNames();ask(l.length?pick(({
+ he:[`${t}תני לי 3 משפטי ווסאח של ידענים על ${m} - אמירות חדות ומדויקות (טקטיקה, היסטוריה, שחקן מפתח) שאפשר לזרוק תוך כדי המשחק ולהישמע כמו מי שמבין כדורגל. רק על הנבחרות והשחקנים שבמשחק, בלי בדיחות ובלי להמציא.`,
   `אני רוצה להישמע כמו ותיק/ה ב-${m} היום: תני לי כמה תובנות חכמות וקצרות על הנבחרות, הטקטיקה או השחקנים - דברים שרק מי שמבין יודע, מדויק ונקי.`,
-  `${todayLine()}תני לי 3 נקודות מפתח על ${m} שכדאי לדעת לפני המשחק - מה מכריע, על מי להסתכל ומה ההיסטוריה - כדי לדבר עליו כמו מבין/ה.`
-]):pick([
-  `בדקי איזה משחק משוחק היום (${todayHe()}) במונדיאל 2026, ותני לי 3 משפטי ווסאח של ידענים עליו - תובנות חדות ומדויקות שמראות שאני מבין/ה כדורגל. אם לא בטוחה - אמרי שצריך לאמת, אל תמציאי.`
-]));}
-function askPartner(){const t=todayLine();ask(t?pick([
-  `${t}איזה מהמשחקים האלה הכי כיף לראות היום עם בן/בת הזוג, גם בלי להבין כדורגל? למה דווקא הוא, ומה להגיד תוך כדי?`,
-  `${t}אנחנו רוצים ערב כדורגל זוגי. מבין המשחקים האלה - מה הכי דרמטי וכיף לצפייה משותפת?`
-]):pick([
-  `בדקי מה משוחק היום במונדיאל 2026, ותמליצי על משחק אחד שכיף לראות עם בן/בת הזוג גם בלי רקע בכדורגל. אל תמציאי, ואמרי אם צריך לאמת.`
-]));}
+  `${t}תני לי 3 נקודות מפתח על ${m} שכדאי לדעת לפני המשחק - מה מכריע, על מי להסתכל ומה ההיסטוריה - כדי לדבר עליו כמו מבין/ה.`],
+ en:[`${t}Give me 3 expert one-liners about ${m} — sharp, accurate takes (tactics, history, a key player) I can drop while watching to sound like someone who knows football. Only about the teams and players in the match, no jokes and no making things up.`,
+  `I want to sound like a veteran about ${m} today: give me a few smart, short insights about the teams, tactics or players — things only someone who gets it would know, precise and clean.`],
+ de:[`${t}Gib mir 3 Experten-Sprüche zu ${m} — pointierte, treffende Aussagen (Taktik, Historie, ein Schlüsselspieler), die ich beim Schauen einwerfen kann, um wie ein Kenner zu klingen. Nur über die Teams und Spieler im Spiel, keine Witze und nichts erfinden.`,
+  `Ich will heute bei ${m} wie ein alter Hase klingen: gib mir ein paar kluge, kurze Einsichten zu den Teams, der Taktik oder den Spielern — Dinge, die nur Kenner wissen, präzise und sauber.`]
+})[LANG]):pick(({
+ he:[`בדקי איזה משחק משוחק היום (${locDate()}) במונדיאל 2026, ותני לי 3 משפטי ווסאח של ידענים עליו - תובנות חדות ומדויקות שמראות שאני מבין/ה כדורגל. אם לא בטוחה - אמרי שצריך לאמת, אל תמציאי.`],
+ en:[`Check which match is on today (${locDate()}) at the 2026 World Cup and give me 3 expert one-liners about it — sharp, accurate insights that show I know football. If unsure, say it should be verified, don’t make things up.`],
+ de:[`Prüfe, welches Spiel heute (${locDate()}) bei der WM 2026 läuft, und gib mir 3 Experten-Sprüche dazu — pointierte, treffende Einsichten, die zeigen, dass ich Fußball verstehe. Wenn unsicher, sag, dass es geprüft werden sollte, und erfinde nichts.`]
+})[LANG]));}
+
+function askPartner(){const t=todayLine();ask(t?pick(({
+ he:[`${t}איזה מהמשחקים האלה הכי כיף לראות היום עם בן/בת הזוג, גם בלי להבין כדורגל? למה דווקא הוא, ומה להגיד תוך כדי?`,
+  `${t}אנחנו רוצים ערב כדורגל זוגי. מבין המשחקים האלה - מה הכי דרמטי וכיף לצפייה משותפת?`],
+ en:[`${t}Which of these matches is the most fun to watch today with my partner, even without understanding football? Why that one, and what to say while watching?`,
+  `${t}We want a couples’ football night. Of these matches — which is the most dramatic and fun to watch together?`],
+ de:[`${t}Welches dieser Spiele macht heute mit meinem Partner am meisten Spaß, auch ohne Fußball zu verstehen? Warum gerade das, und was sagt man dabei?`,
+  `${t}Wir wollen einen Fußballabend zu zweit. Welches dieser Spiele ist am dramatischsten und schönsten zum gemeinsamen Schauen?`]
+})[LANG]):pick(({
+ he:[`בדקי מה משוחק היום במונדיאל 2026, ותמליצי על משחק אחד שכיף לראות עם בן/בת הזוג גם בלי רקע בכדורגל. אל תמציאי, ואמרי אם צריך לאמת.`],
+ en:[`Check what’s on today at the 2026 World Cup and recommend one match that’s fun to watch with a partner even without football background. Don’t make things up, and say if it should be verified.`],
+ de:[`Prüfe, was heute bei der WM 2026 läuft, und empfiehl ein Spiel, das mit dem Partner Spaß macht, auch ohne Fußball-Vorwissen. Erfinde nichts und sag, falls es geprüft werden sollte.`]
+})[LANG]));}
+
 // הכפתור הראשי: מה שצריך לדעת היום במונדיאל - מבוסס על המשחקים האמיתיים של היום
-function askToday(){const l=todayMatches();ask(l.length?pick([
-  `${todayLine()}תני לי תקציר קצר וכיפי של מה שחשוב לדעת היום במונדיאל 2026: על המשחק/ים האלה - מי הכוכבים, מה הסיפור, ועל מי הכי כדאי לשים לב הערב. עומק על השחקנים, טון קליל וענייני.`,
-  `${todayLine()}מה הדבר הכי חשוב לדעת היום במונדיאל 2026? ספרי לי לעומק על המשחק/ים של היום - השחקנים, הסיפור והזווית לעקוב אחריה. ענייני וקליל, בלי בדיחות.`
-]):pick([
-  `מה שצריך לדעת היום (${todayHe()}) במונדיאל 2026: בדקי אילו משחקים יש היום ותני תקציר קצר וכיפי על הכי חשוב - מי משחק, מי הכוכבים ומה הסיפור. אם אין משחקים היום, אמרי מה הדבר החם עכשיו בטורניר. אל תמציאי.`
-]));}
+function askToday(){const l=todayMatches(),t=todayLine();ask(l.length?pick(({
+ he:[`${t}תני לי תקציר קצר וכיפי של מה שחשוב לדעת היום במונדיאל 2026: על המשחק/ים האלה - מי הכוכבים, מה הסיפור, ועל מי הכי כדאי לשים לב הערב. עומק על השחקנים, טון קליל וענייני.`,
+  `${t}מה הדבר הכי חשוב לדעת היום במונדיאל 2026? ספרי לי לעומק על המשחק/ים של היום - השחקנים, הסיפור והזווית לעקוב אחריה. ענייני וקליל, בלי בדיחות.`],
+ en:[`${t}Give me a short, fun rundown of what matters today at the 2026 World Cup: about these match(es) — who the stars are, the story, and who to watch most tonight. Depth on the players, light and substantive tone.`,
+  `${t}What’s the most important thing to know today at the 2026 World Cup? Tell me in depth about today’s match(es) — the players, the story and the angle to follow. Substantive and light, no jokes.`],
+ de:[`${t}Gib mir einen kurzen, unterhaltsamen Überblick, was heute bei der WM 2026 zählt: zu diesem/diesen Spiel(en) — wer die Stars sind, die Geschichte und wen man heute Abend am meisten beobachten sollte. Tiefe bei den Spielern, leichter und sachlicher Ton.`,
+  `${t}Was ist heute das Wichtigste bei der WM 2026? Erzähl mir ausführlich über das/die heutige(n) Spiel(e) — die Spieler, die Geschichte und den Blickwinkel zum Verfolgen. Sachlich und leicht, ohne Witze.`]
+})[LANG]):pick(({
+ he:[`מה שצריך לדעת היום (${locDate()}) במונדיאל 2026: בדקי אילו משחקים יש היום ותני תקציר קצר וכיפי על הכי חשוב - מי משחק, מי הכוכבים ומה הסיפור. אם אין משחקים היום, אמרי מה הדבר החם עכשיו בטורניר. אל תמציאי.`],
+ en:[`What to know today (${locDate()}) at the 2026 World Cup: check which matches are on today and give a short, fun rundown of what matters most — who plays, who the stars are and the story. If there are no matches today, say what’s hot right now in the tournament. Don’t make things up.`],
+ de:[`Was du heute (${locDate()}) zur WM 2026 wissen musst: prüfe, welche Spiele heute laufen, und gib einen kurzen, unterhaltsamen Überblick über das Wichtigste — wer spielt, wer die Stars sind und die Geschichte. Wenn heute keine Spiele sind, sag, was gerade im Turnier angesagt ist. Erfinde nichts.`]
+})[LANG]));}
+
 // כוכבים - מעוגן למשחקי היום (לא כוכב כללי של הטורניר)
-function askStars(){const t=todayLine();ask(t?pick([
-  `${t}מי הכוכבים לשים לב אליהם במשחקים האלה היום - 2-3 שחקנים מכל משחק, מי הם ולמה דווקא הם שווי צפייה. רק שחקנים שמשחקים היום, בלי להמציא.`,
-  `${t}על אילו שחקנים הכי כדאי לעקוב במשחקים של היום? תני לי את הכוכבים של המשחקים האלה ומה מיוחד בכל אחד.`
-]):pick([
-  `מי הכוכבים הכי גדולים במונדיאל 2026 שאסור לפספס, ולמה דווקא הם?`,
-  `אם אני זוכר/ת רק 5 שמות מכל המונדיאל - מי הם צריכים להיות ולמה?`
-]));}
+function askStars(){const t=todayLine();ask(t?pick(({
+ he:[`${t}מי הכוכבים לשים לב אליהם במשחקים האלה היום - 2-3 שחקנים מכל משחק, מי הם ולמה דווקא הם שווי צפייה. רק שחקנים שמשחקים היום, בלי להמציא.`,
+  `${t}על אילו שחקנים הכי כדאי לעקוב במשחקים של היום? תני לי את הכוכבים של המשחקים האלה ומה מיוחד בכל אחד.`],
+ en:[`${t}Who are the players to watch in these matches today — 2–3 from each match, who they are and why they’re worth watching. Only players in today’s matches, no making things up.`,
+  `${t}Which players are most worth following in today’s matches? Give me the stars of these matches and what’s special about each.`],
+ de:[`${t}Wer sind die Spieler, die man heute in diesen Spielen beobachten sollte — 2–3 je Spiel, wer sie sind und warum sie sehenswert sind. Nur Spieler in den heutigen Spielen, nichts erfinden.`,
+  `${t}Welche Spieler lohnt es sich heute am meisten zu verfolgen? Gib mir die Stars dieser Spiele und was jeden besonders macht.`]
+})[LANG]):pick(({
+ he:[`מי הכוכבים הכי גדולים במונדיאל 2026 שאסור לפספס, ולמה דווקא הם?`,`אם אני זוכר/ת רק 5 שמות מכל המונדיאל - מי הם צריכים להיות ולמה?`],
+ en:[`Who are the biggest stars at the 2026 World Cup that I can’t miss, and why them?`],
+ de:[`Wer sind die größten Stars der WM 2026, die ich nicht verpassen darf, und warum gerade sie?`]
+})[LANG]));}
 
 // ===== all 48 teams, 12 groups =====
-const ST={host:'מארחת',contender:'מועמדת',darkhorse:'סוס שחור',underdog:'אנדרדוג'};
 const GROUPS=[
  {id:'A',teams:[
   {he:'מקסיקו',lat:'Mexico',s:'host',p:['Ochoa','Edson Álvarez','Raúl Jiménez'],st:'מארחת ותיקה: לחץ, אמוציה ואגפים. פותחת את כל הטורניר מול קהל ביתי ענק.'},
@@ -491,15 +804,29 @@ const GROUPS=[
 ];
 const FOLLOW=JSON.parse(localStorage.getItem('mn_follow')||'{}');
 
-// נבחרות - הזווית מתחלפת בכל לחיצה (סיפור / כוכב / סטייל / טריוויה), והשאלה תמיד צמודה לנבחרת הזו
-const TEAM_ANGLES=[
- t=>`ספרי לי בקצרה על ${t.he} במונדיאל 2026 (${ST[t.s]}). הכוכבים: ${t.p.join(', ')}. למה כיף לראות אותם ומה לשים לב?`,
- t=>`למה שווה לעקוב אחרי ${t.he} במונדיאל 2026? תני לי סיפור אחד מעניין והשחקן שאסור לפספס.`,
- t=>`אם אני אוהד/ת ${t.he} ליום אחד - מה צריך לדעת? כוכבים, סטייל משחק וסיכוי אמיתי במונדיאל 2026.`,
- t=>`ספרי לי על ${t.he}: מי הכוכב הכי שווה (${t.p[0]}?), איך הם משחקים וכמה רחוק הם יכולים להגיע במונדיאל 2026?`,
- t=>`תני לי טריוויה או סיפור מגניב על ${t.he} שאפשר לזרוק בארוחה מול חברים שרואים את המונדיאל.`
-];
-function teamAsk(t){ask(pick(TEAM_ANGLES)(t));}
+// נבחרות - הזווית מתחלפת בכל לחיצה, השם מותאם לשפה (לטיני באנגלית/גרמנית)
+const TEAM_ANGLES={
+ he:[
+  t=>`ספרי לי בקצרה על ${tn(t.he)} במונדיאל 2026 (${stx(t.s)}). הכוכבים: ${t.p.join(', ')}. למה כיף לראות אותם ומה לשים לב?`,
+  t=>`למה שווה לעקוב אחרי ${tn(t.he)} במונדיאל 2026? תני לי סיפור אחד מעניין והשחקן שאסור לפספס.`,
+  t=>`אם אני אוהד/ת ${tn(t.he)} ליום אחד - מה צריך לדעת? כוכבים, סטייל משחק וסיכוי אמיתי במונדיאל 2026.`,
+  t=>`ספרי לי על ${tn(t.he)}: מי הכוכב הכי שווה (${t.p[0]}?), איך הם משחקים וכמה רחוק הם יכולים להגיע במונדיאל 2026?`,
+  t=>`תני לי טריוויה או סיפור מגניב על ${tn(t.he)} שאפשר לזרוק בארוחה מול חברים שרואים את המונדיאל.`
+ ],
+ en:[
+  t=>`Tell me briefly about ${tn(t.he)} at the 2026 World Cup (${stx(t.s)}). The stars: ${t.p.join(', ')}. Why are they fun to watch and what should I look out for?`,
+  t=>`Why is ${tn(t.he)} worth following at the 2026 World Cup? Give me one interesting story and the player I can’t miss.`,
+  t=>`Tell me about ${tn(t.he)}: who’s the best star to watch (${t.p[0]}?), how they play and how far they can go at the 2026 World Cup?`,
+  t=>`Give me a piece of trivia or a cool story about ${tn(t.he)} I can drop at dinner with friends watching the World Cup.`
+ ],
+ de:[
+  t=>`Erzähl mir kurz über ${tn(t.he)} bei der WM 2026 (${stx(t.s)}). Die Stars: ${t.p.join(', ')}. Warum machen sie Spaß zu schauen und worauf sollte ich achten?`,
+  t=>`Warum lohnt es sich, ${tn(t.he)} bei der WM 2026 zu verfolgen? Gib mir eine spannende Geschichte und den Spieler, den ich nicht verpassen darf.`,
+  t=>`Erzähl mir über ${tn(t.he)}: wer ist der beste Star (${t.p[0]}?), wie spielen sie und wie weit können sie bei der WM 2026 kommen?`,
+  t=>`Gib mir eine Trivia oder coole Geschichte über ${tn(t.he)}, die ich beim Essen mit Freunden, die die WM schauen, einwerfen kann.`
+ ]
+};
+function teamAsk(t){ask(pick(TEAM_ANGLES[LANG]||TEAM_ANGLES.he)(t));}
 function askTeam(gid,ti){const g=GROUPS.find(x=>x.id===gid);if(g)teamAsk(g.teams[ti]);}
 
 // משחקי היום - מבוסס-דאטה ומודע-לתאריך. מה שלא ידוע, מונדיאלה מביאה חי.
@@ -583,37 +910,39 @@ function renderToday(){
   let list=FIXTURES.filter(f=>f.date===tk), today=list.length;
   if(!today)list=FIXTURES.slice(0,2);
   const dd=s=>`${+s.slice(8,10)}.${+s.slice(5,7)}`;
+  const tx=T[LANG];
   const rows=list.map(f=>`
     <div class="trow">
       <div class="ttime">${f.time}<small>${dd(f.date)}</small></div>
-      <div class="tmatch">${f.home} נגד ${f.away}<small>${f.note} · ${f.venue}</small></div>
+      <div class="tmatch">${tn(f.home)} ${tx.vs} ${tn(f.away)}<small>${nn(f.note)} · ${vn(f.venue)}</small></div>
       <div class="tbtns">
-        <button class="chatpill" onclick="matchAsk('${f.home}','${f.away}')">💬 כל מה שצריך</button>
-        <button class="chatpill ghost" onclick="matchWasach('${f.home}','${f.away}')">🗣️ משפטי ווסאח</button>
+        <button class="chatpill" onclick="matchAsk('${f.home}','${f.away}')">${tx.allInfo}</button>
+        <button class="chatpill ghost" onclick="matchWasach('${f.home}','${f.away}')">${tx.wasachBtn}</button>
       </div>
     </div>`).join('');
   const live=`
     <div class="trow">
-      <div class="ttime">🔴<small>חי</small></div>
-      <div class="tmatch">מה עוד משחקים ${today?'היום':'בקרוב'}?<small>מונדיאלה תביא לוח עדכני לפי שעון ישראל</small></div>
-      <div class="tbtns"><button class="chatpill" onclick="askSchedule()">⏰ הלוח של היום</button></div>
+      <div class="ttime">🔴<small>${tx.live}</small></div>
+      <div class="tmatch">${today?tx.moreToday:tx.moreSoon}<small>${tx.moreSub}</small></div>
+      <div class="tbtns"><button class="chatpill" onclick="askSchedule()">${tx.schedBtn}</button></div>
     </div>`;
   document.querySelector('.today').innerHTML=rows+live;
 }
 function render(){
+  const tx=T[LANG];
   document.getElementById('groups').innerHTML=GROUPS.map((g,gi)=>`
    <div class="gcard io">
      <div class="ghead ${gi%2?'g2pos':''}"><div class="gletter">${g.id}</div>
-       <div><div class="gt">בית ${g.id}</div><div class="gs">2 עולות + סיכוי למקום שלישי</div></div></div>
+       <div><div class="gt">${tx.group} ${g.id}</div><div class="gs">${tx.groupSub}</div></div></div>
      <div class="teams">${g.teams.map((t,ti)=>`
        <div class="team" onclick="if(!event.target.closest('button,.star'))this.classList.toggle('open')">
          <div class="ttop"><span class="star ${FOLLOW[t.he]?'on':''}" onclick="fav(this,'${t.he}')">★</span>
-           <span class="tn">${t.he}<span class="lat">${t.lat}</span></span><span class="sticker st-${t.s}">${ST[t.s]}</span></div>
+           <span class="tn">${LANG==='he'?`${t.he}<span class="lat">${t.lat}</span>`:t.lat}</span><span class="sticker st-${t.s}">${stx(t.s)}</span></div>
          <div class="tbody"><div class="tbody-in">
-           <div class="tstory">${t.st}</div>
+           <div class="tstory">${story(t)}</div>
            <div class="pls">${t.p.map(p=>`<span class="pl">${p}</span>`).join('')}</div>
-           <div class="askwrap"><button class="ask" onclick="askTeam('${g.id}',${ti})"><span class="e">⚽</span> ספרו לי על ${t.he} →</button>
-             <span class="hint">👆 לחצ/י לשיחה עם מונדיאלה</span></div>
+           <div class="askwrap"><button class="ask" onclick="askTeam('${g.id}',${ti})"><span class="e">⚽</span> ${tx.tellAbout} ${tn(t.he)} →</button>
+             <span class="hint">${tx.teamHint}</span></div>
          </div></div>
        </div>`).join('')}</div>
    </div>`).join('');
@@ -622,12 +951,11 @@ function fav(el,name){FOLLOW[name]=!FOLLOW[name];if(!FOLLOW[name])delete FOLLOW[
 
 // scroll reveal (render first so generated cards are observed too)
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
-render();
-renderToday();
+function observeIO(){document.querySelectorAll('.io:not(.in)').forEach((el,i)=>{el.style.transitionDelay=(i%4*0.06)+'s';io.observe(el);});}
+applyLang(); // קובע שפה, כיוון, טקסטים סטטיים, ומרנדר את הבתים + משחקי היום (כולל observeIO)
 // אם העמוד נשאר פתוח וחצה חצות - מרעננים את משחקי היום ברגע שחוזרים אליו (התאריך מחושב חי בכל קליק ממילא)
 let _dk=dkey(new Date());
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){const k=dkey(new Date());if(k!==_dk){_dk=k;renderToday();}}});
-document.querySelectorAll('.io').forEach((el,i)=>{el.style.transitionDelay=(i%4*0.06)+'s';io.observe(el);});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){const k=dkey(new Date());if(k!==_dk){_dk=k;renderToday();observeIO();}}});
 // failsafe: never let content stay invisible if the observer misfires
 setTimeout(()=>document.querySelectorAll('.io:not(.in)').forEach(el=>el.classList.add('in')),2500);
 
