@@ -251,8 +251,8 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
       </div>
     </div>
     <div class="hero-cta">
-      <button class="askbig" onclick="askToday()" data-i18n="askbig">
-        <span class="e">⚽</span> מה צריך לדעת היום במונדיאל</button>
+      <button class="askbig" onclick="askRecap()" data-i18n="askbig">
+        <span class="e">⚽</span> מה קרה עד עכשיו במונדיאל</button>
       <div class="row2">
         <span class="hint" data-i18n="heroHint">👆 לחצ/י לשיחה · מונדיאלה נפתחת והשאלה מוכנה</span>
         <button class="install" id="installBtn" onclick="install()" data-i18n="install">📲 התקנה לטלפון</button>
@@ -346,7 +346,7 @@ const T={
  he:{brand:'⚽ מדריך המונדיאל · 2026',h1:'מונדיאלה נבדלה',
   tagline:'לראות כדורגל עם החברֵה, בלי להיות הנודניק ששואל שאלות 🙄⚽',
   desc:'לכל מי שרוצה להיות חלק מהחגיגה המשוגעת הזאת, או פשוט לא לאבד חצי מהחברים ל-40 יום. מונדיאלה נבדלה היא המלווה שלכם: כל שאלה, בלי שיפוט. היא תספר לכם למה זה מעניין ומה הסיפור של כל נבחרת. היא אפילו תגיד לכם מה לשאול.',
-  askbig:'<span class="e">⚽</span> מה צריך לדעת היום במונדיאל',
+  askbig:'<span class="e">⚽</span> מה קרה עד עכשיו במונדיאל',
   heroHint:'👆 הפרומפט מועתק ו-ChatGPT נפתח · רק להדביק ולשלוח',install:'📲 התקנה לטלפון',
   scrollcue:'יש עוד הרבה למטה',
   sh_ask:'<span class="emj">💬</span> לא יודעים מה לשאול?',
@@ -377,7 +377,7 @@ const T={
  en:{brand:'⚽ World Cup Guide · 2026',h1:'Mundiala Nivdala',
   tagline:'Watch football with the gang — without being the one who keeps asking questions 🙄⚽',
   desc:'For anyone who wants to be part of this crazy celebration — or just not lose half their friends for 40 days. Mundiala is your companion: any question, zero judgment. She’ll tell you why it’s interesting and the story behind every team. She’ll even tell you what to ask.',
-  askbig:'<span class="e">⚽</span> What to know today at the World Cup',
+  askbig:'<span class="e">⚽</span> What’s happened so far at the World Cup',
   heroHint:'👆 The prompt is copied and ChatGPT opens · just paste and send',install:'📲 Install on phone',
   scrollcue:'There’s plenty more below',
   sh_ask:'<span class="emj">💬</span> Not sure what to ask?',
@@ -408,7 +408,7 @@ const T={
  de:{brand:'⚽ WM-Guide · 2026',h1:'Mundiala Nivdala',
   tagline:'Fußball mit der Clique schauen — ohne die nervige Person zu sein, die ständig fragt 🙄⚽',
   desc:'Für alle, die Teil dieses verrückten Fests sein wollen — oder einfach 40 Tage lang nicht die Hälfte ihrer Freunde verlieren möchten. Mundiala ist deine Begleiterin: jede Frage, null Urteil. Sie erklärt dir, warum es spannend ist, und die Geschichte hinter jedem Team. Sie sagt dir sogar, was du fragen sollst.',
-  askbig:'<span class="e">⚽</span> Was du heute zur WM wissen musst',
+  askbig:'<span class="e">⚽</span> Was bisher bei der WM passiert ist',
   heroHint:'👆 Der Prompt wird kopiert und ChatGPT öffnet sich · nur einfügen und senden',install:'📲 Aufs Handy installieren',
   scrollcue:'Weiter unten gibt’s noch viel',
   sh_ask:'<span class="emj">💬</span> Keine Ahnung, was fragen?',
@@ -521,22 +521,26 @@ const _last=new Map();
 function pick(a){if(a.length<2)return a[0];let i,p=_last.get(a);do{i=Math.floor(Math.random()*a.length)}while(i===p);_last.set(a,i);return a[i];}
 
 // ===== הפרסונה לפי שפה: מונדיאלה עונה בשפה שנבחרה =====
-function buildPersona(when){
-  const l=when==='tomorrow'?tomorrowMatches():todayMatches();
+function buildPersona(when,opts){
+  const recap=opts&&opts.recap;
+  const l=recap?[]:(when==='tomorrow'?tomorrowMatches():todayMatches());
   if(LANG==='en'){
     const ctx=l.length?`${when==='tomorrow'?'Tomorrow’s':'Today’s'} matches (my local time): ${l.map(f=>`${tn(f.home)} vs ${tn(f.away)} at ${fxTime(f)}`).join(', ')}. Focus mainly on these. `:'';
-    return `You are Mundiala Nivdala, a warm, witty guide to the 2026 World Cup for anyone starting football from zero. Today is ${locDate()}. ${ctx}Answer in English, short and clear, in a light, amused tone — no judgment, no condescension, and no punchlines or jokes. Your charm is in knowledge and warmth, not gags. Always give real, in-depth content, especially about the players and the story. If a match is taking place today, talk only about it and the players in it, and don’t mention unrelated players or teams. If no match is specified and you’re not sure what’s on today, honestly say it should be verified against an official schedule — don’t guess or invent matches, results, line-ups or players.`;
+    const scope=recap?`Base everything on the real fixture list and verify results against a current source — don’t guess or invent matches, results, line-ups or players.`:`If a match is taking place today, talk only about it and the players in it, and don’t mention unrelated players or teams. If no match is specified and you’re not sure what’s on today, honestly say it should be verified against an official schedule — don’t guess or invent matches, results, line-ups or players.`;
+    return `You are Mundiala Nivdala, a warm, witty guide to the 2026 World Cup for anyone starting football from zero. Today is ${locDate()}. ${ctx}Answer in English, short and clear, in a light, amused tone — no judgment, no condescension, and no punchlines or jokes. Your charm is in knowledge and warmth, not gags. Always give real, in-depth content, especially about the players and the story. ${scope}`;
   }
   if(LANG==='de'){
     const ctx=l.length?`${when==='tomorrow'?'Morgige':'Heutige'} Spiele (meine lokale Zeit): ${l.map(f=>`${tn(f.home)} gegen ${tn(f.away)} um ${fxTime(f)}`).join(', ')}. Konzentriere dich vor allem darauf. `:'';
-    return `Du bist Mundiala Nivdala, eine warmherzige, witzige Begleiterin zur WM 2026 für alle, die bei null mit Fußball anfangen. Heute ist ${locDate()}. ${ctx}Antworte auf Deutsch, kurz und klar, in einem leichten, amüsierten Ton — ohne Urteil, ohne Herablassung und ohne Pointen oder Witze. Dein Charme liegt in Wissen und Zuneigung, nicht in Gags. Liefere immer echten, fundierten Inhalt, besonders über die Spieler und die Geschichte. Wenn heute ein Spiel stattfindet, sprich nur darüber und über die beteiligten Spieler und erwähne keine unbeteiligten Spieler oder Teams. Wenn kein Spiel angegeben ist und du nicht sicher bist, was heute läuft, sag ehrlich, dass es mit einem offiziellen Spielplan abgeglichen werden sollte — rate nicht und erfinde keine Spiele, Ergebnisse, Aufstellungen oder Spieler.`;
+    const scope=recap?`Stütze alles auf den echten Spielplan und prüfe Ergebnisse an einer aktuellen Quelle — rate nicht und erfinde keine Spiele, Ergebnisse, Aufstellungen oder Spieler.`:`Wenn heute ein Spiel stattfindet, sprich nur darüber und über die beteiligten Spieler und erwähne keine unbeteiligten Spieler oder Teams. Wenn kein Spiel angegeben ist und du nicht sicher bist, was heute läuft, sag ehrlich, dass es mit einem offiziellen Spielplan abgeglichen werden sollte — rate nicht und erfinde keine Spiele, Ergebnisse, Aufstellungen oder Spieler.`;
+    return `Du bist Mundiala Nivdala, eine warmherzige, witzige Begleiterin zur WM 2026 für alle, die bei null mit Fußball anfangen. Heute ist ${locDate()}. ${ctx}Antworte auf Deutsch, kurz und klar, in einem leichten, amüsierten Ton — ohne Urteil, ohne Herablassung und ohne Pointen oder Witze. Dein Charme liegt in Wissen und Zuneigung, nicht in Gags. Liefere immer echten, fundierten Inhalt, besonders über die Spieler und die Geschichte. ${scope}`;
   }
   const matchCtx=l.length?`${when==='tomorrow'?'מחר':'היום'} משחקים (לפי השעון המקומי שלי): ${l.map(f=>`${f.home} נגד ${f.away} ב-${fxTime(f)}`).join(', ')}. התייחסי בעיקר למשחקים האלה. `:'';
-  return `את מונדיאלה נבדלה, מדריכה חמה ומבודחת למונדיאל 2026 לכל מי שמתחיל מאפס בכדורגל. היום ${locDate()}. ${matchCtx}עני בעברית, קצר וברור, בטון קליל ומבודח - בלי שיפוט, בלי התנשאות, ובלי פאנצ'ים, בדיחות או עקיצות. החן שלך הוא בידע ובחיבה, לא בקטעים. תמיד תני תוכן אמיתי ומעמיק, במיוחד על השחקנים והסיפור. אם צוין משחק שמתקיים היום - דברי רק עליו ועל השחקנים שמשחקים בו, ואל תזכירי שחקן או נבחרת שלא קשורים אליו. אם לא צוין משחק ואת לא בטוחה מה משוחק היום - אמרי בכנות שצריך לאמת מול לוח רשמי, אל תנחשי ואל תמציאי משחקים, תוצאות, הרכבים או שחקנים.`;
+  const scope=recap?`התבססי על לוח המשחקים האמיתי ובדקי תוצאות מול מקור עדכני - אל תנחשי ואל תמציאי משחקים, תוצאות, הרכבים או שחקנים.`:`אם צוין משחק שמתקיים היום - דברי רק עליו ועל השחקנים שמשחקים בו, ואל תזכירי שחקן או נבחרת שלא קשורים אליו. אם לא צוין משחק ואת לא בטוחה מה משוחק היום - אמרי בכנות שצריך לאמת מול לוח רשמי, אל תנחשי ואל תמציאי משחקים, תוצאות, הרכבים או שחקנים.`;
+  return `את מונדיאלה נבדלה, מדריכה חמה ומבודחת למונדיאל 2026 לכל מי שמתחיל מאפס בכדורגל. היום ${locDate()}. ${matchCtx}עני בעברית, קצר וברור, בטון קליל ומבודח - בלי שיפוט, בלי התנשאות, ובלי פאנצ'ים, בדיחות או עקיצות. החן שלך הוא בידע ובחיבה, לא בקטעים. תמיד תני תוכן אמיתי ומעמיק, במיוחד על השחקנים והסיפור. ${scope}`;
 }
 // כל פנייה נפתחת ב-ChatGPT עם הפרסונה והתאריך מוטמעים. אפס הדבקה.
-function ask(q,when){
-  const full=buildPersona(when)+"\n\n"+q;
+function ask(q,when,opts){
+  const full=buildPersona(when,opts)+"\n\n"+q;
   try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(full);}catch(e){}
   toast(({he:'📋 הפרומפט הועתק — להדביק ב-ChatGPT (Cmd/Ctrl+V) ולשלוח',en:'📋 Prompt copied — paste it in ChatGPT (Cmd/Ctrl+V) and send',de:'📋 Prompt kopiert — in ChatGPT einfügen (Cmd/Ctrl+V) und senden'})[LANG]||'📋 הפרומפט הועתק — להדביק ב-ChatGPT ולשלוח');
   window.open("https://chatgpt.com/","_blank");
@@ -708,6 +712,14 @@ function todayLine(){const l=todayMatches();if(!l.length)return '';
 // שמות המשחקים של היום, מחוברים ב"ו-"/"and"/"und", בשפה הנבחרת
 function todayMatchNames(){const l=todayMatches();if(!l.length)return '';const j=LANG==='en'?' and ':(LANG==='de'?' und ':' ו-');return l.map(f=>`${tn(f.home)} ${T[LANG].vs} ${tn(f.away)}`).join(j);}
 
+// משחקים שכבר נגמרו ב-N הימים האחרונים (כולל היום, רק כאלה שכבר התחילו) - בשביל סיכום מעוגן-דאטה
+function fxDayShort(f){const d=fxDate(f);return `${_pad(d.getDate())}/${_pad(d.getMonth()+1)}`;}
+function recentMatches(days){const now=new Date();const start=new Date();start.setDate(now.getDate()-days);return FIXTURES.filter(f=>{const d=fxDate(f);return d<now&&d>=start;}).sort((a,b)=>fxDate(a)-fxDate(b));}
+function recentLine(days){const l=recentMatches(days);if(!l.length)return '';const items=l.map(f=>`${fxDayShort(f)}: ${tn(f.home)} ${T[LANG].vs} ${tn(f.away)}`).join('; ');
+  if(LANG==='en')return `Matches already played in the last ${days} days: ${items}. `;
+  if(LANG==='de')return `Spiele der letzten ${days} Tage, die bereits gespielt wurden: ${items}. `;
+  return `המשחקים שכבר נגמרו ב-${days} הימים האחרונים: ${items}. `;}
+
 function askSchedule(){const l=todayMatches(),t=todayLine();ask(l.length?pick(({
  he:[`${t}על איזה מהמשחקים האלה הכי כדאי לשמור אנרגיה, ולמה? אל תוסיפי משחקים אחרים.`,
   `${t}ספרי לי בקצרה על כל אחד מהמשחקים האלה: מי הפייבוריט, מי הכוכב, ולמה כיף לראות.`,
@@ -751,6 +763,16 @@ function askPartner(){const t=todayLine();ask(t?pick(({
 })[LANG]));}
 
 // הכפתור הראשי: מה שצריך לדעת היום במונדיאל - מבוסס על המשחקים האמיתיים של היום
+// סיכום הימים האחרונים: מי ניצח ואיפה, מצב הבתים, מי מוביל - מעוגן ברשימת המשחקים האמיתית
+function askRecap(){const c=recentLine(4);ask(pick(({
+ he:[`${c}תני לי סיכום כללי וכיפי של מה שקרה במונדיאל 2026 בימים האחרונים: אילו משחקים כבר נשחקו, מי ניצח ובאיזו תוצאה ואיפה, מה מצב הבתים עכשיו ומי מוביל בכל בית, ומי הנבחרות והשחקנים שבולטים עד כה. בדקי מקור עדכני לתוצאות המדויקות ולטבלאות. טון קליל וענייני, בלי בדיחות.`,
+  `${c}עדכני אותי מה פספסתי במונדיאל 2026 בימים האחרונים - התוצאות החשובות, ההפתעות, מצב הבתים ומי בדרך לשמינית. בדקי תוצאות וטבלאות מול מקור עדכני, אל תמציאי.`],
+ en:[`${c}Give me a fun, general recap of what’s happened at the 2026 World Cup in the last few days: which matches were played, who won and by what score and where, the current group standings and who’s leading each group, and the teams and players standing out so far. Verify exact results and tables against a current source. Light, substantive tone, no jokes.`,
+  `${c}Catch me up on what I missed at the 2026 World Cup in recent days — the big results, the surprises, the group standings and who’s heading to the round of 32. Verify results and tables against a current source, don’t make things up.`],
+ de:[`${c}Gib mir einen unterhaltsamen, allgemeinen Rückblick auf die letzten Tage der WM 2026: welche Spiele gespielt wurden, wer wo und mit welchem Ergebnis gewonnen hat, der aktuelle Stand in den Gruppen und wer jeweils führt, und welche Teams und Spieler bisher herausstechen. Prüfe genaue Ergebnisse und Tabellen an einer aktuellen Quelle. Leichter, sachlicher Ton, ohne Witze.`,
+  `${c}Bring mich auf den Stand, was ich bei der WM 2026 in den letzten Tagen verpasst habe — die wichtigen Ergebnisse, die Überraschungen, die Gruppenstände und wer ins Sechzehntelfinale geht. Prüfe Ergebnisse und Tabellen an einer aktuellen Quelle, erfinde nichts.`]
+})[LANG]),null,{recap:true});}
+
 function askToday(){const l=todayMatches(),t=todayLine();ask(l.length?pick(({
  he:[`${t}תני לי תקציר קצר וכיפי של מה שחשוב לדעת היום במונדיאל 2026: על המשחק/ים האלה - מי הכוכבים, מה הסיפור, ועל מי הכי כדאי לשים לב הערב. עומק על השחקנים, טון קליל וענייני.`,
   `${t}מה הדבר הכי חשוב לדעת היום במונדיאל 2026? ספרי לי לעומק על המשחק/ים של היום - השחקנים, הסיפור והזווית לעקוב אחריה. ענייני וקליל, בלי בדיחות.`],
