@@ -347,7 +347,7 @@ const T={
   tagline:'לראות כדורגל עם החברֵה, בלי להיות הנודניק ששואל שאלות 🙄⚽',
   desc:'לכל מי שרוצה להיות חלק מהחגיגה המשוגעת הזאת, או פשוט לא לאבד חצי מהחברים ל-40 יום. מונדיאלה נבדלה היא המלווה שלכם: כל שאלה, בלי שיפוט. היא תספר לכם למה זה מעניין ומה הסיפור של כל נבחרת. היא אפילו תגיד לכם מה לשאול.',
   askbig:'<span class="e">⚽</span> מה קרה עד עכשיו במונדיאל',
-  heroHint:'👆 הפרומפט מועתק ו-ChatGPT נפתח · רק להדביק ולשלוח',install:'📲 התקנה לטלפון',
+  heroHint:'👆 לחיצה אחת · ChatGPT נפתח והשאלה נשלחת לבד',install:'📲 התקנה לטלפון',
   scrollcue:'יש עוד הרבה למטה',
   sh_ask:'<span class="emj">💬</span> לא יודעים מה לשאול?',
   sub_ask:'הבטחנו שמונדיאלה תגיד לכם מה לשאול. לחצ/י על שאלה והיא נפתחת מוכנה, אפס מאמץ 👇',
@@ -378,7 +378,7 @@ const T={
   tagline:'Watch football with the gang — without being the one who keeps asking questions 🙄⚽',
   desc:'For anyone who wants to be part of this crazy celebration — or just not lose half their friends for 40 days. Mundiala is your companion: any question, zero judgment. She’ll tell you why it’s interesting and the story behind every team. She’ll even tell you what to ask.',
   askbig:'<span class="e">⚽</span> What’s happened so far at the World Cup',
-  heroHint:'👆 The prompt is copied and ChatGPT opens · just paste and send',install:'📲 Install on phone',
+  heroHint:'👆 One tap · ChatGPT opens and sends the question for you',install:'📲 Install on phone',
   scrollcue:'There’s plenty more below',
   sh_ask:'<span class="emj">💬</span> Not sure what to ask?',
   sub_ask:'We promised Mundiala would tell you what to ask. Tap a question and it opens ready — zero effort 👇',
@@ -409,7 +409,7 @@ const T={
   tagline:'Fußball mit der Clique schauen — ohne die nervige Person zu sein, die ständig fragt 🙄⚽',
   desc:'Für alle, die Teil dieses verrückten Fests sein wollen — oder einfach 40 Tage lang nicht die Hälfte ihrer Freunde verlieren möchten. Mundiala ist deine Begleiterin: jede Frage, null Urteil. Sie erklärt dir, warum es spannend ist, und die Geschichte hinter jedem Team. Sie sagt dir sogar, was du fragen sollst.',
   askbig:'<span class="e">⚽</span> Was bisher bei der WM passiert ist',
-  heroHint:'👆 Der Prompt wird kopiert und ChatGPT öffnet sich · nur einfügen und senden',install:'📲 Aufs Handy installieren',
+  heroHint:'👆 Ein Tipp · ChatGPT öffnet sich und sendet die Frage für dich',install:'📲 Aufs Handy installieren',
   scrollcue:'Weiter unten gibt’s noch viel',
   sh_ask:'<span class="emj">💬</span> Keine Ahnung, was fragen?',
   sub_ask:'Wir haben versprochen, Mundiala sagt dir, was du fragen sollst. Tippe eine Frage an, sie öffnet sich fertig — null Aufwand 👇',
@@ -538,13 +538,8 @@ function buildPersona(when,opts){
   const scope=recap?`התבססי על לוח המשחקים האמיתי ובדקי תוצאות מול מקור עדכני - אל תנחשי ואל תמציאי משחקים, תוצאות, הרכבים או שחקנים.`:`אם צוין משחק שמתקיים היום - דברי רק עליו ועל השחקנים שמשחקים בו, ואל תזכירי שחקן או נבחרת שלא קשורים אליו. אם לא צוין משחק ואת לא בטוחה מה משוחק היום - אמרי בכנות שצריך לאמת מול לוח רשמי, אל תנחשי ואל תמציאי משחקים, תוצאות, הרכבים או שחקנים.`;
   return `את מונדיאלה נבדלה, מדריכה חמה ומבודחת למונדיאל 2026 לכל מי שמתחיל מאפס בכדורגל. היום ${locDate()}. ${matchCtx}עני בעברית, קצר וברור, בטון קליל ומבודח - בלי שיפוט, בלי התנשאות, ובלי פאנצ'ים, בדיחות או עקיצות. החן שלך הוא בידע ובחיבה, לא בקטעים. תמיד תני תוכן אמיתי ומעמיק, במיוחד על השחקנים והסיפור. ${scope}`;
 }
-// כל פנייה נפתחת ב-ChatGPT עם הפרסונה והתאריך מוטמעים. אפס הדבקה.
-function ask(q,when,opts){
-  const full=buildPersona(when,opts)+"\n\n"+q;
-  try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(full);}catch(e){}
-  toast(({he:'📋 הפרומפט הועתק — להדביק ב-ChatGPT (Cmd/Ctrl+V) ולשלוח',en:'📋 Prompt copied — paste it in ChatGPT (Cmd/Ctrl+V) and send',de:'📋 Prompt kopiert — in ChatGPT einfügen (Cmd/Ctrl+V) und senden'})[LANG]||'📋 הפרומפט הועתק — להדביק ב-ChatGPT ולשלוח');
-  window.open("https://chatgpt.com/","_blank");
-}
+// כל פנייה נפתחת ב-ChatGPT עם הפרסונה והתאריך מוטמעים בכתובת - נשלח אוטומטית, אפס הדבקה.
+function ask(q,when,opts){window.open("https://chatgpt.com/?q="+encodeURIComponent(buildPersona(when,opts)+"\n\n"+q),"_blank");}
 // החלפת מילת היום למחר בפרומפט שנבחר, לפי שפה
 function dayShift(s){return s.replace(/היום/g,'מחר').replace(/\btoday\b/gi,'tomorrow').replace(/\bheute\b/gi,'morgen');}
 let tt;function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),2600);}
