@@ -758,14 +758,14 @@ function askPartner(){const t=todayLine();ask(t?pick(({
 })[LANG]));}
 
 // הכפתור הראשי: מה שצריך לדעת היום במונדיאל - מבוסס על המשחקים האמיתיים של היום
-// סיכום הימים האחרונים: מי ניצח ואיפה, מצב הבתים, מי מוביל - מעוגן ברשימת המשחקים האמיתית
-function askRecap(){const c=recentLine(4);ask(pick(({
- he:[`${c}תני לי סיכום כללי וכיפי של מה שקרה במונדיאל 2026 בימים האחרונים: אילו משחקים כבר נשחקו, מי ניצח ובאיזו תוצאה ואיפה, מה מצב הבתים עכשיו ומי מוביל בכל בית, ומי הנבחרות והשחקנים שבולטים עד כה. בדקי מקור עדכני לתוצאות המדויקות ולטבלאות. טון קליל וענייני, בלי בדיחות.`,
-  `${c}עדכני אותי מה פספסתי במונדיאל 2026 בימים האחרונים - התוצאות החשובות, ההפתעות, מצב הבתים ומי בדרך לשמינית. בדקי תוצאות וטבלאות מול מקור עדכני, אל תמציאי.`],
- en:[`${c}Give me a fun, general recap of what’s happened at the 2026 World Cup in the last few days: which matches were played, who won and by what score and where, the current group standings and who’s leading each group, and the teams and players standing out so far. Verify exact results and tables against a current source. Light, substantive tone, no jokes.`,
-  `${c}Catch me up on what I missed at the 2026 World Cup in recent days — the big results, the surprises, the group standings and who’s heading to the round of 32. Verify results and tables against a current source, don’t make things up.`],
- de:[`${c}Gib mir einen unterhaltsamen, allgemeinen Rückblick auf die letzten Tage der WM 2026: welche Spiele gespielt wurden, wer wo und mit welchem Ergebnis gewonnen hat, der aktuelle Stand in den Gruppen und wer jeweils führt, und welche Teams und Spieler bisher herausstechen. Prüfe genaue Ergebnisse und Tabellen an einer aktuellen Quelle. Leichter, sachlicher Ton, ohne Witze.`,
-  `${c}Bring mich auf den Stand, was ich bei der WM 2026 in den letzten Tagen verpasst habe — die wichtigen Ergebnisse, die Überraschungen, die Gruppenstände und wer ins Sechzehntelfinale geht. Prüfe Ergebnisse und Tabellen an einer aktuellen Quelle, erfinde nichts.`]
+// סיכום הימים האחרונים: מי ניצח ואיפה, מצב הבתים, מי מוביל. הפרסונה נותנת את התאריך + הוראה לבדוק מקור עדכני.
+function askRecap(){ask(pick(({
+ he:[`תני לי סיכום כללי וכיפי של מה שקרה במונדיאל 2026 בימים האחרונים: אילו משחקים כבר נשחקו, מי ניצח ובאיזו תוצאה ואיפה, מה מצב הבתים עכשיו ומי מוביל בכל בית, ומי הנבחרות והשחקנים שבולטים עד כה. בדקי מקור עדכני לתוצאות ולטבלאות. טון קליל וענייני, בלי בדיחות.`,
+  `עדכני אותי מה פספסתי במונדיאל 2026 בימים האחרונים - התוצאות החשובות, ההפתעות, מצב הבתים ומי בדרך לשלב הבא. בדקי תוצאות וטבלאות מול מקור עדכני, אל תמציאי.`],
+ en:[`Give me a fun, general recap of what’s happened at the 2026 World Cup in the last few days: which matches were played, who won and by what score and where, the current group standings and who’s leading each group, and the teams and players standing out so far. Verify results and tables against a current source. Light, substantive tone, no jokes.`,
+  `Catch me up on what I missed at the 2026 World Cup in recent days — the big results, the surprises, the group standings and who’s advancing. Verify results and tables against a current source, don’t make things up.`],
+ de:[`Gib mir einen unterhaltsamen, allgemeinen Rückblick auf die letzten Tage der WM 2026: welche Spiele gespielt wurden, wer wo und mit welchem Ergebnis gewonnen hat, der aktuelle Stand in den Gruppen und wer jeweils führt, und welche Teams und Spieler bisher herausstechen. Prüfe Ergebnisse und Tabellen an einer aktuellen Quelle. Leichter, sachlicher Ton, ohne Witze.`,
+  `Bring mich auf den Stand, was ich bei der WM 2026 in den letzten Tagen verpasst habe — die wichtigen Ergebnisse, die Überraschungen, die Gruppenstände und wer weiterkommt. Prüfe Ergebnisse und Tabellen an einer aktuellen Quelle, erfinde nichts.`]
 })[LANG]),null,{recap:true});}
 
 function askToday(){const l=todayMatches(),t=todayLine();ask(l.length?pick(({
