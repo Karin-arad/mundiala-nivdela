@@ -66,8 +66,8 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
 .htxt .by{font-weight:700;color:var(--ink);font-size:1rem;margin-bottom:7px}
 .htxt p{color:var(--ink-soft);font-size:1rem;max-width:46ch}
 .hero-cta{position:relative;width:100%;display:flex;flex-direction:column;gap:10px;margin-top:18px}
-.askbig{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
-  padding:17px;border:0;border-radius:18px;cursor:pointer;font-family:'Rubik';font-weight:700;font-size:1.1rem;color:#fff;
+.askbig{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:460px;margin-inline:auto;
+  padding:13px 22px;border:0;border-radius:16px;cursor:pointer;font-family:'Rubik';font-weight:700;font-size:1rem;color:#fff;
   background:var(--spine);background-size:200% auto;box-shadow:0 16px 30px -12px rgba(255,77,157,.6);
   transition:.2s;animation:breathe 3.2s ease-in-out infinite}
 @keyframes breathe{50%{box-shadow:0 20px 40px -12px rgba(155,93,229,.7)}}
@@ -76,7 +76,7 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
   background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);
   animation:shine 3.6s ease-in-out infinite}
 @keyframes shine{0%,60%{left:-60%}100%{left:120%}}
-.askbig .e{font-size:1.35rem;animation:spin 7s linear infinite}
+.askbig .e{font-size:1.2rem;animation:spin 7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .row2{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
 .hint{font-size:.78rem;color:var(--ink-soft);display:inline-flex;align-items:center;gap:5px}
@@ -106,6 +106,7 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
 
 /* today */
 .today{background:#fff;border-radius:var(--r);padding:6px;box-shadow:0 16px 38px -24px rgba(155,93,229,.45)}
+.trow.tomtog .ttime{color:var(--pink,#ff4d9d)}
 .trow{display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:18px;flex-wrap:wrap;transition:.2s}
 .trow:hover{background:#fff8fb}
 .trow+.trow{border-top:2px dashed #f4e8f2}
@@ -113,13 +114,32 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
 .ttime small{display:block;font-family:'Rubik';font-weight:500;font-size:.66rem;color:var(--ink-soft)}
 .tmatch{flex:1;min-width:140px;font-weight:700}
 .tmatch small{display:block;font-weight:400;color:var(--ink-soft);font-size:.8rem}
-.chatpill{display:inline-flex;align-items:center;gap:7px;border:0;cursor:pointer;font-family:'Rubik';
-  font-weight:700;font-size:.84rem;color:#fff;padding:10px 15px;border-radius:13px;
+.chatpill{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;cursor:pointer;font-family:'Rubik';
+  min-width:132px;white-space:nowrap;font-weight:700;font-size:.84rem;color:#fff;padding:10px 15px;border-radius:13px;
   background:var(--spine);background-size:160% auto;box-shadow:0 8px 18px -8px rgba(255,77,157,.5);transition:.18s}
 .chatpill:hover{transform:translateY(-2px);background-position:right}
 .chatpill.ghost{background:#fff;color:var(--g3);border:2px solid #ece0fb;box-shadow:none}
 .chatpill.ghost:hover{background:#f7f1ff;transform:translateY(-2px)}
-.tbtns{display:flex;gap:8px;flex-wrap:wrap}
+.tbtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+/* ===== per-section identity ===== */
+.sh.sec{padding-inline-start:15px;position:relative}
+.sh.sec::before{content:'';position:absolute;inset-inline-start:0;top:16%;bottom:16%;width:6px;border-radius:6px;background:currentColor;opacity:.9}
+.sh-q{color:#8B5CF6}.sh-m{color:#FF4D9D}.sh-g{color:#2F84FF}.sh-x{color:#2BAE66}
+/* team flag (groups = colourful) */
+.flag{font-size:1.35rem;flex:none;line-height:1}
+/* matches = timeline: time becomes a chip on a rail */
+.ttime{background:#fff;border:2px solid #f3e7fb;border-radius:12px;padding:5px 0;box-shadow:0 5px 12px -7px rgba(155,93,229,.45)}
+.trow.tomtog .ttime{color:var(--g2);border-color:#ffd9ea}
+/* matches = timeline rail behind the time chips */
+.today{position:relative;background:#fff8fb}
+.today::before{content:'';position:absolute;inset-inline-start:50px;top:30px;bottom:30px;width:3px;border-radius:3px;background:linear-gradient(180deg,#FF4D9D,#9B5DE5);opacity:.2;z-index:0}
+.trow{position:relative}
+.ttime{position:relative;z-index:1}
+/* groups = flag strip inside each group header */
+.gflags{margin-inline-start:auto;display:flex;gap:5px;font-size:1.15rem;line-height:1;filter:drop-shadow(0 2px 3px rgba(0,0,0,.22))}
+/* questions = purple tint · glossary = green tint (scoped for specificity) */
+.qboard .qq{background:#f7f3ff;border-color:#e9def9}
+.gloss .gchip{background:#f1faf4;border-color:#d6efe0}
 
 /* groups */
 .groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px}
@@ -244,7 +264,7 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
     <span data-i18n="scrollcue">יש עוד הרבה למטה</span><span class="chev">⌄</span>
   </button>
 
-  <div class="sh disp io" data-i18n="sh_ask"><span class="emj">💬</span> לא יודעים מה לשאול?</div>
+  <div class="sh disp io sec sh-q" data-i18n="sh_ask"><span class="emj">💬</span> לא יודעים מה לשאול?</div>
   <div class="sub-hint io" data-i18n="sub_ask">הבטחנו שמונדיאלה תגיד לכם מה לשאול. לחצ/י על שאלה והיא נפתחת מוכנה, אפס מאמץ 👇</div>
   <div class="qboard io">
     <button class="qq" onclick="askSchedule()"><span class="qe">⏰</span><span class="qt" data-i18n="qq_schedule">לוח המשחקים, תאריכים ושעות</span><span class="qa">←</span></button>
@@ -257,15 +277,15 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
     <button class="qq" onclick="askQ('rules')"><span class="qe">📖</span><span class="qt" data-i18n="qq_rules">תסבירי את החוקים הבסיסיים</span><span class="qa">←</span></button>
   </div>
 
-  <div class="sh disp io" data-i18n="sh_today"><span class="emj">📺</span> מה רואים עכשיו <span class="live-dot"></span></div>
+  <div class="sh disp io sec sh-m" data-i18n="sh_today"><span class="emj">📺</span> מה רואים עכשיו <span class="live-dot"></span></div>
   <div class="sub-hint io" data-i18n="sub_today">👆 לכל משחק: "כל מה שצריך" לכל המידע, או "משפטי ווסאח" לאמירות של ידענים לזרוק תוך כדי 😎</div>
   <div class="today io"></div>
 
-  <div class="sh disp io" data-i18n="sh_groups"><span class="emj">🌍</span> הבתים</div>
+  <div class="sh disp io sec sh-g" data-i18n="sh_groups"><span class="emj">🌍</span> הבתים</div>
   <div class="sub-hint io" data-i18n="sub_groups">👆 לחצ/י על נבחרת כדי לפתוח אותה, ואז על הכפתור לשיחה עם מונדיאלה עליה</div>
   <div class="groups" id="groups"></div>
 
-  <div class="sh disp io" data-i18n="sh_gloss"><span class="emj">📖</span> לא הבנת מילה?</div>
+  <div class="sh disp io sec sh-x" data-i18n="sh_gloss"><span class="emj">📖</span> לא הבנת מילה?</div>
   <div class="sub-hint io" data-i18n="sub_gloss">👆 לחצ/י על מילה ומונדיאלה תסביר לך אותה בשיחה, בפשטות</div>
   <div class="gloss io">
     <button class="gchip" onclick="askGloss('offside')"><span class="e">🚩</span> <span data-i18n="gl_offside">נבדל <small>offside</small></span></button>
@@ -327,7 +347,7 @@ const T={
   tagline:'לראות כדורגל עם החברֵה, בלי להיות הנודניק ששואל שאלות 🙄⚽',
   desc:'לכל מי שרוצה להיות חלק מהחגיגה המשוגעת הזאת, או פשוט לא לאבד חצי מהחברים ל-40 יום. מונדיאלה נבדלה היא המלווה שלכם: כל שאלה, בלי שיפוט. היא תספר לכם למה זה מעניין ומה הסיפור של כל נבחרת. היא אפילו תגיד לכם מה לשאול.',
   askbig:'<span class="e">⚽</span> מה צריך לדעת היום במונדיאל',
-  heroHint:'👆 לחצ/י לשיחה · מונדיאלה נפתחת והשאלה מוכנה',install:'📲 התקנה לטלפון',
+  heroHint:'👆 הפרומפט מועתק ו-ChatGPT נפתח · רק להדביק ולשלוח',install:'📲 התקנה לטלפון',
   scrollcue:'יש עוד הרבה למטה',
   sh_ask:'<span class="emj">💬</span> לא יודעים מה לשאול?',
   sub_ask:'הבטחנו שמונדיאלה תגיד לכם מה לשאול. לחצ/י על שאלה והיא נפתחת מוכנה, אפס מאמץ 👇',
@@ -352,12 +372,13 @@ const T={
   allInfo:'💬 כל מה שצריך',wasachBtn:'🗣️ משפטי ווסאח',live:'חי',
   moreToday:'מה עוד משחקים היום?',moreSoon:'מה עוד משחקים בקרוב?',
   moreSub:'מונדיאלה תביא לוח עדכני לפי השעון המקומי שלך',schedBtn:'⏰ הלוח של היום',
+  tmwDay:'מחר',tmwRow:'המשחקים של מחר',tmwSub:'כל משחקי המחר, לפי השעון שלך',tmwShowBtn:'הצג',tmwHideBtn:'הסתר',tmwNone:'מחר אין משחקים מתוזמנים 🌙',
   tellAbout:'ספרו לי על',teamHint:'👆 לחצ/י לשיחה עם מונדיאלה',opening:'משחק הפתיחה'},
  en:{brand:'⚽ World Cup Guide · 2026',h1:'Mundiala Nivdala',
   tagline:'Watch football with the gang — without being the one who keeps asking questions 🙄⚽',
   desc:'For anyone who wants to be part of this crazy celebration — or just not lose half their friends for 40 days. Mundiala is your companion: any question, zero judgment. She’ll tell you why it’s interesting and the story behind every team. She’ll even tell you what to ask.',
   askbig:'<span class="e">⚽</span> What to know today at the World Cup',
-  heroHint:'👆 Tap to chat · Mundiala opens with the question ready',install:'📲 Install on phone',
+  heroHint:'👆 The prompt is copied and ChatGPT opens · just paste and send',install:'📲 Install on phone',
   scrollcue:'There’s plenty more below',
   sh_ask:'<span class="emj">💬</span> Not sure what to ask?',
   sub_ask:'We promised Mundiala would tell you what to ask. Tap a question and it opens ready — zero effort 👇',
@@ -382,12 +403,13 @@ const T={
   allInfo:'💬 Everything',wasachBtn:'🗣️ Pundit lines',live:'LIVE',
   moreToday:'What else is on today?',moreSoon:'What’s on soon?',
   moreSub:'Mundiala brings an up-to-date schedule in your local time',schedBtn:'⏰ Today’s schedule',
+  tmwDay:'Tmrw',tmwRow:'Tomorrow’s matches',tmwSub:'All of tomorrow’s games, your local time',tmwShowBtn:'Show',tmwHideBtn:'Hide',tmwNone:'No matches scheduled tomorrow 🌙',
   tellAbout:'Tell me about',teamHint:'👆 Tap to chat with Mundiala',opening:'Opening match'},
  de:{brand:'⚽ WM-Guide · 2026',h1:'Mundiala Nivdala',
   tagline:'Fußball mit der Clique schauen — ohne die nervige Person zu sein, die ständig fragt 🙄⚽',
   desc:'Für alle, die Teil dieses verrückten Fests sein wollen — oder einfach 40 Tage lang nicht die Hälfte ihrer Freunde verlieren möchten. Mundiala ist deine Begleiterin: jede Frage, null Urteil. Sie erklärt dir, warum es spannend ist, und die Geschichte hinter jedem Team. Sie sagt dir sogar, was du fragen sollst.',
   askbig:'<span class="e">⚽</span> Was du heute zur WM wissen musst',
-  heroHint:'👆 Tippen zum Chatten · Mundiala öffnet sich mit fertiger Frage',install:'📲 Aufs Handy installieren',
+  heroHint:'👆 Der Prompt wird kopiert und ChatGPT öffnet sich · nur einfügen und senden',install:'📲 Aufs Handy installieren',
   scrollcue:'Weiter unten gibt’s noch viel',
   sh_ask:'<span class="emj">💬</span> Keine Ahnung, was fragen?',
   sub_ask:'Wir haben versprochen, Mundiala sagt dir, was du fragen sollst. Tippe eine Frage an, sie öffnet sich fertig — null Aufwand 👇',
@@ -412,6 +434,7 @@ const T={
   allInfo:'💬 Alles Wichtige',wasachBtn:'🗣️ Experten-Sprüche',live:'LIVE',
   moreToday:'Was läuft heute noch?',moreSoon:'Was läuft demnächst?',
   moreSub:'Mundiala bringt einen aktuellen Spielplan in deiner lokalen Zeit',schedBtn:'⏰ Heutiger Spielplan',
+  tmwDay:'Morgen',tmwRow:'Spiele von morgen',tmwSub:'Alle morgigen Spiele, deine lokale Zeit',tmwShowBtn:'Zeigen',tmwHideBtn:'Ausblenden',tmwNone:'Morgen keine Spiele angesetzt 🌙',
   tellAbout:'Erzähl mir über',teamHint:'👆 Tippen, um mit Mundiala zu chatten',opening:'Eröffnungsspiel'}
 };
 
@@ -498,21 +521,28 @@ const _last=new Map();
 function pick(a){if(a.length<2)return a[0];let i,p=_last.get(a);do{i=Math.floor(Math.random()*a.length)}while(i===p);_last.set(a,i);return a[i];}
 
 // ===== הפרסונה לפי שפה: מונדיאלה עונה בשפה שנבחרה =====
-function buildPersona(){
-  const l=todayMatches();
+function buildPersona(when){
+  const l=when==='tomorrow'?tomorrowMatches():todayMatches();
   if(LANG==='en'){
-    const ctx=l.length?`Today’s matches (my local time): ${l.map(f=>`${tn(f.home)} vs ${tn(f.away)} at ${fxTime(f)}`).join(', ')}. Focus mainly on these. `:'';
+    const ctx=l.length?`${when==='tomorrow'?'Tomorrow’s':'Today’s'} matches (my local time): ${l.map(f=>`${tn(f.home)} vs ${tn(f.away)} at ${fxTime(f)}`).join(', ')}. Focus mainly on these. `:'';
     return `You are Mundiala Nivdala, a warm, witty guide to the 2026 World Cup for anyone starting football from zero. Today is ${locDate()}. ${ctx}Answer in English, short and clear, in a light, amused tone — no judgment, no condescension, and no punchlines or jokes. Your charm is in knowledge and warmth, not gags. Always give real, in-depth content, especially about the players and the story. If a match is taking place today, talk only about it and the players in it, and don’t mention unrelated players or teams. If no match is specified and you’re not sure what’s on today, honestly say it should be verified against an official schedule — don’t guess or invent matches, results, line-ups or players.`;
   }
   if(LANG==='de'){
-    const ctx=l.length?`Heutige Spiele (meine lokale Zeit): ${l.map(f=>`${tn(f.home)} gegen ${tn(f.away)} um ${fxTime(f)}`).join(', ')}. Konzentriere dich vor allem darauf. `:'';
+    const ctx=l.length?`${when==='tomorrow'?'Morgige':'Heutige'} Spiele (meine lokale Zeit): ${l.map(f=>`${tn(f.home)} gegen ${tn(f.away)} um ${fxTime(f)}`).join(', ')}. Konzentriere dich vor allem darauf. `:'';
     return `Du bist Mundiala Nivdala, eine warmherzige, witzige Begleiterin zur WM 2026 für alle, die bei null mit Fußball anfangen. Heute ist ${locDate()}. ${ctx}Antworte auf Deutsch, kurz und klar, in einem leichten, amüsierten Ton — ohne Urteil, ohne Herablassung und ohne Pointen oder Witze. Dein Charme liegt in Wissen und Zuneigung, nicht in Gags. Liefere immer echten, fundierten Inhalt, besonders über die Spieler und die Geschichte. Wenn heute ein Spiel stattfindet, sprich nur darüber und über die beteiligten Spieler und erwähne keine unbeteiligten Spieler oder Teams. Wenn kein Spiel angegeben ist und du nicht sicher bist, was heute läuft, sag ehrlich, dass es mit einem offiziellen Spielplan abgeglichen werden sollte — rate nicht und erfinde keine Spiele, Ergebnisse, Aufstellungen oder Spieler.`;
   }
-  const matchCtx=l.length?`היום משחקים (לפי השעון המקומי שלי): ${l.map(f=>`${f.home} נגד ${f.away} ב-${fxTime(f)}`).join(', ')}. התייחסי בעיקר למשחקים האלה. `:'';
+  const matchCtx=l.length?`${when==='tomorrow'?'מחר':'היום'} משחקים (לפי השעון המקומי שלי): ${l.map(f=>`${f.home} נגד ${f.away} ב-${fxTime(f)}`).join(', ')}. התייחסי בעיקר למשחקים האלה. `:'';
   return `את מונדיאלה נבדלה, מדריכה חמה ומבודחת למונדיאל 2026 לכל מי שמתחיל מאפס בכדורגל. היום ${locDate()}. ${matchCtx}עני בעברית, קצר וברור, בטון קליל ומבודח - בלי שיפוט, בלי התנשאות, ובלי פאנצ'ים, בדיחות או עקיצות. החן שלך הוא בידע ובחיבה, לא בקטעים. תמיד תני תוכן אמיתי ומעמיק, במיוחד על השחקנים והסיפור. אם צוין משחק שמתקיים היום - דברי רק עליו ועל השחקנים שמשחקים בו, ואל תזכירי שחקן או נבחרת שלא קשורים אליו. אם לא צוין משחק ואת לא בטוחה מה משוחק היום - אמרי בכנות שצריך לאמת מול לוח רשמי, אל תנחשי ואל תמציאי משחקים, תוצאות, הרכבים או שחקנים.`;
 }
 // כל פנייה נפתחת ב-ChatGPT עם הפרסונה והתאריך מוטמעים. אפס הדבקה.
-function ask(q){window.open("https://chatgpt.com/?q="+encodeURIComponent(buildPersona()+"\n\n"+q),"_blank");}
+function ask(q,when){
+  const full=buildPersona(when)+"\n\n"+q;
+  try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(full);}catch(e){}
+  toast(({he:'📋 הפרומפט הועתק — להדביק ב-ChatGPT (Cmd/Ctrl+V) ולשלוח',en:'📋 Prompt copied — paste it in ChatGPT (Cmd/Ctrl+V) and send',de:'📋 Prompt kopiert — in ChatGPT einfügen (Cmd/Ctrl+V) und senden'})[LANG]||'📋 הפרומפט הועתק — להדביק ב-ChatGPT ולשלוח');
+  window.open("https://chatgpt.com/","_blank");
+}
+// החלפת מילת היום למחר בפרומפט שנבחר, לפי שפה
+function dayShift(s){return s.replace(/היום/g,'מחר').replace(/\btoday\b/gi,'tomorrow').replace(/\bheute\b/gi,'morgen');}
 let tt;function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),2600);}
 
 // ===== מנוע השאלות: כל כפתור מגריל ניסוח חי, מגוון ומעודכן =====
@@ -623,7 +653,7 @@ const Q={
 function askQ(k){ask(pick(Q[k][LANG]||Q[k].he));}
 
 // משחקי היום - השאלה מותאמת למשחק הספציפי, והזווית מתחלפת בכל לחיצה
-function matchAsk(h,a){const H=tn(h),A=tn(a);ask(pick(({
+function matchAsk(h,a,when){const H=tn(h),A=tn(a);let q=pick(({
  he:[
   `ספרי לי לעומק על ${H} נגד ${A} היום במונדיאל 2026, עם דגש על השחקנים: 2-3 כוכבים מכל צד - מי הם, מה מיוחד בהם ועל מי הכי כדאי לעקוב. הוסיפי את הסיפור והרקע של המשחק, והזווית הכי מעניינת לעקוב אחריה. טון קליל ומבודח אבל ענייני, וסיימי במשפט חכם אחד שאפשר להרשים בו חברים.`,
   `אני הולך/ת לראות ${H} נגד ${A} היום ורוצה להבין לעומק - בעיקר את השחקנים. מי הכוכבים של שתי הנבחרות, מה הסיפור של כל אחד ועל מי לעקוב, ומה הדרמה הגדולה של המשחק. ענייני וקליל, בלי בדיחות.`,
@@ -637,8 +667,8 @@ function matchAsk(h,a){const H=tn(h),A=tn(a);ask(pick(({
   `Erzähl mir ausführlich über ${H} gegen ${A} heute bei der WM 2026, mit Fokus auf die Spieler: 2–3 Stars je Seite — wer sie sind, was sie besonders macht und wen man am meisten beobachten sollte. Ergänze die Geschichte und den Hintergrund des Spiels und den spannendsten Blickwinkel. Leichter, amüsierter, aber sachlicher Ton, und schließe mit einem klugen Satz, mit dem ich Freunde beeindrucke.`,
   `Ich schaue heute ${H} gegen ${A} und will echte Tiefe — vor allem die Spieler. Wer sind die Stars beider Teams, die Geschichte jedes Einzelnen und wen man verfolgen sollte, und was ist das große Drama des Spiels. Sachlich und leicht, ohne Witze.`
  ]
-})[LANG]));}
-function matchWasach(h,a){const H=tn(h),A=tn(a);ask(pick(({
+})[LANG]);if(when==='tomorrow')q=dayShift(q);ask(q,when);}
+function matchWasach(h,a,when){const H=tn(h),A=tn(a);let q=pick(({
  he:[
   `תני לי 3 משפטי ווסאח של ידענים על ${H} נגד ${A} היום - אמירות חדות ומדויקות על טקטיקה, היסטוריה או שחקן מפתח, שאפשר לזרוק תוך כדי ולהישמע כמו מי שבאמת מבין כדורגל. בלי בדיחות ובלי שטויות.`,
   `אני רוצה להישמע מבין/ה ב-${H} נגד ${A}: תני לי כמה תובנות קצרות וחכמות על הנבחרות או השחקנים - דברים שרק מי שמבין יודע, מדויק ונקי.`,
@@ -652,7 +682,7 @@ function matchWasach(h,a){const H=tn(h),A=tn(a);ask(pick(({
   `Gib mir 3 Experten-Sprüche zu ${H} gegen ${A} heute — pointierte, treffende Aussagen zu Taktik, Historie oder einem Schlüsselspieler, die ich beim Schauen einwerfen kann, um wie ein echter Kenner zu klingen. Keine Witze, kein Geschwafel.`,
   `Ich will bei ${H} gegen ${A} kompetent klingen: gib mir ein paar kurze, kluge Einsichten zu den Teams oder Spielern — Dinge, die nur Kenner wissen, präzise und sauber.`
  ]
-})[LANG]));}
+})[LANG]);if(when==='tomorrow')q=dayShift(q);ask(q,when);}
 
 // מילון - הסבר בפשטות, מתחלף בכל לחיצה
 const GLOSS={
@@ -670,6 +700,7 @@ function askGloss(k){ask(pick(GLOSS[k][LANG]||GLOSS[k].he));}
 // כפתורים "כלליים" שמדברים על "היום" - מזריקים את המשחק/ים האמיתי/ים מהדאטה כדי שלא ינחשו
 // "היום" = לפי היום המקומי של המכשיר, והמשחקים ממוינים לפי הזמן האמיתי
 function todayMatches(){const tk=dkey(new Date());return FIXTURES.filter(f=>fxKey(f)===tk).sort((a,b)=>fxDate(a)-fxDate(b));}
+function tomorrowMatches(){const d=new Date();d.setDate(d.getDate()+1);const tk=dkey(d);return FIXTURES.filter(f=>fxKey(f)===tk).sort((a,b)=>fxDate(a)-fxDate(b));}
 function todayLine(){const l=todayMatches();if(!l.length)return '';
   if(LANG==='en')return `Today (${locDate()}) matches (my local time): ${l.map(f=>`${tn(f.home)} vs ${tn(f.away)} at ${fxTime(f)}`).join(', ')}. `;
   if(LANG==='de')return `Heute (${locDate()}) Spiele (meine lokale Zeit): ${l.map(f=>`${tn(f.home)} gegen ${tn(f.away)} um ${fxTime(f)}`).join(', ')}. `;
@@ -913,36 +944,54 @@ const FIXTURES=[
  {date:'2026-06-28',time:'05:00',home:'אלג׳יריה',away:'אוסטריה',venue:'קנזס סיטי',note:'בית J'},
  {date:'2026-06-28',time:'05:00',home:'ירדן',away:'ארגנטינה',venue:'דאלאס',note:'בית J'}
 ];
-function renderToday(){
-  let list=todayMatches(), today=list.length;
-  if(!today)list=FIXTURES.slice(0,2);
-  const tx=T[LANG];
-  const rows=list.map(f=>`
+let tomOpen=false;
+function matchRow(f,when){const tx=T[LANG];return `
     <div class="trow">
       <div class="ttime">${fxTime(f)}<small>${fxDD(f)}</small></div>
       <div class="tmatch">${tn(f.home)} ${tx.vs} ${tn(f.away)}<small>${nn(f.note)} · ${vn(f.venue)}</small></div>
       <div class="tbtns">
-        <button class="chatpill" onclick="matchAsk('${f.home}','${f.away}')">${tx.allInfo}</button>
-        <button class="chatpill ghost" onclick="matchWasach('${f.home}','${f.away}')">${tx.wasachBtn}</button>
+        <button class="chatpill" onclick="matchAsk('${f.home}','${f.away}','${when}')">${tx.allInfo}</button>
+        <button class="chatpill ghost" onclick="matchWasach('${f.home}','${f.away}','${when}')">${tx.wasachBtn}</button>
       </div>
-    </div>`).join('');
+    </div>`;}
+function renderToday(){
+  let list=todayMatches(), today=list.length;
+  if(!today)list=FIXTURES.slice(0,2);
+  const tx=T[LANG];
+  const rows=list.map(f=>matchRow(f,'today')).join('');
   const live=`
     <div class="trow">
       <div class="ttime">🔴<small>${tx.live}</small></div>
       <div class="tmatch">${today?tx.moreToday:tx.moreSoon}<small>${tx.moreSub}</small></div>
       <div class="tbtns"><button class="chatpill" onclick="askSchedule()">${tx.schedBtn}</button></div>
     </div>`;
-  document.querySelector('.today').innerHTML=rows+live;
+  // שורת "המשחקים של מחר" - אינטגרלית בתוך אותה קופסה, בדיוק כמו שורת "מה עוד היום"
+  const tmwtog=`
+    <div class="trow tomtog">
+      <div class="ttime">⏰<small>${tx.tmwDay}</small></div>
+      <div class="tmatch">${tx.tmwRow}<small>${tx.tmwSub}</small></div>
+      <div class="tbtns"><button class="chatpill" onclick="toggleTomorrow()">${tomOpen?tx.tmwHideBtn:tx.tmwShowBtn}</button></div>
+    </div>`;
+  let tmwRows='';
+  if(tomOpen){const l=tomorrowMatches();
+    tmwRows=l.length?l.map(f=>matchRow(f,'tomorrow')).join('')
+      :`<div class="trow"><div class="ttime">🌙</div><div class="tmatch">${tx.tmwNone}</div></div>`;}
+  document.querySelector('.today').innerHTML=rows+live+tmwtog+tmwRows;
 }
+function toggleTomorrow(){tomOpen=!tomOpen;renderToday();if(typeof observeIO==='function')observeIO();}
+const FLAG={Mexico:'🇲🇽','South Korea':'🇰🇷','South Africa':'🇿🇦',Czechia:'🇨🇿',Canada:'🇨🇦',Switzerland:'🇨🇭',Qatar:'🇶🇦',Bosnia:'🇧🇦',Brazil:'🇧🇷',Morocco:'🇲🇦',Scotland:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',Haiti:'🇭🇹',USA:'🇺🇸','Türkiye':'🇹🇷',Paraguay:'🇵🇾',Australia:'🇦🇺',Germany:'🇩🇪',Ecuador:'🇪🇨','Ivory Coast':'🇨🇮','Curaçao':'🇨🇼',Netherlands:'🇳🇱',Japan:'🇯🇵',Sweden:'🇸🇪',Tunisia:'🇹🇳',Belgium:'🇧🇪',Egypt:'🇪🇬',Iran:'🇮🇷','New Zealand':'🇳🇿',Spain:'🇪🇸',Uruguay:'🇺🇾','Cabo Verde':'🇨🇻','Saudi Arabia':'🇸🇦',France:'🇫🇷',Senegal:'🇸🇳',Norway:'🇳🇴',Iraq:'🇮🇶',Argentina:'🇦🇷',Austria:'🇦🇹',Algeria:'🇩🇿',Jordan:'🇯🇴',Portugal:'🇵🇹',Colombia:'🇨🇴','DR Congo':'🇨🇩',Uzbekistan:'🇺🇿',England:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',Croatia:'🇭🇷',Ghana:'🇬🇭',Panama:'🇵🇦'};
+function flagOf(lat){return FLAG[lat]||'🏳️';}
 function render(){
   const tx=T[LANG];
   document.getElementById('groups').innerHTML=GROUPS.map((g,gi)=>`
    <div class="gcard io">
      <div class="ghead ${gi%2?'g2pos':''}"><div class="gletter">${g.id}</div>
-       <div><div class="gt">${tx.group} ${g.id}</div><div class="gs">${tx.groupSub}</div></div></div>
+       <div><div class="gt">${tx.group} ${g.id}</div><div class="gs">${tx.groupSub}</div></div>
+       <div class="gflags">${g.teams.map(t=>`<span>${flagOf(t.lat)}</span>`).join('')}</div></div>
      <div class="teams">${g.teams.map((t,ti)=>`
        <div class="team" onclick="if(!event.target.closest('button,.star'))this.classList.toggle('open')">
          <div class="ttop"><span class="star ${FOLLOW[t.he]?'on':''}" onclick="fav(this,'${t.he}')">★</span>
+           <span class="flag">${flagOf(t.lat)}</span>
            <span class="tn">${LANG==='he'?`${t.he}<span class="lat">${t.lat}</span>`:t.lat}</span><span class="sticker st-${t.s}">${stx(t.s)}</span></div>
          <div class="tbody"><div class="tbody-in">
            <div class="tstory">${story(t)}</div>
@@ -975,7 +1024,15 @@ function install(){
   else{document.getElementById('iosModal').classList.add('show');}
 }
 function closeIos(){document.getElementById('iosModal').classList.remove('show');}
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+if('serviceWorker' in navigator){
+  // אם כבר יש service worker שולט (משתמש חוזר) - כשגרסה חדשה משתלטת, נטען מחדש פעם אחת כדי לשבור cache תקוע
+  if(navigator.serviceWorker.controller){let refreshing=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(refreshing)return;refreshing=true;location.reload();});}
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>{
+    if(!r)return; r.update();
+    // בדיקת עדכון בכל חזרה לפוקוס - לא מחכים ל-24 השעות של הדפדפן, מכשיר תקוע מחלים תוך שניות
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)r.update();});
+  }).catch(()=>{}));
+}
 </script>
 </body>
 </html>
