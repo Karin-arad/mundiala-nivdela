@@ -110,6 +110,12 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
 .trow{display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:18px;flex-wrap:wrap;transition:.2s}
 .trow:hover{background:#fff8fb}
 .trow+.trow{border-top:2px dashed #f4e8f2}
+.trow.simul{background:linear-gradient(135deg,#fff4fa,#f6f0ff);border:1.5px solid #ffd9ea;border-radius:16px;padding:12px 14px;margin:4px 2px}
+.trow.simul:hover{background:linear-gradient(135deg,#fff4fa,#f6f0ff)}
+.trow.simul+.trow,.trow+.trow.simul{border-top:0}
+.simul-in{display:flex;gap:10px;align-items:flex-start;font-size:.86rem;line-height:1.5;color:var(--ink-soft)}
+.simul-in b{color:var(--g2);font-weight:700;display:block;margin-bottom:1px}
+.simul-i{font-size:1.1rem;flex:none;margin-top:1px}
 .ttime{font-family:'Baloo 2';font-weight:800;font-size:1.05rem;color:var(--g2);width:58px;text-align:center;line-height:1.05;flex:none}
 .ttime small{display:block;font-family:'Rubik';font-weight:500;font-size:.66rem;color:var(--ink-soft)}
 .tmatch{flex:1;min-width:140px;font-weight:700}
@@ -229,6 +235,67 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
   background:transparent;width:100%;padding:7px 10px;border-radius:11px;transition:.18s;line-height:1;text-align:center}
 .langbar button:hover{color:var(--ink);background:rgba(155,92,246,.08)}
 .langbar button.on{color:#fff;background:var(--spine);background-size:160% auto;box-shadow:0 6px 14px -6px rgba(255,77,157,.6)}
+
+/* ===== KNOCKOUT EDITION ===== */
+:root{--ko:#E5352B;--ko-soft:#FFE6E2}
+/* hero ribbon: stakes of the knockout */
+.koband{align-self:center;display:inline-flex;align-items:center;gap:6px;font-family:'Baloo 2';font-weight:800;font-size:.84rem;
+  color:#fff;padding:6px 16px;border-radius:999px;letter-spacing:.2px;
+  background:linear-gradient(100deg,var(--ko),#FF5A5A 55%,#FF4D9D);box-shadow:0 8px 18px -8px rgba(229,53,43,.6);
+  animation:kopulse 2.6s ease-in-out infinite}
+@keyframes kopulse{50%{transform:scale(1.04);box-shadow:0 12px 24px -8px rgba(229,53,43,.75)}}
+.sh-k{color:#E5352B}
+/* "between rounds" hint row */
+.trow.betw .ttime{color:var(--ko);border-color:var(--ko-soft)}
+.trow.betw .tmatch b{color:var(--ko)}
+
+/* bracket: desktop = side-by-side columns (RTL → R32 on the right), mobile = vertical accordion */
+.bracket{display:flex;gap:16px;overflow-x:auto;padding:4px 2px 14px;scrollbar-width:thin}
+.bround{flex:0 0 auto;width:252px;display:flex;flex-direction:column}
+.bhead{display:flex;align-items:center;gap:9px;width:100%;border:0;cursor:pointer;font-family:'Baloo 2';font-weight:800;font-size:1rem;color:#fff;
+  padding:10px 15px;border-radius:14px;background:var(--spine);background-size:200% auto;box-shadow:0 10px 22px -12px rgba(155,93,229,.55)}
+.bround:nth-child(even) .bhead{background-position:right}
+.bhead .bttl{flex:1;text-align:start}
+.bhead .bcount{font-family:'Rubik';font-weight:700;font-size:.72rem;background:rgba(255,255,255,.28);border-radius:999px;padding:2px 9px}
+.bhead .bcaret{display:none;font-size:1.1rem;transition:.3s}
+.bmatches{display:flex;flex-direction:column;gap:11px;margin-top:11px;position:relative}
+/* faint connector rail behind each column */
+.bmatches::before{content:'';position:absolute;inset-inline-start:8px;top:6px;bottom:6px;width:3px;border-radius:3px;
+  background:linear-gradient(180deg,#FF4D9D,#9B5DE5);opacity:.14}
+.bmatch{position:relative;background:#fff;border:2px solid #f3e7fb;border-radius:16px;padding:11px 13px;
+  box-shadow:0 12px 26px -20px rgba(42,26,62,.6);transition:.2s}
+.bmatch:hover{transform:translateY(-3px);box-shadow:0 18px 34px -20px rgba(155,93,229,.5);border-color:#ece0fb}
+.bmtop{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.bno{font-family:'Baloo 2';font-weight:800;font-size:.78rem;color:var(--ko);background:var(--ko-soft);border-radius:8px;padding:2px 8px}
+.bwhen{font-size:.68rem;color:var(--ink-soft);text-align:end;line-height:1.25}
+.bteams{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.bside{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.92rem}
+.bside .bflag{font-size:1.15rem;flex:none;line-height:1}
+.bside.tbd{color:var(--ink-soft);font-weight:500;font-style:italic}
+.bvs{font-size:.66rem;font-weight:700;color:var(--ink-soft);text-align:center;opacity:.7}
+.bbtns{display:flex;gap:7px}
+.chatpill.sm{min-width:0;flex:1;padding:8px 10px;font-size:.76rem;border-radius:11px}
+@media(max-width:760px){
+  .bracket{display:block;overflow:visible;padding-bottom:4px}
+  .bround{width:auto;margin-bottom:11px}
+  .bhead .bcaret{display:inline-block}
+  .bround.collapsed .bcaret{transform:rotate(-90deg)}
+  .bround.collapsed .bmatches{display:none}
+  .bmatches::before{display:none}
+}
+
+/* eliminated teams in the groups reference */
+.team.out{opacity:.46}
+.team.out .flag{filter:grayscale(1)}
+.team.out .tn{text-decoration:line-through;text-decoration-color:rgba(229,53,43,.5)}
+.outtag{font-size:.66rem;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap;background:var(--ko-soft);color:var(--ko)}
+
+/* groups section collapsible (now a historical reference) */
+.groups-toggle{cursor:pointer;user-select:none;justify-content:space-between}
+.groups-toggle .ghcaret{font-size:1.5rem;line-height:.6;color:var(--g3);transition:.3s;opacity:.7}
+.groups-toggle.open .ghcaret{transform:rotate(180deg)}
+#groupsWrap{max-height:0;overflow:hidden;transition:max-height .45s ease}
+#groupsWrap.open{max-height:16000px}
 </style>
 </head>
 <body>
@@ -251,6 +318,7 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
       </div>
     </div>
     <div class="hero-cta">
+      <div class="koband" data-i18n="koband">⚔️ שלב הנוקאאוט · אין מחר</div>
       <button class="askbig" onclick="askRecap()" data-i18n="askbig">
         <span class="e">⚽</span> מה קרה עד עכשיו במונדיאל</button>
       <div class="row2">
@@ -272,8 +340,10 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
     <button class="qq" onclick="askQ('beginner')"><span class="qe">🤓</span><span class="qt" data-i18n="qq_beginner">אני אפס בכדורגל, מאיפה מתחילים?</span><span class="qa">←</span></button>
     <button class="qq" onclick="askPartner()"><span class="qe">🍿</span><span class="qt" data-i18n="qq_partner">מה לראות עם בן/בת הזוג?</span><span class="qa">←</span></button>
     <button class="qq" onclick="askStars()"><span class="qe">🌟</span><span class="qt" data-i18n="qq_stars">מי הכוכבים שאסור לפספס?</span><span class="qa">←</span></button>
-    <button class="qq" onclick="askQ('favorites')"><span class="qe">🏆</span><span class="qt" data-i18n="qq_favorites">מי הולך לזכות?</span><span class="qa">←</span></button>
-    <button class="qq" onclick="askQ('drama')"><span class="qe">🔥</span><span class="qt" data-i18n="qq_drama">מה הדרמה הכי גדולה השנה?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askQ('favorites')"><span class="qe">🏆</span><span class="qt" data-i18n="qq_favorites">מי הפייבוריטית בדרך לגמר?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askQ('drama')"><span class="qe">⚔️</span><span class="qt" data-i18n="qq_drama">הדרמה של הערב — מה על הכף?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askQ('bracket')"><span class="qe">🧭</span><span class="qt" data-i18n="qq_bracket">תרחישי הברקט — מי ממשיך?</span><span class="qa">←</span></button>
+    <button class="qq" onclick="askQ('survivors')"><span class="qe">☠️</span><span class="qt" data-i18n="qq_survivors">מי כבר הודח ומי שרד?</span><span class="qa">←</span></button>
     <button class="qq" onclick="askQ('rules')"><span class="qe">📖</span><span class="qt" data-i18n="qq_rules">תסבירי את החוקים הבסיסיים</span><span class="qa">←</span></button>
   </div>
 
@@ -281,9 +351,15 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
   <div class="sub-hint io" data-i18n="sub_today">👆 לכל משחק: "כל מה שצריך" לכל המידע, או "משפטי ווסאח" לאמירות של ידענים לזרוק תוך כדי 😎</div>
   <div class="today io"></div>
 
-  <div class="sh disp io sec sh-g" data-i18n="sh_groups"><span class="emj">🌍</span> הבתים</div>
-  <div class="sub-hint io" data-i18n="sub_groups">👆 לחצ/י על נבחרת כדי לפתוח אותה, ואז על הכפתור לשיחה עם מונדיאלה עליה</div>
-  <div class="groups" id="groups"></div>
+  <div class="sh disp io sec sh-k" data-i18n="sh_bracket"><span class="emj">🏆</span> הדרך לגמר</div>
+  <div class="sub-hint io" data-i18n="sub_bracket">👆 עץ הנוקאאוט — מי מול מי בדרך לגמר. כל ניצחון מעלה הלאה, כל הפסד זה הביתה.</div>
+  <div class="bracket io" id="bracket"></div>
+
+  <div class="sh disp io sec sh-g groups-toggle" onclick="document.getElementById('groupsWrap').classList.toggle('open');this.classList.toggle('open')"><span data-i18n="sh_groups"><span class="emj">🌍</span> הבתים — מאיפה כולם הגיעו</span><span class="ghcaret">⌄</span></div>
+  <div id="groupsWrap">
+    <div class="sub-hint io" data-i18n="sub_groups">👆 לחצ/י על נבחרת כדי לפתוח אותה, ואז על הכפתור לשיחה עם מונדיאלה עליה · נבחרת מעומעמת = כבר הודחה</div>
+    <div class="groups" id="groups"></div>
+  </div>
 
   <div class="sh disp io sec sh-x" data-i18n="sh_gloss"><span class="emj">📖</span> לא הבנת מילה?</div>
   <div class="sub-hint io" data-i18n="sub_gloss">👆 לחצ/י על מילה ומונדיאלה תסביר לך אותה בשיחה, בפשטות</div>
@@ -292,10 +368,12 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
     <button class="gchip" onclick="askGloss('penalty')"><span class="e">⚽</span> <span data-i18n="gl_penalty">פנדל <small>penalty</small></span></button>
     <button class="gchip" onclick="askGloss('var')"><span class="e">📺</span> <span data-i18n="gl_var">VAR</span></button>
     <button class="gchip" onclick="askGloss('red')"><span class="e">🟥</span> <span data-i18n="gl_red">כרטיס אדום</span></button>
-    <button class="gchip" onclick="askGloss('advance')"><span class="e">🧮</span> <span data-i18n="gl_advance">איך עולים?</span></button>
+    <button class="gchip" onclick="askGloss('koformat')"><span class="e">⚔️</span> <span data-i18n="gl_koformat">איך עובד הנוקאאוט?</span></button>
     <button class="gchip" onclick="askGloss('corner')"><span class="e">📐</span> <span data-i18n="gl_corner">קרן <small>corner</small></span></button>
     <button class="gchip" onclick="askGloss('yellow')"><span class="e">🟨</span> <span data-i18n="gl_yellow">כרטיס צהוב</span></button>
     <button class="gchip" onclick="askGloss('stoppage')"><span class="e">⏱️</span> <span data-i18n="gl_stoppage">תוספת זמן</span></button>
+    <button class="gchip" onclick="askGloss('extratime')"><span class="e">⏳</span> <span data-i18n="gl_extratime">הארכה</span></button>
+    <button class="gchip" onclick="askGloss('shootout')"><span class="e">🥅</span> <span data-i18n="gl_shootout">פנדלים <small>11 מ׳</small></span></button>
   </div>
 
   <div class="foot io">
@@ -353,19 +431,22 @@ const T={
   sub_ask:'הבטחנו שמונדיאלה תגיד לכם מה לשאול. לחצ/י על שאלה והיא נפתחת מוכנה, אפס מאמץ 👇',
   qq_schedule:'לוח המשחקים, תאריכים ושעות',qq_wasach:'משפטי ווסאח להיום',
   qq_beginner:'אני אפס בכדורגל, מאיפה מתחילים?',qq_partner:'מה לראות עם בן/בת הזוג?',
-  qq_stars:'מי הכוכבים שאסור לפספס?',qq_favorites:'מי הולך לזכות?',
-  qq_drama:'מה הדרמה הכי גדולה השנה?',qq_rules:'תסבירי את החוקים הבסיסיים',
+  qq_stars:'מי הכוכבים שאסור לפספס?',qq_favorites:'מי הפייבוריטית בדרך לגמר?',
+  qq_drama:'הדרמה של הערב — מה על הכף?',qq_rules:'תסבירי את החוקים הבסיסיים',
+  qq_bracket:'תרחישי הברקט — מי ממשיך?',qq_survivors:'מי כבר הודח ומי שרד?',
   sh_today:'<span class="emj">📺</span> מה רואים עכשיו <span class="live-dot"></span>',
   sub_today:'👆 לכל משחק: "כל מה שצריך" לכל המידע, או "משפטי ווסאח" לאמירות של ידענים לזרוק תוך כדי 😎',
-  sh_groups:'<span class="emj">🌍</span> הבתים',
-  sub_groups:'👆 לחצ/י על נבחרת כדי לפתוח אותה, ואז על הכפתור לשיחה עם מונדיאלה עליה',
+  sh_bracket:'<span class="emj">🏆</span> הדרך לגמר',
+  sub_bracket:'👆 עץ הנוקאאוט — מי מול מי בדרך לגמר. כל ניצחון מעלה הלאה, כל הפסד זה הביתה. לכל משחק: כל המידע או משפטי ווסאח',
+  sh_groups:'<span class="emj">🌍</span> הבתים — מאיפה כולם הגיעו',
+  sub_groups:'👆 לחצ/י על נבחרת כדי לפתוח אותה, ואז על הכפתור לשיחה עם מונדיאלה עליה · נבחרת מעומעמת = כבר הודחה',
   sh_gloss:'<span class="emj">📖</span> לא הבנת מילה?',
   sub_gloss:'👆 לחצ/י על מילה ומונדיאלה תסביר לך אותה בשיחה, בפשטות',
   gl_offside:'נבדל <small>offside</small>',gl_penalty:'פנדל <small>penalty</small>',gl_var:'VAR',
-  gl_red:'כרטיס אדום',gl_advance:'איך עולים?',gl_corner:'קרן <small>corner</small>',
-  gl_yellow:'כרטיס צהוב',gl_stoppage:'תוספת זמן',
+  gl_red:'כרטיס אדום',gl_koformat:'איך עובד הנוקאאוט?',gl_corner:'קרן <small>corner</small>',
+  gl_yellow:'כרטיס צהוב',gl_stoppage:'תוספת זמן',gl_extratime:'הארכה',gl_shootout:'פנדלים <small>11 מ׳</small>',
   foot_signup:'💌 יהיה נחמד אם תירשמו <small>· לרשימת התפוצה שלי, לא חובה</small>',foot_blog:'📖 הבלוג שלי',
-  foot_text:'הסימונים שלך נשמרים אצלך במכשיר · מונדיאלה נבדלה נפתחת ב-ChatGPT שלך<br>כל 48 הנבחרות · כל לוח שלב הבתים מוצג אוטומטית <b>לפי השעון המקומי שלך</b> · תמיד אפשר לאמת מול השידור הרשמי.',
+  foot_text:'הסימונים שלך נשמרים אצלך במכשיר · מונדיאלה נבדלה נפתחת ב-ChatGPT שלך<br>שלב הנוקאאוט · כל לוח המשחקים מוצג אוטומטית <b>לפי השעון המקומי שלך</b> · תמיד אפשר לאמת מול השידור הרשמי.',
   ios_h:'📲 התקנה למסך הבית',ios_p1:'כדי שמונדיאלה תהיה כמו אפליקציה על הטלפון:',
   ios_p2:'1. לחצ/י על כפתור <b>השיתוף</b> בדפדפן ⬆️<br>2. בחר/י <b>"הוסף למסך הבית"</b><br>3. זהו · האייקון על המסך 🎉',ios_ok:'הבנתי',
   group:'בית',groupSub:'2 עולות + סיכוי למקום שלישי',vs:'נגד',
@@ -373,7 +454,11 @@ const T={
   moreToday:'מה עוד משחקים היום?',moreSoon:'מה עוד משחקים בקרוב?',
   moreSub:'מונדיאלה תביא לוח עדכני לפי השעון המקומי שלך',schedBtn:'⏰ הלוח של היום',
   tmwDay:'מחר',tmwRow:'המשחקים של מחר',tmwSub:'כל משחקי המחר, לפי השעון שלך',tmwShowBtn:'הצג',tmwHideBtn:'הסתר',tmwNone:'מחר אין משחקים מתוזמנים 🌙',
-  tellAbout:'ספרו לי על',teamHint:'👆 לחצ/י לשיחה עם מונדיאלה',opening:'משחק הפתיחה'},
+  tellAbout:'ספרו לי על',teamHint:'👆 לחצ/י לשיחה עם מונדיאלה',opening:'משחק הפתיחה',
+  koband:'⚔️ שלב הנוקאאוט · אין מחר',
+  r_R32:'סבב ה-32',r_R16:'שמינית גמר',r_QF:'רבע גמר',r_SF:'חצי גמר',r_THIRD:'הקרב על המקום ה-3',r_FINAL:'הגמר',
+  koWinner:'מנצחת משחק',koLoser:'מפסידת משחק',tbd:'טרם נקבע',outTag:'הודחה',
+  groupsToggle:'הצג/הסתר',betweenRounds:'בין שלבים — המשחק הבא',noNext:'כרגע אין משחק קרוב בלוח 🌙'},
  en:{brand:'⚽ World Cup Guide · 2026',h1:'Mundiala Nivdala',
   tagline:'Watch football with the gang — without being the one who keeps asking questions 🙄⚽',
   desc:'For anyone who wants to be part of this crazy celebration — or just not lose half their friends for 40 days. Mundiala is your companion: any question, zero judgment. She’ll tell you why it’s interesting and the story behind every team. She’ll even tell you what to ask.',
@@ -384,19 +469,22 @@ const T={
   sub_ask:'We promised Mundiala would tell you what to ask. Tap a question and it opens ready — zero effort 👇',
   qq_schedule:'Match schedule, dates & times',qq_wasach:'Show-off one-liners for today',
   qq_beginner:'I know nothing about football — where do I start?',qq_partner:'What to watch with my partner?',
-  qq_stars:'Which stars can’t I miss?',qq_favorites:'Who’s going to win?',
-  qq_drama:'What’s the biggest drama this year?',qq_rules:'Explain the basic rules',
+  qq_stars:'Which stars can’t I miss?',qq_favorites:'Who’s the favorite to reach the final?',
+  qq_drama:'Tonight’s drama — what’s at stake?',qq_rules:'Explain the basic rules',
+  qq_bracket:'Bracket scenarios — who goes through?',qq_survivors:'Who’s already out and who survived?',
   sh_today:'<span class="emj">📺</span> What’s on now <span class="live-dot"></span>',
   sub_today:'👆 For each match: “Everything” for the full picture, or “Pundit lines” for expert takes to drop while watching 😎',
-  sh_groups:'<span class="emj">🌍</span> The groups',
-  sub_groups:'👆 Tap a team to open it, then the button to chat with Mundiala about it',
+  sh_bracket:'<span class="emj">🏆</span> The road to the final',
+  sub_bracket:'👆 The knockout tree — who plays whom on the way to the final. Win and move on, lose and go home. For each match: everything, or pundit lines',
+  sh_groups:'<span class="emj">🌍</span> The groups — where everyone came from',
+  sub_groups:'👆 Tap a team to open it, then the button to chat with Mundiala · a dimmed team is already eliminated',
   sh_gloss:'<span class="emj">📖</span> Didn’t catch a word?',
   sub_gloss:'👆 Tap a word and Mundiala will explain it simply, in chat',
   gl_offside:'Offside',gl_penalty:'Penalty',gl_var:'VAR',
-  gl_red:'Red card',gl_advance:'How do they advance?',gl_corner:'Corner',
-  gl_yellow:'Yellow card',gl_stoppage:'Stoppage time',
+  gl_red:'Red card',gl_koformat:'How do the knockouts work?',gl_corner:'Corner',
+  gl_yellow:'Yellow card',gl_stoppage:'Stoppage time',gl_extratime:'Extra time',gl_shootout:'Penalty shootout',
   foot_signup:'💌 It’d be lovely if you subscribed <small>· to my newsletter, no pressure</small>',foot_blog:'📖 My blog',
-  foot_text:'Your picks are saved on your device · Mundiala opens in your own ChatGPT<br>All 48 teams · the full group stage, shown automatically <b>in your local time</b> · always verify against the official broadcast.',
+  foot_text:'Your picks are saved on your device · Mundiala opens in your own ChatGPT<br>The knockout stage · the full schedule, shown automatically <b>in your local time</b> · always verify against the official broadcast.',
   ios_h:'📲 Add to home screen',ios_p1:'To make Mundiala feel like an app on your phone:',
   ios_p2:'1. Tap the <b>Share</b> button in the browser ⬆️<br>2. Choose <b>“Add to Home Screen”</b><br>3. Done · the icon is on your screen 🎉',ios_ok:'Got it',
   group:'Group',groupSub:'Top 2 advance + best-third chance',vs:'vs',
@@ -404,7 +492,11 @@ const T={
   moreToday:'What else is on today?',moreSoon:'What’s on soon?',
   moreSub:'Mundiala brings an up-to-date schedule in your local time',schedBtn:'⏰ Today’s schedule',
   tmwDay:'Tmrw',tmwRow:'Tomorrow’s matches',tmwSub:'All of tomorrow’s games, your local time',tmwShowBtn:'Show',tmwHideBtn:'Hide',tmwNone:'No matches scheduled tomorrow 🌙',
-  tellAbout:'Tell me about',teamHint:'👆 Tap to chat with Mundiala',opening:'Opening match'},
+  tellAbout:'Tell me about',teamHint:'👆 Tap to chat with Mundiala',opening:'Opening match',
+  koband:'⚔️ Knockout stage · no tomorrow',
+  r_R32:'Round of 32',r_R16:'Round of 16',r_QF:'Quarter-final',r_SF:'Semi-final',r_THIRD:'Third-place play-off',r_FINAL:'The Final',
+  koWinner:'Winner of match',koLoser:'Loser of match',tbd:'TBD',outTag:'Out',
+  groupsToggle:'Show/hide',betweenRounds:'Between rounds — next match',noNext:'No upcoming match scheduled right now 🌙'},
  de:{brand:'⚽ WM-Guide · 2026',h1:'Mundiala Nivdala',
   tagline:'Fußball mit der Clique schauen — ohne die nervige Person zu sein, die ständig fragt 🙄⚽',
   desc:'Für alle, die Teil dieses verrückten Fests sein wollen — oder einfach 40 Tage lang nicht die Hälfte ihrer Freunde verlieren möchten. Mundiala ist deine Begleiterin: jede Frage, null Urteil. Sie erklärt dir, warum es spannend ist, und die Geschichte hinter jedem Team. Sie sagt dir sogar, was du fragen sollst.',
@@ -415,19 +507,22 @@ const T={
   sub_ask:'Wir haben versprochen, Mundiala sagt dir, was du fragen sollst. Tippe eine Frage an, sie öffnet sich fertig — null Aufwand 👇',
   qq_schedule:'Spielplan, Termine & Zeiten',qq_wasach:'Angeber-Sprüche für heute',
   qq_beginner:'Ich habe null Ahnung von Fußball — wo fange ich an?',qq_partner:'Was schaue ich mit meinem Partner?',
-  qq_stars:'Welche Stars darf ich nicht verpassen?',qq_favorites:'Wer wird gewinnen?',
-  qq_drama:'Was ist das größte Drama dieses Jahr?',qq_rules:'Erklär mir die Grundregeln',
+  qq_stars:'Welche Stars darf ich nicht verpassen?',qq_favorites:'Wer ist Favorit aufs Finale?',
+  qq_drama:'Das Drama heute Abend — worum geht’s?',qq_rules:'Erklär mir die Grundregeln',
+  qq_bracket:'Bracket-Szenarien — wer kommt weiter?',qq_survivors:'Wer ist schon raus und wer überlebt?',
   sh_today:'<span class="emj">📺</span> Was läuft jetzt <span class="live-dot"></span>',
   sub_today:'👆 Für jedes Spiel: „Alles Wichtige“ für den Überblick, oder „Experten-Sprüche“ für clevere Sätze zum Mitreden 😎',
-  sh_groups:'<span class="emj">🌍</span> Die Gruppen',
-  sub_groups:'👆 Tippe ein Team an, dann den Button, um mit Mundiala darüber zu chatten',
+  sh_bracket:'<span class="emj">🏆</span> Der Weg ins Finale',
+  sub_bracket:'👆 Der K.-o.-Baum — wer gegen wen auf dem Weg ins Finale. Sieg heißt weiter, Niederlage heißt nach Hause. Pro Spiel: alles Wichtige oder Experten-Sprüche',
+  sh_groups:'<span class="emj">🌍</span> Die Gruppen — woher alle kamen',
+  sub_groups:'👆 Tippe ein Team an, dann den Button, um mit Mundiala zu chatten · ein ausgegrautes Team ist bereits ausgeschieden',
   sh_gloss:'<span class="emj">📖</span> Ein Wort nicht verstanden?',
   sub_gloss:'👆 Tippe ein Wort an und Mundiala erklärt es dir einfach im Chat',
   gl_offside:'Abseits',gl_penalty:'Elfmeter',gl_var:'VAR',
-  gl_red:'Rote Karte',gl_advance:'Wie kommt man weiter?',gl_corner:'Eckball',
-  gl_yellow:'Gelbe Karte',gl_stoppage:'Nachspielzeit',
+  gl_red:'Rote Karte',gl_koformat:'Wie funktioniert die K.-o.-Runde?',gl_corner:'Eckball',
+  gl_yellow:'Gelbe Karte',gl_stoppage:'Nachspielzeit',gl_extratime:'Verlängerung',gl_shootout:'Elfmeterschießen',
   foot_signup:'💌 Schön, wenn du dich einträgst <small>· für meinen Newsletter, kein Muss</small>',foot_blog:'📖 Mein Blog',
-  foot_text:'Deine Markierungen werden auf deinem Gerät gespeichert · Mundiala öffnet sich in deinem eigenen ChatGPT<br>Alle 48 Teams · die komplette Gruppenphase, automatisch <b>in deiner lokalen Zeit</b> · immer mit der offiziellen Übertragung abgleichen.',
+  foot_text:'Deine Markierungen werden auf deinem Gerät gespeichert · Mundiala öffnet sich in deinem eigenen ChatGPT<br>Die K.-o.-Runde · der komplette Spielplan, automatisch <b>in deiner lokalen Zeit</b> · immer mit der offiziellen Übertragung abgleichen.',
   ios_h:'📲 Zum Startbildschirm hinzufügen',ios_p1:'Damit sich Mundiala wie eine App auf deinem Handy anfühlt:',
   ios_p2:'1. Tippe im Browser auf <b>Teilen</b> ⬆️<br>2. Wähle <b>„Zum Home-Bildschirm“</b><br>3. Fertig · das Icon ist auf deinem Bildschirm 🎉',ios_ok:'Verstanden',
   group:'Gruppe',groupSub:'Top 2 weiter + Chance als bester Dritter',vs:'gegen',
@@ -435,7 +530,11 @@ const T={
   moreToday:'Was läuft heute noch?',moreSoon:'Was läuft demnächst?',
   moreSub:'Mundiala bringt einen aktuellen Spielplan in deiner lokalen Zeit',schedBtn:'⏰ Heutiger Spielplan',
   tmwDay:'Morgen',tmwRow:'Spiele von morgen',tmwSub:'Alle morgigen Spiele, deine lokale Zeit',tmwShowBtn:'Zeigen',tmwHideBtn:'Ausblenden',tmwNone:'Morgen keine Spiele angesetzt 🌙',
-  tellAbout:'Erzähl mir über',teamHint:'👆 Tippen, um mit Mundiala zu chatten',opening:'Eröffnungsspiel'}
+  tellAbout:'Erzähl mir über',teamHint:'👆 Tippen, um mit Mundiala zu chatten',opening:'Eröffnungsspiel',
+  koband:'⚔️ K.-o.-Runde · kein Morgen',
+  r_R32:'Sechzehntelfinale',r_R16:'Achtelfinale',r_QF:'Viertelfinale',r_SF:'Halbfinale',r_THIRD:'Spiel um Platz 3',r_FINAL:'Das Finale',
+  koWinner:'Sieger Spiel',koLoser:'Verlierer Spiel',tbd:'offen',outTag:'Raus',
+  groupsToggle:'Ein-/ausblenden',betweenRounds:'Zwischen den Runden — nächstes Spiel',noNext:'Derzeit kein Spiel angesetzt 🌙'}
 };
 
 // ===== תוויות סטטוס + תרגום סיפורי הנבחרות (לפי שם לטיני) =====
@@ -511,7 +610,7 @@ function applyLang(){
   d.lang=LANG; d.dir=LANG==='he'?'rtl':'ltr';
   document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[LANG][k]!=null)el.innerHTML=T[LANG][k];});
   document.querySelectorAll('#langbar button').forEach(b=>b.classList.toggle('on',b.getAttribute('data-lang')===LANG));
-  render(); renderToday();
+  render(); renderToday(); renderBracket();
   if(typeof observeIO==='function')observeIO();
 }
 function setLang(l){if(!['he','en','de'].includes(l))return;LANG=l;localStorage.setItem('mn_lang',l);applyLang();}
@@ -526,16 +625,16 @@ function buildPersona(when,opts){
   const recap=opts&&opts.recap;
   const l=recap?[]:(when==='tomorrow'?tomorrowMatches():todayMatches());
   if(LANG==='en'){
-    const ctx=l.length?`${when==='tomorrow'?'Tomorrow’s':'Today’s'} matches (my time): ${l.map(f=>`${tn(f.home)}–${tn(f.away)} ${fxTime(f)}`).join(', ')}. `:'';
+    const ctx=l.length?`${when==='tomorrow'?'Tomorrow’s':'Today’s'} matches (my time): ${l.map(f=>`${sideName(f.home)}–${sideName(f.away)} ${fxTime(f)}`).join(', ')}. `:'';
     const scope=recap?`Use real data and verify results against a current source; don’t invent.`:`Stick to today’s listed matches; verify against the official schedule and don’t invent results, line-ups or players.`;
     return `You are Mundiala Nivdala, a warm, witty 2026 World Cup guide for total beginners. Today ${locDate()}. ${ctx}Answer in English, short and light, no jokes, real content. ${scope}`;
   }
   if(LANG==='de'){
-    const ctx=l.length?`${when==='tomorrow'?'Morgige':'Heutige'} Spiele (meine Zeit): ${l.map(f=>`${tn(f.home)}–${tn(f.away)} ${fxTime(f)}`).join(', ')}. `:'';
+    const ctx=l.length?`${when==='tomorrow'?'Morgige':'Heutige'} Spiele (meine Zeit): ${l.map(f=>`${sideName(f.home)}–${sideName(f.away)} ${fxTime(f)}`).join(', ')}. `:'';
     const scope=recap?`Nutze echte Daten und prüfe Ergebnisse an einer aktuellen Quelle; erfinde nichts.`:`Bleib bei den heutigen Spielen; prüfe den offiziellen Spielplan und erfinde keine Ergebnisse, Aufstellungen oder Spieler.`;
     return `Du bist Mundiala Nivdala, eine warmherzige, witzige WM-2026-Begleiterin für totale Anfänger. Heute ${locDate()}. ${ctx}Antworte auf Deutsch, kurz und leicht, ohne Witze, echter Inhalt. ${scope}`;
   }
-  const matchCtx=l.length?`${when==='tomorrow'?'מחר':'היום'} משחקים (בשעון שלי): ${l.map(f=>`${f.home}–${f.away} ${fxTime(f)}`).join(', ')}. `:'';
+  const matchCtx=l.length?`${when==='tomorrow'?'מחר':'היום'} משחקים (בשעון שלי): ${l.map(f=>`${sideName(f.home)}–${sideName(f.away)} ${fxTime(f)}`).join(', ')}. `:'';
   const scope=recap?`התבססי על נתונים אמיתיים ובדקי תוצאות במקור עדכני; אל תמציאי.`:`התמקדי במשחקי היום שצוינו; בדקי מול לוח רשמי ואל תמציאי תוצאות, הרכבים או שחקנים.`;
   return `את מונדיאלה נבדלה, מדריכה חמה ומבודחת למונדיאל 2026 למתחילים גמורים. היום ${locDate()}. ${matchCtx}עני בעברית, קצר וקליל, בלי בדיחות, תוכן אמיתי. ${scope}`;
 }
@@ -617,26 +716,48 @@ const Q={
   `Wenn ich mir nur 5 Namen von der ganzen WM merke — welche sollten es sein und warum?`
  ]},
  favorites:{he:[
-  `מי הנבחרות המועמדות לזכות במונדיאל 2026, ומי הסוסים השחורים שיכולים להפתיע?`,
-  `אם היית מהמרת - מי לוקח/ת את מונדיאל 2026, ומי הנבחרת שתפתיע את כולם?`,
-  `תני לי טבלת סיכויים קצרה למונדיאל 2026: הפייבוריטיות, ומי שיכול/ה לקלקל להן.`
+  `שלב הנוקאאוט במונדיאל 2026: מי הפייבוריטיות האמיתיות בדרך לגמר עכשיו, אחרי שלב הבתים? בדקי מי עוד בפנים ומי הסוס השחור שיכול לחתוך עד הסוף. בדקי במקור עדכני, אל תמציאי.`,
+  `אם היית מהמרת עכשיו, בנוקאאוט של מונדיאל 2026 - מי לוקח/ת את התואר, ומי הנבחרת שתפתיע בדרך לגמר? התבססי על מי שבאמת העפיל.`,
+  `מי שלוש הנבחרות הכי קרובות לזכות במונדיאל 2026 בשלב הזה, ולמה? ומי עלולה להפתיע אותן בנוקאאוט?`
  ],en:[
-  `Which teams are favorites to win the 2026 World Cup, and which dark horses could surprise everyone?`,
-  `If you were betting — who wins the 2026 World Cup, and which team springs the big surprise?`
+  `The 2026 World Cup knockouts: who are the real favorites to reach the final now that the groups are done? Who’s still in and which dark horse could cut all the way through? Check a current source, don’t invent.`,
+  `If you were betting now, in the 2026 World Cup knockouts — who takes the title, and who surprises on the way to the final? Base it on who actually qualified.`
  ],de:[
-  `Welche Teams sind Favoriten auf den WM-2026-Titel, und welche Geheimfavoriten könnten überraschen?`,
-  `Wenn du wetten müsstest — wer holt die WM 2026, und welches Team sorgt für die große Überraschung?`
+  `Die K.-o.-Runde der WM 2026: Wer sind jetzt die echten Favoriten aufs Finale, nachdem die Gruppen durch sind? Wer ist noch dabei und welcher Geheimfavorit kann durchmarschieren? Prüfe eine aktuelle Quelle, erfinde nichts.`,
+  `Wenn du jetzt wetten müsstest, in der K.-o.-Runde der WM 2026 — wer holt den Titel, und wer überrascht auf dem Weg ins Finale? Stütz dich auf die tatsächlich Qualifizierten.`
  ]},
  drama:{he:[
-  `מה הסיפורים והדרמות הכי מעניינים במונדיאל 2026? מי תחת לחץ, מי במשחק האחרון של הקריירה?`,
-  `תני לי את הרכילות הגדולה של מונדיאל 2026: יריבויות, נקמות וכוכבים בסוף הדרך.`,
-  `מה הדבר הכי דרמטי שיכול לקרות במונדיאל 2026, ועל מי כדאי לי לעקוב בשביל הסיפור?`
+  `מה הדרמה הגדולה של הערב בנוקאאוט של מונדיאל 2026? מה על הכף בכל משחק, מי חייב/ת לנצח, ואיזה כוכב במשחק האחרון של הקריירה. בדקי מה משוחק היום, אל תמציאי.`,
+  `נוקאאוט = או שעולים או שהולכים הביתה. תני לי את הסיפורים הכי מותחים של מונדיאל 2026 כרגע: יריבויות, נקמות, וכוכבים בסוף הדרך.`,
+  `מה הדבר הכי דרמטי שיכול לקרות הערב במונדיאל 2026, ועל מי כדאי לעקוב בשביל הסיפור?`
  ],en:[
-  `What are the most interesting stories and dramas at the 2026 World Cup? Who’s under pressure, who’s playing their career’s last tournament?`,
-  `Give me the big talking points of the 2026 World Cup: rivalries, revenge tales and stars at the end of the road.`
+  `What’s tonight’s big drama in the 2026 World Cup knockouts? What’s at stake in each match, who must win, and which star is playing their career’s last game. Check what’s on today, don’t invent.`,
+  `Knockouts = win or go home. Give me the most gripping stories of the 2026 World Cup right now: rivalries, revenge and stars at the end of the road.`
  ],de:[
-  `Was sind die spannendsten Geschichten und Dramen der WM 2026? Wer steht unter Druck, wer spielt sein letztes großes Turnier?`,
-  `Gib mir die großen Gesprächsthemen der WM 2026: Rivalitäten, Revanchen und Stars am Ende ihrer Laufbahn.`
+  `Was ist heute Abend das große Drama in der K.-o.-Runde der WM 2026? Worum geht’s in jedem Spiel, wer muss gewinnen, und welcher Star spielt sein letztes Karrierespiel? Prüfe, was heute läuft, erfinde nichts.`,
+  `K.-o. = weiter oder nach Hause. Gib mir die packendsten Geschichten der WM 2026 gerade jetzt: Rivalitäten, Revanchen und Stars am Ende ihrer Laufbahn.`
+ ]},
+ bracket:{he:[
+  `הסבירי לי בפשטות איך נראה עץ הנוקאאוט של מונדיאל 2026 מכאן ועד הגמר: מי יכול לפגוש את מי, ומה הדרך הקלה והקשה של הפייבוריטיות. בדקי במקור עדכני, אל תמציאי.`,
+  `תרחישי הברקט במונדיאל 2026: אם נבחרת מסוימת עולה, את מי היא תפגוש בהמשך? תני לי את התמונה הגדולה של הצד שלי בעץ ושל הצד השני.`,
+  `מי לדעתך יגיע לחצי הגמר של מונדיאל 2026 לפי עץ הנוקאאוט הנוכחי, ולמה? בדקי מי העפיל בפועל.`
+ ],en:[
+  `Explain simply what the 2026 World Cup knockout bracket looks like from here to the final: who could meet whom, and the easy vs hard path for the favorites. Check a current source, don’t invent.`,
+  `2026 World Cup bracket scenarios: if a given team advances, who do they meet next? Give me the big picture of each side of the tree. Base it on who actually qualified.`
+ ],de:[
+  `Erklär mir einfach, wie der K.-o.-Baum der WM 2026 von hier bis zum Finale aussieht: wer auf wen treffen kann und der leichte vs. schwere Weg der Favoriten. Prüfe eine aktuelle Quelle, erfinde nichts.`,
+  `Bracket-Szenarien der WM 2026: Wenn ein bestimmtes Team weiterkommt, auf wen trifft es als Nächstes? Gib mir das große Bild beider Seiten des Baums.`
+ ]},
+ survivors:{he:[
+  `מי כבר הודח ומי שרד בשלב הבתים של מונדיאל 2026? תני לי רשימה קצרה: מי המשיך לנוקאאוט, ומי ההפתעות שיצאו מוקדם. בדקי במקור עדכני, אל תמציאי.`,
+  `סכמי לי מי בפנים ומי בחוץ במונדיאל 2026 אחרי הבתים: הנבחרות הגדולות שהעפילו, וההפתעות שכבר הלכו הביתה.`,
+  `מי ההפתעה הכי גדולה של מונדיאל 2026 עד עכשיו - נבחרת שהעפילה למרות הכל, או גדולה שהודחה מוקדם?`
+ ],en:[
+  `Who’s already out and who survived the 2026 World Cup group stage? Give me a short list: who made the knockouts, and which surprises went home early. Check a current source, don’t invent.`,
+  `Sum up who’s in and who’s out at the 2026 World Cup after the groups: the big teams that qualified, and the surprises already gone.`
+ ],de:[
+  `Wer ist schon raus und wer hat die Gruppenphase der WM 2026 überstanden? Gib mir eine kurze Liste: wer die K.-o.-Runde erreicht hat und welche Überraschungen früh ausschieden. Prüfe eine aktuelle Quelle, erfinde nichts.`,
+  `Fasse zusammen, wer bei der WM 2026 nach den Gruppen drin und raus ist: die großen Teams, die weiter sind, und die Überraschungen, die schon weg sind.`
  ]},
  rules:{he:[
   `תסבירי לי בפשטות את החוקים הכי בסיסיים בכדורגל שצריך כדי ליהנות ממשחק.`,
@@ -653,7 +774,7 @@ const Q={
 function askQ(k){ask(pick(Q[k][LANG]||Q[k].he));}
 
 // משחקי היום - השאלה מותאמת למשחק הספציפי, והזווית מתחלפת בכל לחיצה
-function matchAsk(h,a,when){const H=tn(h),A=tn(a);let q=pick(({
+function matchAsk(H,A,when){let q=pick(({
  he:[
   `ספרי לי לעומק על ${H} נגד ${A} היום במונדיאל 2026, עם דגש על השחקנים: 2-3 כוכבים מכל צד - מי הם, מה מיוחד בהם ועל מי הכי כדאי לעקוב. הוסיפי את הסיפור והרקע של המשחק, והזווית הכי מעניינת לעקוב אחריה. טון קליל ומבודח אבל ענייני, וסיימי במשפט חכם אחד שאפשר להרשים בו חברים.`,
   `אני הולך/ת לראות ${H} נגד ${A} היום ורוצה להבין לעומק - בעיקר את השחקנים. מי הכוכבים של שתי הנבחרות, מה הסיפור של כל אחד ועל מי לעקוב, ומה הדרמה הגדולה של המשחק. ענייני וקליל, בלי בדיחות.`,
@@ -668,7 +789,7 @@ function matchAsk(h,a,when){const H=tn(h),A=tn(a);let q=pick(({
   `Ich schaue heute ${H} gegen ${A} und will echte Tiefe — vor allem die Spieler. Wer sind die Stars beider Teams, die Geschichte jedes Einzelnen und wen man verfolgen sollte, und was ist das große Drama des Spiels. Sachlich und leicht, ohne Witze.`
  ]
 })[LANG]);if(when==='tomorrow')q=dayShift(q);ask(q,when);}
-function matchWasach(h,a,when){const H=tn(h),A=tn(a);let q=pick(({
+function matchWasach(H,A,when){let q=pick(({
  he:[
   `תני לי 3 משפטי ווסאח של ידענים על ${H} נגד ${A} היום - אמירות חדות ומדויקות על טקטיקה, היסטוריה או שחקן מפתח, שאפשר לזרוק תוך כדי ולהישמע כמו מי שבאמת מבין כדורגל. בלי בדיחות ובלי שטויות.`,
   `אני רוצה להישמע מבין/ה ב-${H} נגד ${A}: תני לי כמה תובנות קצרות וחכמות על הנבחרות או השחקנים - דברים שרק מי שמבין יודע, מדויק ונקי.`,
@@ -683,6 +804,9 @@ function matchWasach(h,a,when){const H=tn(h),A=tn(a);let q=pick(({
   `Ich will bei ${H} gegen ${A} kompetent klingen: gib mir ein paar kurze, kluge Einsichten zu den Teams oder Spielern — Dinge, die nur Kenner wissen, präzise und sauber.`
  ]
 })[LANG]);if(when==='tomorrow')q=dayShift(q);ask(q,when);}
+// גרסאות מבוססות-מספר-משחק לכפתורי המשחקים (תומך בסלוטים של הנוקאאוט)
+function matchAskNo(no,when){const m=koByNo(no);if(m)matchAsk(sidePrompt(m.home),sidePrompt(m.away),when);}
+function matchWasachNo(no,when){const m=koByNo(no);if(m)matchWasach(sidePrompt(m.home),sidePrompt(m.away),when);}
 
 // מילון - הסבר בפשטות, מתחלף בכל לחיצה
 const GLOSS={
@@ -690,7 +814,9 @@ const GLOSS={
  penalty:{he:[`תסבירי לי בפשטות מה זה פנדל ולמה הוא כל כך דרמטי?`,`מתי נותנים פנדל ולמה כולם משתגעים כשזה קורה?`],en:[`Explain simply what a penalty is and why it’s so dramatic.`,`When is a penalty given and why does everyone go wild when it happens?`],de:[`Erklär mir einfach, was ein Elfmeter ist und warum er so dramatisch ist.`,`Wann gibt es einen Elfmeter und warum drehen alle durch, wenn es passiert?`]},
  var:{he:[`תסבירי לי בפשטות מה זה VAR ולמה עוצרים את המשחק?`,`VAR - מה זה, למה זה לוקח כל כך הרבה זמן, ולמה כולם מתעצבנים מזה?`],en:[`Explain simply what VAR is and why the game gets stopped for it.`,`VAR — what is it, why does it take so long, and why does everyone get annoyed by it?`],de:[`Erklär mir einfach, was der VAR ist und warum das Spiel dafür unterbrochen wird.`,`VAR — was ist das, warum dauert es so lange, und warum regen sich alle darüber auf?`]},
  red:{he:[`תסבירי לי בפשטות מה זה כרטיס אדום ואיך זה משנה את המשחק?`,`כרטיס אדום מול כרטיס צהוב - מה ההבדל ולמה זו דרמה?`],en:[`Explain simply what a red card is and how it changes the game.`,`Red card vs yellow card — what’s the difference and why is it such drama?`],de:[`Erklär mir einfach, was eine Rote Karte ist und wie sie das Spiel verändert.`,`Rote Karte vs. Gelbe Karte — was ist der Unterschied und warum ist es so dramatisch?`]},
- advance:{he:[`תסבירי לי בפשטות איך עובדת שיטת הבתים והניקוד במונדיאל 2026, ומי עולה הלאה?`,`איך יודעים מי עולה מהבית במונדיאל 2026? תסבירי לי את הניקוד בפשטות.`],en:[`Explain simply how the group stage and points work at the 2026 World Cup, and who advances.`,`How do you know who advances from a group at the 2026 World Cup? Explain the points simply.`],de:[`Erklär mir einfach, wie die Gruppenphase und die Punkte bei der WM 2026 funktionieren und wer weiterkommt.`,`Woran erkennt man, wer aus einer Gruppe bei der WM 2026 weiterkommt? Erklär mir die Punkte einfach.`]},
+ koformat:{he:[`תסבירי לי בפשטות איך עובד שלב הנוקאאוט במונדיאל 2026: מה זה סבב ה-32, שמינית, רבע וחצי גמר, ומה קורה בתיקו - אין יותר נקודות, מי שמפסיד הולך הביתה.`,`מה ההבדל בין שלב הבתים לנוקאאוט במונדיאל 2026? תסבירי לי בפשטות מה זה "או שעולים או שהולכים הביתה".`],en:[`Explain simply how the 2026 World Cup knockout stage works: what the Round of 32, Round of 16, quarter- and semi-finals are, and what happens on a draw — no more points, the loser goes home.`,`What’s the difference between the group stage and the knockouts at the 2026 World Cup? Explain simply what “win or go home” means.`],de:[`Erklär mir einfach, wie die K.-o.-Runde der WM 2026 funktioniert: was Sechzehntel-, Achtel-, Viertel- und Halbfinale sind und was bei einem Unentschieden passiert — keine Punkte mehr, der Verlierer geht nach Hause.`,`Was ist der Unterschied zwischen Gruppenphase und K.-o.-Runde bei der WM 2026? Erklär mir einfach „weiter oder nach Hause“.`]},
+ extratime:{he:[`תסבירי לי בפשטות מה זה הארכה בכדורגל: מתי משחקים אותה, כמה זמן, ולמה רק בנוקאאוט.`,`הארכה - מה זה, מתי זה קורה ולמה זה כל כך מותח?`],en:[`Explain simply what extra time is in football: when it’s played, how long, and why only in the knockouts.`,`Extra time — what is it, when does it happen and why is it so tense?`],de:[`Erklär mir einfach, was Verlängerung im Fußball ist: wann sie gespielt wird, wie lange und warum nur in der K.-o.-Runde.`,`Verlängerung — was ist das, wann passiert es und warum ist es so spannend?`]},
+ shootout:{he:[`תסבירי לי בפשטות מה זה דו-קרב פנדלים (פנדלים מ-11 מ׳) בסוף משחק נוקאאוט, איך זה עובד ולמה זה הדבר הכי לחוץ בכדורגל.`,`פנדלים בסוף המשחק - איך מחליטים מי מנצח, וכמה בועטים כל צד?`],en:[`Explain simply what a penalty shootout is at the end of a knockout match, how it works and why it’s the most nerve-racking thing in football.`,`A shootout at the end — how do they decide the winner, and how many does each side take?`],de:[`Erklär mir einfach, was ein Elfmeterschießen am Ende eines K.-o.-Spiels ist, wie es funktioniert und warum es das Nervenaufreibendste im Fußball ist.`,`Elfmeterschießen am Ende — wie wird der Sieger ermittelt, und wie viele schießt jede Seite?`]},
  corner:{he:[`תסבירי לי בפשטות מה זה בעיטת קרן, מתי נפסקת, ולמה זה הזדמנות טובה לגול?`,`קרן - מתי נותנים אותה ולמה כולם מתרגשים?`],en:[`Explain simply what a corner kick is, when it’s awarded, and why it’s a good goal chance.`,`Corner — when is it given and why does everyone get excited?`],de:[`Erklär mir einfach, was ein Eckball ist, wann es ihn gibt und warum er eine gute Torchance ist.`,`Eckball — wann gibt es ihn und warum freuen sich alle?`]},
  yellow:{he:[`תסבירי לי בפשטות מה זה כרטיס צהוב, על מה מקבלים אותו, ומה קורה אם מקבלים שניים?`,`כרטיס צהוב מול אדום - מה ההבדל בקצרה?`],en:[`Explain simply what a yellow card is, what you get it for, and what happens if you get two.`,`Yellow card vs red card — what’s the difference, briefly?`],de:[`Erklär mir einfach, was eine Gelbe Karte ist, wofür man sie bekommt und was passiert, wenn man zwei kassiert.`,`Gelbe Karte vs. Rote Karte — was ist der Unterschied, kurz gesagt?`]},
  stoppage:{he:[`תסבירי לי בפשטות מה זה תוספת זמן (דקות פציעות) ולמה המשחק לא נגמר בדיוק ב-90 דקות?`,`למה השופט מוסיף דקות בסוף המשחק, ואיך יודעים כמה?`],en:[`Explain simply what stoppage time (injury time) is and why the game doesn’t end exactly at 90 minutes.`,`Why does the referee add minutes at the end, and how do you know how many?`],de:[`Erklär mir einfach, was Nachspielzeit ist und warum das Spiel nicht genau nach 90 Minuten endet.`,`Warum gibt der Schiedsrichter am Ende Minuten dazu, und woher weiß man, wie viele?`]}
@@ -699,19 +825,19 @@ function askGloss(k){ask(pick(GLOSS[k][LANG]||GLOSS[k].he));}
 
 // כפתורים "כלליים" שמדברים על "היום" - מזריקים את המשחק/ים האמיתי/ים מהדאטה כדי שלא ינחשו
 // "היום" = לפי היום המקומי של המכשיר, והמשחקים ממוינים לפי הזמן האמיתי
-function todayMatches(){const tk=dkey(new Date());return FIXTURES.filter(f=>fxKey(f)===tk).sort((a,b)=>fxDate(a)-fxDate(b));}
-function tomorrowMatches(){const d=new Date();d.setDate(d.getDate()+1);const tk=dkey(d);return FIXTURES.filter(f=>fxKey(f)===tk).sort((a,b)=>fxDate(a)-fxDate(b));}
+function todayMatches(){const tk=dkey(new Date());return KNOCKOUT.filter(f=>fxKey(f)===tk).sort((a,b)=>fxDate(a)-fxDate(b));}
+function tomorrowMatches(){const d=new Date();d.setDate(d.getDate()+1);const tk=dkey(d);return KNOCKOUT.filter(f=>fxKey(f)===tk).sort((a,b)=>fxDate(a)-fxDate(b));}
 function todayLine(){const l=todayMatches();if(!l.length)return '';
-  if(LANG==='en')return `Today (${locDate()}) matches (my local time): ${l.map(f=>`${tn(f.home)} vs ${tn(f.away)} at ${fxTime(f)}`).join(', ')}. `;
-  if(LANG==='de')return `Heute (${locDate()}) Spiele (meine lokale Zeit): ${l.map(f=>`${tn(f.home)} gegen ${tn(f.away)} um ${fxTime(f)}`).join(', ')}. `;
-  return `היום (${locDate()}) משחקים (לפי השעון המקומי שלי): ${l.map(f=>`${f.home} נגד ${f.away} ב-${fxTime(f)}`).join(', ')}. `;}
+  if(LANG==='en')return `Today (${locDate()}) matches (my local time): ${l.map(f=>`${sideName(f.home)} vs ${sideName(f.away)} at ${fxTime(f)}`).join(', ')}. `;
+  if(LANG==='de')return `Heute (${locDate()}) Spiele (meine lokale Zeit): ${l.map(f=>`${sideName(f.home)} gegen ${sideName(f.away)} um ${fxTime(f)}`).join(', ')}. `;
+  return `היום (${locDate()}) משחקים (לפי השעון המקומי שלי): ${l.map(f=>`${sideName(f.home)} נגד ${sideName(f.away)} ב-${fxTime(f)}`).join(', ')}. `;}
 // שמות המשחקים של היום, מחוברים ב"ו-"/"and"/"und", בשפה הנבחרת
-function todayMatchNames(){const l=todayMatches();if(!l.length)return '';const j=LANG==='en'?' and ':(LANG==='de'?' und ':' ו-');return l.map(f=>`${tn(f.home)} ${T[LANG].vs} ${tn(f.away)}`).join(j);}
+function todayMatchNames(){const l=todayMatches();if(!l.length)return '';const j=LANG==='en'?' and ':(LANG==='de'?' und ':' ו-');return l.map(f=>`${sideName(f.home)} ${T[LANG].vs} ${sideName(f.away)}`).join(j);}
 
 // משחקים שכבר נגמרו ב-N הימים האחרונים (כולל היום, רק כאלה שכבר התחילו) - בשביל סיכום מעוגן-דאטה
 function fxDayShort(f){const d=fxDate(f);return `${_pad(d.getDate())}/${_pad(d.getMonth()+1)}`;}
-function recentMatches(days){const now=new Date();const start=new Date();start.setDate(now.getDate()-days);return FIXTURES.filter(f=>{const d=fxDate(f);return d<now&&d>=start;}).sort((a,b)=>fxDate(a)-fxDate(b));}
-function recentLine(days){const l=recentMatches(days);if(!l.length)return '';const items=l.map(f=>`${fxDayShort(f)}: ${tn(f.home)} ${T[LANG].vs} ${tn(f.away)}`).join('; ');
+function recentMatches(days){const now=new Date();const start=new Date();start.setDate(now.getDate()-days);return KNOCKOUT.filter(f=>{const d=fxDate(f);return d<now&&d>=start;}).sort((a,b)=>fxDate(a)-fxDate(b));}
+function recentLine(days){const l=recentMatches(days);if(!l.length)return '';const items=l.map(f=>`${fxDayShort(f)}: ${sideName(f.home)} ${T[LANG].vs} ${sideName(f.away)}`).join('; ');
   if(LANG==='en')return `Matches already played in the last ${days} days: ${items}. `;
   if(LANG==='de')return `Spiele der letzten ${days} Tage, die bereits gespielt wurden: ${items}. `;
   return `המשחקים שכבר נגמרו ב-${days} הימים האחרונים: ${items}. `;}
@@ -962,21 +1088,86 @@ const FIXTURES=[
  {date:'2026-06-28',time:'05:00',home:'אלג׳יריה',away:'אוסטריה',venue:'קנזס סיטי',note:'בית J'},
  {date:'2026-06-28',time:'05:00',home:'ירדן',away:'ארגנטינה',venue:'דאלאס',note:'בית J'}
 ];
+
+// ===== לוח שלב הנוקאאוט של מונדיאל 2026 (משחקים 73-104) =====
+// המבנה (תאריכים/אצטדיונים/שלבים/מספרי משחק) קבוע ומאומת מול פיפ"א. שעות שמורות בשעון ישראל (יולי=UTC+3) ומוצגות בשעון המקומי.
+// home/away: שם נבחרת (מחרוזת) אם ידוע, או סלוט: {w:NN}=מנצחת משחק NN, {l:NN}=מפסידת משחק NN.
+// תחזוקה: כשמשחק נגמר, מלאו ידנית את שם הנבחרת בסלוטים של הסבב הבא (במקום {w:..}).
+const KNOCKOUT=[
+ {round:'R32',no:73,date:'2026-06-28',time:'22:00',venue:'לוס אנג׳לס',home:'דרום אפריקה',away:'קנדה'},
+ {round:'R32',no:76,date:'2026-06-29',time:'20:00',venue:'יוסטון',home:'ברזיל',away:'יפן'},
+ {round:'R32',no:74,date:'2026-06-29',time:'23:30',venue:'בוסטון',home:'גרמניה',away:'פרגוואי'},
+ {round:'R32',no:75,date:'2026-06-30',time:'04:00',venue:'מונטריי',home:'הולנד',away:'מרוקו'},
+ {round:'R32',no:78,date:'2026-06-30',time:'20:00',venue:'דאלאס',home:'חוף השנהב',away:'נורווגיה'},
+ {round:'R32',no:77,date:'2026-07-01',time:'00:00',venue:'ניו ג׳רזי',home:'צרפת',away:'שוודיה'},
+ {round:'R32',no:79,date:'2026-07-01',time:'04:00',venue:'אצטקה',home:'מקסיקו',away:'אקוודור'},
+ {round:'R32',no:80,date:'2026-07-01',time:'19:00',venue:'אטלנטה',home:'אנגליה',away:'קונגו'},
+ {round:'R32',no:82,date:'2026-07-01',time:'23:00',venue:'סיאטל',home:'בלגיה',away:'סנגל'},
+ {round:'R32',no:81,date:'2026-07-02',time:'03:00',venue:'סנטה קלרה',home:'ארה״ב',away:'בוסניה'},
+ {round:'R32',no:84,date:'2026-07-02',time:'22:00',venue:'לוס אנג׳לס',home:'ספרד',away:'אוסטריה'},
+ {round:'R32',no:83,date:'2026-07-03',time:'02:00',venue:'טורונטו',home:'פורטוגל',away:'קרואטיה'},
+ {round:'R32',no:85,date:'2026-07-03',time:'06:00',venue:'ונקובר',home:'שוויץ',away:'אלג׳יריה'},
+ {round:'R32',no:88,date:'2026-07-03',time:'21:00',venue:'דאלאס',home:'אוסטרליה',away:'מצרים'},
+ {round:'R32',no:86,date:'2026-07-04',time:'01:00',venue:'מיאמי',home:'ארגנטינה',away:'כף ורדה'},
+ {round:'R32',no:87,date:'2026-07-04',time:'04:30',venue:'קנזס סיטי',home:'קולומביה',away:'גאנה'},
+ {round:'R16',no:90,date:'2026-07-04',time:'20:00',venue:'יוסטון',home:{w:73},away:{w:75}},
+ {round:'R16',no:89,date:'2026-07-05',time:'00:00',venue:'פילדלפיה',home:{w:74},away:{w:77}},
+ {round:'R16',no:91,date:'2026-07-05',time:'23:00',venue:'ניו ג׳רזי',home:{w:76},away:{w:78}},
+ {round:'R16',no:92,date:'2026-07-06',time:'03:00',venue:'אצטקה',home:{w:79},away:{w:80}},
+ {round:'R16',no:93,date:'2026-07-06',time:'22:00',venue:'דאלאס',home:{w:83},away:{w:84}},
+ {round:'R16',no:94,date:'2026-07-07',time:'03:00',venue:'סיאטל',home:{w:81},away:{w:82}},
+ {round:'R16',no:95,date:'2026-07-07',time:'19:00',venue:'אטלנטה',home:{w:86},away:{w:88}},
+ {round:'R16',no:96,date:'2026-07-07',time:'23:00',venue:'ונקובר',home:{w:85},away:{w:87}},
+ {round:'QF',no:97,date:'2026-07-09',time:'23:00',venue:'בוסטון',home:{w:89},away:{w:90}},
+ {round:'QF',no:98,date:'2026-07-10',time:'22:00',venue:'לוס אנג׳לס',home:{w:93},away:{w:94}},
+ {round:'QF',no:99,date:'2026-07-12',time:'00:00',venue:'מיאמי',home:{w:91},away:{w:92}},
+ {round:'QF',no:100,date:'2026-07-12',time:'04:00',venue:'קנזס סיטי',home:{w:95},away:{w:96}},
+ {round:'SF',no:101,date:'2026-07-14',time:'22:00',venue:'דאלאס',home:{w:97},away:{w:98}},
+ {round:'SF',no:102,date:'2026-07-15',time:'22:00',venue:'אטלנטה',home:{w:99},away:{w:100}},
+ {round:'THIRD',no:103,date:'2026-07-19',time:'00:00',venue:'מיאמי',home:{l:101},away:{l:102}},
+ {round:'FINAL',no:104,date:'2026-07-19',time:'22:00',venue:'ניו ג׳רזי',home:{w:101},away:{w:102}}
+];
+// סדר השלבים לתצוגת הברקט
+const ROUNDS=['R32','R16','QF','SF','THIRD','FINAL'];
+// נבחרות שכבר הודחו (שלב הבתים) - לעמעום בגריד הבתים. עדכנו ידנית ככל שמתקדם הנוקאאוט.
+const OUT=new Set(['דרום קוריאה','סקוטלנד','איראן','אורוגוואי','צ׳כיה','קטאר','האיטי','טורקיה','קוראסאו','תוניסיה','ניו זילנד','ערב הסעודית','עיראק','ירדן','אוזבקיסטן','פנמה']);
+
+// ===== עזרי-צד לנוקאאוט: צד יכול להיות שם נבחרת (מחרוזת) או סלוט {w:NN}/{l:NN} =====
+function koByNo(no){return KNOCKOUT.find(m=>m.no===no);}
+function sideName(side){ // שם לתצוגה
+  if(typeof side==='string')return tn(side);
+  const tx=T[LANG];if(side.w)return `${tx.koWinner} ${side.w}`;if(side.l)return `${tx.koLoser} ${side.l}`;return tx.tbd;}
+function sideFlag(side){return typeof side==='string'?flagOf(nameMap()[side]||''):'⚔️';}
+function sideKnown(side){return typeof side==='string';}
+// שם לשימוש בפרומפט (אם סלוט - נוסיף מה המשחק המזין, אם ידוע)
+function sidePrompt(side){
+  if(typeof side==='string')return tn(side);
+  const tx=T[LANG],m=koByNo(side.w||side.l);
+  if(m&&sideKnown(m.home)&&sideKnown(m.away))return `${side.w?tx.koWinner:tx.koLoser} ${side.w||side.l} (${tn(m.home)} ${tx.vs} ${tn(m.away)})`;
+  return `${side.w?tx.koWinner:tx.koLoser} ${side.w||side.l}`;}
+function roundName(r){return T[LANG]['r_'+r]||r;}
+
 let tomOpen=false;
+function rowsWithNote(list,when){return list.map(f=>matchRow(f,when)).join('');}
 function matchRow(f,when){const tx=T[LANG];return `
     <div class="trow">
       <div class="ttime">${fxTime(f)}<small>${fxDD(f)}</small></div>
-      <div class="tmatch">${tn(f.home)} ${tx.vs} ${tn(f.away)}<small>${nn(f.note)} · ${vn(f.venue)}</small></div>
+      <div class="tmatch">${sideFlag(f.home)} ${sideName(f.home)} ${tx.vs} ${sideFlag(f.away)} ${sideName(f.away)}<small>${roundName(f.round)} · ${vn(f.venue)}</small></div>
       <div class="tbtns">
-        <button class="chatpill" onclick="matchAsk('${f.home}','${f.away}','${when}')">${tx.allInfo}</button>
-        <button class="chatpill ghost" onclick="matchWasach('${f.home}','${f.away}','${when}')">${tx.wasachBtn}</button>
+        <button class="chatpill" onclick="matchAskNo(${f.no},'${when}')">${tx.allInfo}</button>
+        <button class="chatpill ghost" onclick="matchWasachNo(${f.no},'${when}')">${tx.wasachBtn}</button>
       </div>
     </div>`;}
+// המשחק הקרוב ביותר שעוד לא התחיל - ל-fallback כשאין משחקים היום
+function nextMatch(){const now=Date.now();return KNOCKOUT.filter(f=>fxDate(f).getTime()>=now).sort((a,b)=>fxDate(a)-fxDate(b))[0];}
 function renderToday(){
   let list=todayMatches(), today=list.length;
-  if(!today)list=FIXTURES.slice(0,2);
   const tx=T[LANG];
-  const rows=list.map(f=>matchRow(f,'today')).join('');
+  let rows;
+  if(today){rows=rowsWithNote(list,'today');}
+  else{const nx=nextMatch();
+    rows=nx?`<div class="trow betw"><div class="ttime">⏳</div><div class="tmatch"><b>${tx.betweenRounds}</b></div></div>`+matchRow(nx,'today')
+      :`<div class="trow"><div class="ttime">🌙</div><div class="tmatch">${tx.noNext}</div></div>`;}
   const live=`
     <div class="trow">
       <div class="ttime">🔴<small>${tx.live}</small></div>
@@ -992,7 +1183,7 @@ function renderToday(){
     </div>`;
   let tmwRows='';
   if(tomOpen){const l=tomorrowMatches();
-    tmwRows=l.length?l.map(f=>matchRow(f,'tomorrow')).join('')
+    tmwRows=l.length?rowsWithNote(l,'tomorrow')
       :`<div class="trow"><div class="ttime">🌙</div><div class="tmatch">${tx.tmwNone}</div></div>`;}
   document.querySelector('.today').innerHTML=rows+live+tmwtog+tmwRows;
 }
@@ -1007,10 +1198,10 @@ function render(){
        <div><div class="gt">${tx.group} ${g.id}</div><div class="gs">${tx.groupSub}</div></div>
        <div class="gflags">${g.teams.map(t=>`<span>${flagOf(t.lat)}</span>`).join('')}</div></div>
      <div class="teams">${g.teams.map((t,ti)=>`
-       <div class="team" onclick="if(!event.target.closest('button,.star'))this.classList.toggle('open')">
+       <div class="team${OUT.has(t.he)?' out':''}" onclick="if(!event.target.closest('button,.star'))this.classList.toggle('open')">
          <div class="ttop"><span class="star ${FOLLOW[t.he]?'on':''}" onclick="fav(this,'${t.he}')">★</span>
            <span class="flag">${flagOf(t.lat)}</span>
-           <span class="tn">${LANG==='he'?`${t.he}<span class="lat">${t.lat}</span>`:t.lat}</span><span class="sticker st-${t.s}">${stx(t.s)}</span></div>
+           <span class="tn">${LANG==='he'?`${t.he}<span class="lat">${t.lat}</span>`:t.lat}</span>${OUT.has(t.he)?`<span class="outtag">${tx.outTag}</span>`:`<span class="sticker st-${t.s}">${stx(t.s)}</span>`}</div>
          <div class="tbody"><div class="tbody-in">
            <div class="tstory">${story(t)}</div>
            <div class="pls">${t.p.map(p=>`<span class="pl">${p}</span>`).join('')}</div>
@@ -1021,6 +1212,28 @@ function render(){
    </div>`).join('');
 }
 function fav(el,name){FOLLOW[name]=!FOLLOW[name];if(!FOLLOW[name])delete FOLLOW[name];el.classList.toggle('on');localStorage.setItem('mn_follow',JSON.stringify(FOLLOW));}
+
+// ===== עץ הנוקאאוט: אותה דאטה, שתי צורות - עמודות בדסקטופ, אקורדיון מתקפל במובייל =====
+function bSide(side){return `<span class="bside${sideKnown(side)?'':' tbd'}"><span class="bflag">${sideFlag(side)}</span><span class="bnm">${sideName(side)}</span></span>`;}
+function bCard(f){const tx=T[LANG];return `
+   <div class="bmatch">
+     <div class="bmtop"><span class="bno">#${f.no}</span><span class="bwhen">${fxDD(f)} · ${fxTime(f)} · ${vn(f.venue)}</span></div>
+     <div class="bteams">${bSide(f.home)}<span class="bvs">${tx.vs}</span>${bSide(f.away)}</div>
+     <div class="bbtns">
+       <button class="chatpill sm" onclick="matchAskNo(${f.no},'bracket')">${tx.allInfo}</button>
+       <button class="chatpill ghost sm" onclick="matchWasachNo(${f.no},'bracket')">${tx.wasachBtn}</button>
+     </div>
+   </div>`;}
+function renderBracket(){
+  const el=document.getElementById('bracket');if(!el)return;
+  el.innerHTML=ROUNDS.map((r,ri)=>{
+    const ms=KNOCKOUT.filter(m=>m.round===r).sort((a,b)=>a.no-b.no);
+    if(!ms.length)return '';
+    return `<div class="bround${ri>0?' collapsed':''}">
+      <button class="bhead" onclick="this.parentNode.classList.toggle('collapsed')"><span class="bttl">${roundName(r)}</span><span class="bcount">${ms.length}</span><span class="bcaret">⌄</span></button>
+      <div class="bmatches">${ms.map(bCard).join('')}</div>
+    </div>`;}).join('');
+}
 
 // scroll reveal (render first so generated cards are observed too)
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
