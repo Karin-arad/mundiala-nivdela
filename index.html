@@ -287,9 +287,9 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
 .rscore{font-family:'Baloo 2';font-weight:800;color:var(--ink)}
 /* desktop: compact, centered, fits without horizontal scroll → reads as one flowchart */
 @media(min-width:761px){
-  .bracket{justify-content:center;align-items:flex-start;gap:10px;overflow-x:auto}
+  .bracket{justify-content:center;align-items:stretch;gap:10px;overflow-x:auto}
   .bround{width:166px}
-  .bmatches{margin-top:9px;gap:9px}
+  .bmatches{flex:1;justify-content:center;margin-top:9px;gap:9px}
   .bhead{font-size:.8rem;padding:8px 11px;gap:7px}
   .bhead .bcount{font-size:.64rem;padding:1px 7px}
   .bmatch{padding:8px 9px;border-radius:13px}
