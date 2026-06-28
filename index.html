@@ -285,6 +285,14 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
 .bside.lose .bnm{text-decoration:line-through;text-decoration-color:rgba(229,53,43,.45)}
 .trow.played{opacity:.85}
 .rscore{font-family:'Baloo 2';font-weight:800;color:var(--ink)}
+/* the next / live match — always highlighted so people find themselves */
+.bnext{font-size:.6rem;font-weight:800;color:#fff;background:var(--g2);border-radius:7px;padding:1px 7px;white-space:nowrap;display:inline-flex;align-items:center;gap:3px}
+.bnext.live{background:var(--ko)}
+.bmatch.next{border-color:var(--g2);box-shadow:0 0 0 2px rgba(255,77,157,.22),0 14px 30px -16px rgba(255,77,157,.5)}
+.bmatch.live{border-color:var(--ko);box-shadow:0 0 0 2px rgba(229,53,43,.28),0 14px 30px -16px rgba(229,53,43,.55);animation:livepulse 2s ease-in-out infinite}
+@keyframes livepulse{50%{box-shadow:0 0 0 4px rgba(229,53,43,.14),0 18px 34px -16px rgba(229,53,43,.65)}}
+.trow.next{box-shadow:inset 0 0 0 2px rgba(255,77,157,.4);border-radius:16px}
+.trow.live{box-shadow:inset 0 0 0 2px rgba(229,53,43,.45);border-radius:16px}
 /* desktop: compact, centered, fits without horizontal scroll → reads as one flowchart */
 @media(min-width:761px){
   .bracket{justify-content:center;align-items:stretch;gap:10px;overflow-x:auto}
@@ -482,7 +490,7 @@ const T={
   tellAbout:'ספרו לי על',teamHint:'👆 לחצ/י לשיחה עם מונדיאלה',opening:'משחק הפתיחה',
   koband:'⚔️ שלב הנוקאאוט · אין מחר',
   r_R32:'סבב ה-32',r_R16:'שמינית גמר',r_QF:'רבע גמר',r_SF:'חצי גמר',r_THIRD:'הקרב על המקום ה-3',r_FINAL:'הגמר',
-  koWinner:'מנצחת משחק',koLoser:'מפסידת משחק',tbd:'טרם נקבע',outTag:'הודחה',koPlayed:'שוחק',
+  koWinner:'מנצחת משחק',koLoser:'מפסידת משחק',tbd:'טרם נקבע',outTag:'הודחה',koPlayed:'שוחק',koNext:'המשחק הבא',koLive:'עכשיו',
   groupsToggle:'הצג/הסתר',betweenRounds:'בין שלבים — המשחק הבא',noNext:'כרגע אין משחק קרוב בלוח 🌙'},
  en:{brand:'⚽ World Cup Guide · 2026',h1:'Mundiala Nivdala',
   tagline:'Watch football with the gang — without being the one who keeps asking questions 🙄⚽',
@@ -520,7 +528,7 @@ const T={
   tellAbout:'Tell me about',teamHint:'👆 Tap to chat with Mundiala',opening:'Opening match',
   koband:'⚔️ Knockout stage · no tomorrow',
   r_R32:'Round of 32',r_R16:'Round of 16',r_QF:'Quarter-final',r_SF:'Semi-final',r_THIRD:'Third-place play-off',r_FINAL:'The Final',
-  koWinner:'Winner of match',koLoser:'Loser of match',tbd:'TBD',outTag:'Out',koPlayed:'Played',
+  koWinner:'Winner of match',koLoser:'Loser of match',tbd:'TBD',outTag:'Out',koPlayed:'Played',koNext:'Next up',koLive:'Live',
   groupsToggle:'Show/hide',betweenRounds:'Between rounds — next match',noNext:'No upcoming match scheduled right now 🌙'},
  de:{brand:'⚽ WM-Guide · 2026',h1:'Mundiala Nivdala',
   tagline:'Fußball mit der Clique schauen — ohne die nervige Person zu sein, die ständig fragt 🙄⚽',
@@ -558,7 +566,7 @@ const T={
   tellAbout:'Erzähl mir über',teamHint:'👆 Tippen, um mit Mundiala zu chatten',opening:'Eröffnungsspiel',
   koband:'⚔️ K.-o.-Runde · kein Morgen',
   r_R32:'Sechzehntelfinale',r_R16:'Achtelfinale',r_QF:'Viertelfinale',r_SF:'Halbfinale',r_THIRD:'Spiel um Platz 3',r_FINAL:'Das Finale',
-  koWinner:'Sieger Spiel',koLoser:'Verlierer Spiel',tbd:'offen',outTag:'Raus',koPlayed:'Gespielt',
+  koWinner:'Sieger Spiel',koLoser:'Verlierer Spiel',tbd:'offen',outTag:'Raus',koPlayed:'Gespielt',koNext:'Als Nächstes',koLive:'Live',
   groupsToggle:'Ein-/ausblenden',betweenRounds:'Zwischen den Runden — nächstes Spiel',noNext:'Derzeit kein Spiel angesetzt 🌙'}
 };
 
@@ -1176,11 +1184,13 @@ function roundName(r){return T[LANG]['r_'+r]||r;}
 
 let tomOpen=false;
 function rowsWithNote(list,when){return list.map(f=>matchRow(f,when)).join('');}
-function matchRow(f,when){const tx=T[LANG];const ended=koEnded(f)||!!f.score;
-  const mid=f.score?`<b class="rscore">${f.score}</b>`:tx.vs;return `
-    <div class="trow${ended?' played':''}">
+function matchRow(f,when){const tx=T[LANG];
+  const live=koLive(f), ended=!live&&(koEnded(f)||!!f.score), isNext=!live&&!ended&&f.no===focusNo();
+  const mid=f.score?`<b class="rscore">${f.score}</b>`:tx.vs;
+  const tag=live?` · 🔴 ${tx.koLive}`:(ended?` · ✓ ${tx.koPlayed}`:(isNext?` · ⏭ ${tx.koNext}`:''));return `
+    <div class="trow${ended?' played':''}${live?' live':''}${isNext?' next':''}">
       <div class="ttime">${fxTime(f)}<small>${fxDD(f)}</small></div>
-      <div class="tmatch">${sideFlag(f.home)} ${sideName(f.home)} ${mid} ${sideFlag(f.away)} ${sideName(f.away)}<small>${roundName(f.round)} · ${vn(f.venue)}${ended?` · ✓ ${tx.koPlayed}`:''}</small></div>
+      <div class="tmatch">${sideFlag(f.home)} ${sideName(f.home)} ${mid} ${sideFlag(f.away)} ${sideName(f.away)}<small>${roundName(f.round)} · ${vn(f.venue)}${tag}</small></div>
       <div class="tbtns">
         <button class="chatpill" onclick="matchAskNo(${f.no},'${when}')">${tx.allInfo}</button>
       </div>
@@ -1241,30 +1251,39 @@ function render(){
 function fav(el,name){FOLLOW[name]=!FOLLOW[name];if(!FOLLOW[name])delete FOLLOW[name];el.classList.toggle('on');localStorage.setItem('mn_follow',JSON.stringify(FOLLOW));}
 
 // ===== עץ הנוקאאוט: אותה דאטה, שתי צורות - עמודות בדסקטופ, אקורדיון מתקפל במובייל =====
-// משחק נחשב "שוחק" אם עברו ~2.5 שעות משריקת הפתיחה (מספיק להארכה ופנדלים)
+// משחק נחשב "שוחק" אם עברו ~2.5 שעות משריקת הפתיחה (מספיק להארכה ופנדלים); "חי" אם הוא בתוך החלון הזה
 function koEnded(f){return Date.now()>fxDate(f).getTime()+150*60000;}
+function koLive(f){const t=fxDate(f).getTime(),n=Date.now();return n>=t&&n<t+150*60000;}
 function koWinnerSide(f){if(f.won)return f.won;if(f.score){const m=f.score.match(/(\d+)\s*[-–:]\s*(\d+)/);if(m){const a=+m[1],b=+m[2];if(a>b)return 'home';if(b>a)return 'away';}}return null;}
+// המשחק להדגיש: החי כרגע אם יש, אחרת הקרוב ביותר שטרם התחיל
+function focusNo(){const live=KNOCKOUT.filter(koLive).sort((a,b)=>fxDate(a)-fxDate(b))[0];if(live)return live.no;const nx=nextMatch();return nx?nx.no:null;}
 function bSide(side,cls){return `<span class="bside${sideKnown(side)?'':' tbd'}${cls?' '+cls:''}"><span class="bflag">${sideFlag(side)}</span><span class="bnm">${sideName(side)}</span></span>`;}
-function bCard(f){const tx=T[LANG];
-  const ended=koEnded(f)||!!f.score, win=koWinnerSide(f);
+function bCard(f,focus){const tx=T[LANG];
+  const live=koLive(f), ended=!live&&(koEnded(f)||!!f.score), isNext=!live&&!ended&&f.no===focus, win=koWinnerSide(f);
   const hc=win==='home'?'win':(win==='away'?'lose':''), ac=win==='away'?'win':(win==='home'?'lose':'');
   const mid=f.score?`<span class="bvs score">${f.score}</span>`:`<span class="bvs">${tx.vs}</span>`;
+  const badge=live?`<span class="bnext live">🔴 ${tx.koLive}</span>`:isNext?`<span class="bnext">⏭ ${tx.koNext}</span>`:ended?`<span class="bdone">✓ ${tx.koPlayed}</span>`:'';
   return `
-   <div class="bmatch${ended?' played':''}">
-     <div class="bmtop"><span class="bno">#${f.no}</span><span class="bmeta">${ended?`<span class="bdone">✓ ${tx.koPlayed}</span>`:''}<span class="bwhen">${fxDD(f)} · ${fxTime(f)} · ${vn(f.venue)}</span></span></div>
+   <div class="bmatch${ended?' played':''}${live?' live':''}${isNext?' next':''}">
+     <div class="bmtop"><span class="bno">#${f.no}</span><span class="bmeta">${badge}<span class="bwhen">${fxDD(f)} · ${fxTime(f)} · ${vn(f.venue)}</span></span></div>
      <div class="bteams">${bSide(f.home,hc)}${mid}${bSide(f.away,ac)}</div>
      <div class="bbtns">
        <button class="chatpill sm" onclick="matchAskNo(${f.no},'bracket')">${tx.allInfo}</button>
      </div>
    </div>`;}
+let _openRounds=null; // השלבים הפתוחים במובייל; נשמר בין רינדורים כדי לא לקפל מה שהמשתמש פתח
+function toggleRound(r){if(!_openRounds)_openRounds=new Set();if(_openRounds.has(r))_openRounds.delete(r);else _openRounds.add(r);renderBracket();}
 function renderBracket(){
   const el=document.getElementById('bracket');if(!el)return;
-  el.innerHTML=ROUNDS.map((r,ri)=>{
+  const rounds=ROUNDS.filter(r=>KNOCKOUT.some(m=>m.round===r));
+  const focus=focusNo(), fm=focus?koByNo(focus):null;
+  if(_openRounds===null)_openRounds=new Set([fm?fm.round:(rounds[0]||'R32')]); // ברירת מחדל: פתוח על השלב של המשחק הבא
+  el.innerHTML=rounds.map(r=>{
     const ms=KNOCKOUT.filter(m=>m.round===r).sort((a,b)=>a.no-b.no);
-    if(!ms.length)return '';
-    return `<div class="bround${ri>0?' collapsed':''}">
-      <button class="bhead" onclick="this.parentNode.classList.toggle('collapsed')"><span class="bttl">${roundName(r)}</span><span class="bcount">${ms.length}</span><span class="bcaret">⌄</span></button>
-      <div class="bmatches">${ms.map(bCard).join('')}</div>
+    const collapsed=!_openRounds.has(r);
+    return `<div class="bround${collapsed?' collapsed':''}" data-round="${r}">
+      <button class="bhead" onclick="toggleRound('${r}')"><span class="bttl">${roundName(r)}</span><span class="bcount">${ms.length}</span><span class="bcaret">⌄</span></button>
+      <div class="bmatches">${ms.map(m=>bCard(m,focus)).join('')}</div>
     </div>`;}).join('');
 }
 
@@ -1274,7 +1293,8 @@ function observeIO(){document.querySelectorAll('.io:not(.in)').forEach((el,i)=>{
 applyLang(); // קובע שפה, כיוון, טקסטים סטטיים, ומרנדר את הבתים + משחקי היום (כולל observeIO)
 // אם העמוד נשאר פתוח וחצה חצות - מרעננים את משחקי היום ברגע שחוזרים אליו (התאריך מחושב חי בכל קליק ממילא)
 let _dk=dkey(new Date());
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){const k=dkey(new Date());if(k!==_dk){_dk=k;renderToday();observeIO();}}});
+// בכל חזרה לאפליקציה: מרעננים את "מה רואים עכשיו" ואת הברקט כדי שהמשחק החי/הבא תמיד יהיה מסומן נכון (מצב הקיפול במובייל נשמר)
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){_dk=dkey(new Date());renderToday();renderBracket();observeIO();}});
 // failsafe: never let content stay invisible if the observer misfires
 setTimeout(()=>document.querySelectorAll('.io:not(.in)').forEach(el=>el.classList.add('in')),2500);
 
