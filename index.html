@@ -373,11 +373,11 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
   </div>
 
   <div class="sh disp io sec sh-m" data-i18n="sh_today"><span class="emj">📺</span> מה רואים עכשיו <span class="live-dot"></span></div>
-  <div class="sub-hint io" data-i18n="sub_today">👆 לכל משחק: "כל מה שצריך" לכל המידע, או "משפטי ווסאח" לאמירות של ידענים לזרוק תוך כדי 😎</div>
+  <div class="sub-hint io" data-i18n="sub_today">👆 לכל משחק לחצ/י על "כל מה שצריך" וקבל/י את כל התמונה — כוכבים, סיפור וזווית לצפייה 😎</div>
   <div class="today io"></div>
 
   <div class="sh disp io sec sh-k" data-i18n="sh_bracket"><span class="emj">🏆</span> הדרך לגמר</div>
-  <div class="sub-hint io" data-i18n="sub_bracket">👆 עץ הנוקאאוט — מי מול מי בדרך לגמר. כל ניצחון מעלה הלאה, כל הפסד זה הביתה.</div>
+  <div class="sub-hint io" data-i18n="sub_bracket">👆 עץ הנוקאאוט — מי מול מי בדרך לגמר. כל ניצחון מעלה הלאה, כל הפסד זה הביתה. 🏆</div>
   <div class="bracket io" id="bracket"></div>
 
   <div class="sh disp io sec sh-g groups-toggle" onclick="document.getElementById('groupsWrap').classList.toggle('open');this.classList.toggle('open')"><span data-i18n="sh_groups"><span class="emj">🌍</span> הבתים — מאיפה כולם הגיעו</span><span class="ghcaret">⌄</span></div>
@@ -460,9 +460,9 @@ const T={
   qq_drama:'הדרמה של הערב — מה על הכף?',qq_rules:'תסבירי את החוקים הבסיסיים',
   qq_bracket:'תרחישי הברקט — מי ממשיך?',qq_survivors:'מי כבר הודח ומי שרד?',
   sh_today:'<span class="emj">📺</span> מה רואים עכשיו <span class="live-dot"></span>',
-  sub_today:'👆 לכל משחק: "כל מה שצריך" לכל המידע, או "משפטי ווסאח" לאמירות של ידענים לזרוק תוך כדי 😎',
+  sub_today:'👆 לכל משחק לחצ/י על "כל מה שצריך" וקבל/י את כל התמונה — כוכבים, סיפור וזווית לצפייה 😎',
   sh_bracket:'<span class="emj">🏆</span> הדרך לגמר',
-  sub_bracket:'👆 עץ הנוקאאוט — מי מול מי בדרך לגמר. כל ניצחון מעלה הלאה, כל הפסד זה הביתה. לכל משחק: כל המידע או משפטי ווסאח',
+  sub_bracket:'👆 עץ הנוקאאוט — מי מול מי בדרך לגמר. כל ניצחון מעלה הלאה, כל הפסד זה הביתה.',
   sh_groups:'<span class="emj">🌍</span> הבתים — מאיפה כולם הגיעו',
   sub_groups:'👆 לחצ/י על נבחרת כדי לפתוח אותה, ואז על הכפתור לשיחה עם מונדיאלה עליה · נבחרת מעומעמת = כבר הודחה',
   sh_gloss:'<span class="emj">📖</span> לא הבנת מילה?',
@@ -498,9 +498,9 @@ const T={
   qq_drama:'Tonight’s drama — what’s at stake?',qq_rules:'Explain the basic rules',
   qq_bracket:'Bracket scenarios — who goes through?',qq_survivors:'Who’s already out and who survived?',
   sh_today:'<span class="emj">📺</span> What’s on now <span class="live-dot"></span>',
-  sub_today:'👆 For each match: “Everything” for the full picture, or “Pundit lines” for expert takes to drop while watching 😎',
+  sub_today:'👆 For each match, tap “Everything” for the full picture — stars, story and what to watch 😎',
   sh_bracket:'<span class="emj">🏆</span> The road to the final',
-  sub_bracket:'👆 The knockout tree — who plays whom on the way to the final. Win and move on, lose and go home. For each match: everything, or pundit lines',
+  sub_bracket:'👆 The knockout tree — who plays whom on the way to the final. Win and move on, lose and go home.',
   sh_groups:'<span class="emj">🌍</span> The groups — where everyone came from',
   sub_groups:'👆 Tap a team to open it, then the button to chat with Mundiala · a dimmed team is already eliminated',
   sh_gloss:'<span class="emj">📖</span> Didn’t catch a word?',
@@ -536,9 +536,9 @@ const T={
   qq_drama:'Das Drama heute Abend — worum geht’s?',qq_rules:'Erklär mir die Grundregeln',
   qq_bracket:'Bracket-Szenarien — wer kommt weiter?',qq_survivors:'Wer ist schon raus und wer überlebt?',
   sh_today:'<span class="emj">📺</span> Was läuft jetzt <span class="live-dot"></span>',
-  sub_today:'👆 Für jedes Spiel: „Alles Wichtige“ für den Überblick, oder „Experten-Sprüche“ für clevere Sätze zum Mitreden 😎',
+  sub_today:'👆 Tippe bei jedem Spiel auf „Alles Wichtige“ für den Überblick — Stars, Geschichte und worauf zu achten 😎',
   sh_bracket:'<span class="emj">🏆</span> Der Weg ins Finale',
-  sub_bracket:'👆 Der K.-o.-Baum — wer gegen wen auf dem Weg ins Finale. Sieg heißt weiter, Niederlage heißt nach Hause. Pro Spiel: alles Wichtige oder Experten-Sprüche',
+  sub_bracket:'👆 Der K.-o.-Baum — wer gegen wen auf dem Weg ins Finale. Sieg heißt weiter, Niederlage heißt nach Hause.',
   sh_groups:'<span class="emj">🌍</span> Die Gruppen — woher alle kamen',
   sub_groups:'👆 Tippe ein Team an, dann den Button, um mit Mundiala zu chatten · ein ausgegrautes Team ist bereits ausgeschieden',
   sh_gloss:'<span class="emj">📖</span> Ein Wort nicht verstanden?',
@@ -1183,7 +1183,6 @@ function matchRow(f,when){const tx=T[LANG];const ended=koEnded(f)||!!f.score;
       <div class="tmatch">${sideFlag(f.home)} ${sideName(f.home)} ${mid} ${sideFlag(f.away)} ${sideName(f.away)}<small>${roundName(f.round)} · ${vn(f.venue)}${ended?` · ✓ ${tx.koPlayed}`:''}</small></div>
       <div class="tbtns">
         <button class="chatpill" onclick="matchAskNo(${f.no},'${when}')">${tx.allInfo}</button>
-        <button class="chatpill ghost" onclick="matchWasachNo(${f.no},'${when}')">${tx.wasachBtn}</button>
       </div>
     </div>`;}
 // המשחק הקרוב ביותר שעוד לא התחיל - ל-fallback כשאין משחקים היום
@@ -1256,7 +1255,6 @@ function bCard(f){const tx=T[LANG];
      <div class="bteams">${bSide(f.home,hc)}${mid}${bSide(f.away,ac)}</div>
      <div class="bbtns">
        <button class="chatpill sm" onclick="matchAskNo(${f.no},'bracket')">${tx.allInfo}</button>
-       <button class="chatpill ghost sm" onclick="matchWasachNo(${f.no},'bracket')">${tx.wasachBtn}</button>
      </div>
    </div>`;}
 function renderBracket(){
