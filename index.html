@@ -275,6 +275,37 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
 .bvs{font-size:.66rem;font-weight:700;color:var(--ink-soft);text-align:center;opacity:.7}
 .bbtns{display:flex;gap:7px}
 .chatpill.sm{min-width:0;flex:1;padding:8px 10px;font-size:.76rem;border-radius:11px}
+/* played-match state: "this one already happened" */
+.bmeta{display:flex;align-items:center;gap:6px}
+.bdone{font-size:.6rem;font-weight:800;color:var(--mint);background:#e7faf4;border-radius:7px;padding:1px 6px;white-space:nowrap}
+.bmatch.played{background:#f9f7fb;border-color:#ece4f2;box-shadow:none}
+.bvs.score{font-family:'Baloo 2';font-weight:800;font-size:.98rem;color:var(--ink);opacity:1}
+.bside.win .bnm{color:#17A77F;font-weight:800}
+.bside.lose{opacity:.5}
+.bside.lose .bnm{text-decoration:line-through;text-decoration-color:rgba(229,53,43,.45)}
+.trow.played{opacity:.85}
+.rscore{font-family:'Baloo 2';font-weight:800;color:var(--ink)}
+/* desktop: compact, centered, fits without horizontal scroll → reads as one flowchart */
+@media(min-width:761px){
+  .bracket{justify-content:center;align-items:flex-start;gap:10px;overflow-x:auto}
+  .bround{width:166px}
+  .bmatches{margin-top:9px;gap:9px}
+  .bhead{font-size:.8rem;padding:8px 11px;gap:7px}
+  .bhead .bcount{font-size:.64rem;padding:1px 7px}
+  .bmatch{padding:8px 9px;border-radius:13px}
+  .bmatch:hover{transform:translateY(-2px)}
+  .bmtop{margin-bottom:6px}
+  .bno{font-size:.66rem;padding:1px 6px}
+  .bdone{font-size:.56rem;padding:1px 5px}
+  .bwhen{font-size:.58rem}
+  .bteams{gap:4px;margin-bottom:7px}
+  .bside{font-size:.78rem;gap:6px}
+  .bside .bflag{font-size:.95rem}
+  .bvs{font-size:.56rem}
+  .bvs.score{font-size:.84rem}
+  .bbtns{flex-direction:column;gap:5px}
+  .chatpill.sm{width:100%;flex:none;padding:6px 7px;font-size:.66rem;border-radius:9px}
+}
 @media(max-width:760px){
   .bracket{display:block;overflow:visible;padding-bottom:4px}
   .bround{width:auto;margin-bottom:11px}
@@ -451,7 +482,7 @@ const T={
   tellAbout:'ספרו לי על',teamHint:'👆 לחצ/י לשיחה עם מונדיאלה',opening:'משחק הפתיחה',
   koband:'⚔️ שלב הנוקאאוט · אין מחר',
   r_R32:'סבב ה-32',r_R16:'שמינית גמר',r_QF:'רבע גמר',r_SF:'חצי גמר',r_THIRD:'הקרב על המקום ה-3',r_FINAL:'הגמר',
-  koWinner:'מנצחת משחק',koLoser:'מפסידת משחק',tbd:'טרם נקבע',outTag:'הודחה',
+  koWinner:'מנצחת משחק',koLoser:'מפסידת משחק',tbd:'טרם נקבע',outTag:'הודחה',koPlayed:'שוחק',
   groupsToggle:'הצג/הסתר',betweenRounds:'בין שלבים — המשחק הבא',noNext:'כרגע אין משחק קרוב בלוח 🌙'},
  en:{brand:'⚽ World Cup Guide · 2026',h1:'Mundiala Nivdala',
   tagline:'Watch football with the gang — without being the one who keeps asking questions 🙄⚽',
@@ -489,7 +520,7 @@ const T={
   tellAbout:'Tell me about',teamHint:'👆 Tap to chat with Mundiala',opening:'Opening match',
   koband:'⚔️ Knockout stage · no tomorrow',
   r_R32:'Round of 32',r_R16:'Round of 16',r_QF:'Quarter-final',r_SF:'Semi-final',r_THIRD:'Third-place play-off',r_FINAL:'The Final',
-  koWinner:'Winner of match',koLoser:'Loser of match',tbd:'TBD',outTag:'Out',
+  koWinner:'Winner of match',koLoser:'Loser of match',tbd:'TBD',outTag:'Out',koPlayed:'Played',
   groupsToggle:'Show/hide',betweenRounds:'Between rounds — next match',noNext:'No upcoming match scheduled right now 🌙'},
  de:{brand:'⚽ WM-Guide · 2026',h1:'Mundiala Nivdala',
   tagline:'Fußball mit der Clique schauen — ohne die nervige Person zu sein, die ständig fragt 🙄⚽',
@@ -527,7 +558,7 @@ const T={
   tellAbout:'Erzähl mir über',teamHint:'👆 Tippen, um mit Mundiala zu chatten',opening:'Eröffnungsspiel',
   koband:'⚔️ K.-o.-Runde · kein Morgen',
   r_R32:'Sechzehntelfinale',r_R16:'Achtelfinale',r_QF:'Viertelfinale',r_SF:'Halbfinale',r_THIRD:'Spiel um Platz 3',r_FINAL:'Das Finale',
-  koWinner:'Sieger Spiel',koLoser:'Verlierer Spiel',tbd:'offen',outTag:'Raus',
+  koWinner:'Sieger Spiel',koLoser:'Verlierer Spiel',tbd:'offen',outTag:'Raus',koPlayed:'Gespielt',
   groupsToggle:'Ein-/ausblenden',betweenRounds:'Zwischen den Runden — nächstes Spiel',noNext:'Derzeit kein Spiel angesetzt 🌙'}
 };
 
@@ -1087,6 +1118,8 @@ const FIXTURES=[
 // המבנה (תאריכים/אצטדיונים/שלבים/מספרי משחק) קבוע ומאומת מול פיפ"א. שעות שמורות בשעון ישראל (יולי=UTC+3) ומוצגות בשעון המקומי.
 // home/away: שם נבחרת (מחרוזת) אם ידוע, או סלוט: {w:NN}=מנצחת משחק NN, {l:NN}=מפסידת משחק NN.
 // תחזוקה: כשמשחק נגמר, מלאו ידנית את שם הנבחרת בסלוטים של הסבב הבא (במקום {w:..}).
+// תוצאות (אופציונלי): הוסיפו score:'2-1' להצגת התוצאה. הזוכה מודגש אוטומטית; אם הוכרע בפנדלים הוסיפו won:'home'/'away'
+// (למשל score:'1-1 (4-2 פנ׳)', won:'home'). בכל מקרה, ~2.5 שעות אחרי שריקת הפתיחה הקלף מסומן אוטומטית כ"שוחק".
 const KNOCKOUT=[
  {round:'R32',no:73,date:'2026-06-28',time:'22:00',venue:'לוס אנג׳לס',home:'דרום אפריקה',away:'קנדה'},
  {round:'R32',no:76,date:'2026-06-29',time:'20:00',venue:'יוסטון',home:'ברזיל',away:'יפן'},
@@ -1143,10 +1176,11 @@ function roundName(r){return T[LANG]['r_'+r]||r;}
 
 let tomOpen=false;
 function rowsWithNote(list,when){return list.map(f=>matchRow(f,when)).join('');}
-function matchRow(f,when){const tx=T[LANG];return `
-    <div class="trow">
+function matchRow(f,when){const tx=T[LANG];const ended=koEnded(f)||!!f.score;
+  const mid=f.score?`<b class="rscore">${f.score}</b>`:tx.vs;return `
+    <div class="trow${ended?' played':''}">
       <div class="ttime">${fxTime(f)}<small>${fxDD(f)}</small></div>
-      <div class="tmatch">${sideFlag(f.home)} ${sideName(f.home)} ${tx.vs} ${sideFlag(f.away)} ${sideName(f.away)}<small>${roundName(f.round)} · ${vn(f.venue)}</small></div>
+      <div class="tmatch">${sideFlag(f.home)} ${sideName(f.home)} ${mid} ${sideFlag(f.away)} ${sideName(f.away)}<small>${roundName(f.round)} · ${vn(f.venue)}${ended?` · ✓ ${tx.koPlayed}`:''}</small></div>
       <div class="tbtns">
         <button class="chatpill" onclick="matchAskNo(${f.no},'${when}')">${tx.allInfo}</button>
         <button class="chatpill ghost" onclick="matchWasachNo(${f.no},'${when}')">${tx.wasachBtn}</button>
@@ -1208,11 +1242,18 @@ function render(){
 function fav(el,name){FOLLOW[name]=!FOLLOW[name];if(!FOLLOW[name])delete FOLLOW[name];el.classList.toggle('on');localStorage.setItem('mn_follow',JSON.stringify(FOLLOW));}
 
 // ===== עץ הנוקאאוט: אותה דאטה, שתי צורות - עמודות בדסקטופ, אקורדיון מתקפל במובייל =====
-function bSide(side){return `<span class="bside${sideKnown(side)?'':' tbd'}"><span class="bflag">${sideFlag(side)}</span><span class="bnm">${sideName(side)}</span></span>`;}
-function bCard(f){const tx=T[LANG];return `
-   <div class="bmatch">
-     <div class="bmtop"><span class="bno">#${f.no}</span><span class="bwhen">${fxDD(f)} · ${fxTime(f)} · ${vn(f.venue)}</span></div>
-     <div class="bteams">${bSide(f.home)}<span class="bvs">${tx.vs}</span>${bSide(f.away)}</div>
+// משחק נחשב "שוחק" אם עברו ~2.5 שעות משריקת הפתיחה (מספיק להארכה ופנדלים)
+function koEnded(f){return Date.now()>fxDate(f).getTime()+150*60000;}
+function koWinnerSide(f){if(f.won)return f.won;if(f.score){const m=f.score.match(/(\d+)\s*[-–:]\s*(\d+)/);if(m){const a=+m[1],b=+m[2];if(a>b)return 'home';if(b>a)return 'away';}}return null;}
+function bSide(side,cls){return `<span class="bside${sideKnown(side)?'':' tbd'}${cls?' '+cls:''}"><span class="bflag">${sideFlag(side)}</span><span class="bnm">${sideName(side)}</span></span>`;}
+function bCard(f){const tx=T[LANG];
+  const ended=koEnded(f)||!!f.score, win=koWinnerSide(f);
+  const hc=win==='home'?'win':(win==='away'?'lose':''), ac=win==='away'?'win':(win==='home'?'lose':'');
+  const mid=f.score?`<span class="bvs score">${f.score}</span>`:`<span class="bvs">${tx.vs}</span>`;
+  return `
+   <div class="bmatch${ended?' played':''}">
+     <div class="bmtop"><span class="bno">#${f.no}</span><span class="bmeta">${ended?`<span class="bdone">✓ ${tx.koPlayed}</span>`:''}<span class="bwhen">${fxDD(f)} · ${fxTime(f)} · ${vn(f.venue)}</span></span></div>
+     <div class="bteams">${bSide(f.home,hc)}${mid}${bSide(f.away,ac)}</div>
      <div class="bbtns">
        <button class="chatpill sm" onclick="matchAskNo(${f.no},'bracket')">${tx.allInfo}</button>
        <button class="chatpill ghost sm" onclick="matchWasachNo(${f.no},'bracket')">${tx.wasachBtn}</button>
