@@ -86,6 +86,11 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
 .install:hover{background:var(--g3);color:#fff;border-color:var(--g3);opacity:1;transform:translateY(-1px)}
 /* כשהאפליקציה כבר מותקנת ונפתחת כאפליקציה - אין צורך בכפתור ההתקנה */
 @media(display-mode:standalone){.install{display:none}}
+/* כפתורי שיתוף (אדום) - עובדים גם באפליקציה המותקנת */
+.share{display:inline-flex;align-items:center;gap:5px;background:transparent;border:1.5px solid rgba(229,53,43,.5);
+  color:var(--ko,#E5352B);font-weight:600;font-size:.74rem;padding:5px 11px;border-radius:10px;cursor:pointer;
+  font-family:'Rubik';transition:.18s}
+.share:hover{background:var(--ko,#E5352B);color:#fff;border-color:var(--ko,#E5352B);transform:translateY(-1px)}
 /* רמז גלילה: שיהיה ברור שיש עוד תוכן למטה */
 .scrolldown{display:flex;flex-direction:column;align-items:center;gap:1px;margin:14px auto 0;width:100%;
   background:none;border:0;cursor:pointer;color:var(--ink-soft);font-family:'Rubik';font-weight:600;font-size:.78rem;
@@ -363,6 +368,8 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
       <div class="row2">
         <span class="hint" data-i18n="heroHint">👆 לחצ/י לשיחה · מונדיאלה נפתחת והשאלה מוכנה</span>
         <button class="install" id="installBtn" onclick="install()" data-i18n="install">📲 התקנה לטלפון</button>
+        <button class="share" onclick="shareWa()" data-i18n="shareWa">💬 שתף בוואטסאפ</button>
+        <button class="share" onclick="copyLink()" data-i18n="shareCopy">🔗 העתק לינק</button>
       </div>
     </div>
   </header>
@@ -459,6 +466,7 @@ const T={
   desc:'לכל מי שרוצה להיות חלק מהחגיגה המשוגעת הזאת, או פשוט לא לאבד חצי מהחברים ל-40 יום. מונדיאלה נבדלה היא המלווה שלכם: כל שאלה, בלי שיפוט. היא תספר לכם למה זה מעניין ומה הסיפור של כל נבחרת. היא אפילו תגיד לכם מה לשאול.',
   askbig:'<span class="e">⚽</span> מה קרה עד עכשיו במונדיאל',
   heroHint:'👆 לחיצה אחת · ChatGPT נפתח והשאלה נשלחת לבד',install:'📲 התקנה לטלפון',
+  shareWa:'💬 שתף בוואטסאפ',shareCopy:'🔗 העתק לינק',copied:'הקישור הועתק! 🔗',shareMsg:'מונדיאלה נבדלה — המדריך הכי כיף למונדיאל 2026, גם בלי להבין כלום בכדורגל ⚽🏆',
   scrollcue:'יש עוד הרבה למטה',
   sh_ask:'<span class="emj">💬</span> לא יודעים מה לשאול?',
   sub_ask:'הבטחנו שמונדיאלה תגיד לכם מה לשאול. לחצ/י על שאלה והיא נפתחת מוכנה, אפס מאמץ 👇',
@@ -497,6 +505,7 @@ const T={
   desc:'For anyone who wants to be part of this crazy celebration — or just not lose half their friends for 40 days. Mundiala is your companion: any question, zero judgment. She’ll tell you why it’s interesting and the story behind every team. She’ll even tell you what to ask.',
   askbig:'<span class="e">⚽</span> What’s happened so far at the World Cup',
   heroHint:'👆 One tap · ChatGPT opens and sends the question for you',install:'📲 Install on phone',
+  shareWa:'💬 Share on WhatsApp',shareCopy:'🔗 Copy link',copied:'Link copied! 🔗',shareMsg:'Mundiala Nivdala — the most fun guide to the 2026 World Cup, even if you know nothing about football ⚽🏆',
   scrollcue:'There’s plenty more below',
   sh_ask:'<span class="emj">💬</span> Not sure what to ask?',
   sub_ask:'We promised Mundiala would tell you what to ask. Tap a question and it opens ready — zero effort 👇',
@@ -535,6 +544,7 @@ const T={
   desc:'Für alle, die Teil dieses verrückten Fests sein wollen — oder einfach 40 Tage lang nicht die Hälfte ihrer Freunde verlieren möchten. Mundiala ist deine Begleiterin: jede Frage, null Urteil. Sie erklärt dir, warum es spannend ist, und die Geschichte hinter jedem Team. Sie sagt dir sogar, was du fragen sollst.',
   askbig:'<span class="e">⚽</span> Was bisher bei der WM passiert ist',
   heroHint:'👆 Ein Tipp · ChatGPT öffnet sich und sendet die Frage für dich',install:'📲 Aufs Handy installieren',
+  shareWa:'💬 Bei WhatsApp teilen',shareCopy:'🔗 Link kopieren',copied:'Link kopiert! 🔗',shareMsg:'Mundiala Nivdala — der unterhaltsamste WM-2026-Guide, auch wenn du keine Ahnung von Fußball hast ⚽🏆',
   scrollcue:'Weiter unten gibt’s noch viel',
   sh_ask:'<span class="emj">💬</span> Keine Ahnung, was fragen?',
   sub_ask:'Wir haben versprochen, Mundiala sagt dir, was du fragen sollst. Tippe eine Frage an, sie öffnet sich fertig — null Aufwand 👇',
@@ -1308,6 +1318,10 @@ function install(){
   else{document.getElementById('iosModal').classList.add('show');}
 }
 function closeIos(){document.getElementById('iosModal').classList.remove('show');}
+// ===== שיתוף: וואטסאפ + העתקת לינק (תמיד הכתובת הציבורית הקבועה) =====
+const SHARE_URL='https://mundial.karin-arad.com';
+function shareWa(){window.open('https://wa.me/?text='+encodeURIComponent(T[LANG].shareMsg+' '+SHARE_URL),'_blank');}
+function copyLink(){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(SHARE_URL).then(()=>toast(T[LANG].copied)).catch(()=>toast(SHARE_URL));}else{toast(SHARE_URL);}}
 if('serviceWorker' in navigator){
   // אם כבר יש service worker שולט (משתמש חוזר) - כשגרסה חדשה משתלטת, נטען מחדש פעם אחת כדי לשבור cache תקוע
   if(navigator.serviceWorker.controller){let refreshing=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(refreshing)return;refreshing=true;location.reload();});}
