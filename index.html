@@ -285,9 +285,13 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
 .bdone{font-size:.6rem;font-weight:800;color:var(--mint);background:#e7faf4;border-radius:7px;padding:1px 6px;white-space:nowrap}
 .bmatch.played{background:#f9f7fb;border-color:#ece4f2;box-shadow:none}
 .bvs.score{font-family:'Baloo 2';font-weight:800;font-size:.98rem;color:var(--ink);opacity:1}
+/* winner: green, bold, soft green pill + a ✓ so it's unmistakable who advanced */
+.bside.win{background:rgba(23,167,127,.10);border-radius:9px;padding:2px 7px;margin:-2px -7px}
 .bside.win .bnm{color:#17A77F;font-weight:800}
-.bside.lose{opacity:.5}
-.bside.lose .bnm{text-decoration:line-through;text-decoration-color:rgba(229,53,43,.45)}
+.bside.win .bnm::after{content:'✓';margin-inline-start:5px;font-size:.82em;font-weight:900;color:#17A77F}
+/* loser: dimmed + a clear red strike-through */
+.bside.lose{opacity:.55}
+.bside.lose .bnm{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:rgba(229,53,43,.8)}
 .trow.played{opacity:.85}
 .rscore{font-family:'Baloo 2';font-weight:800;color:var(--ink)}
 /* the next / live match — always highlighted so people find themselves */
