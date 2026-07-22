@@ -344,6 +344,26 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
 .groups-toggle.open .ghcaret{transform:rotate(180deg)}
 #groupsWrap{max-height:0;overflow:hidden;transition:max-height .45s ease}
 #groupsWrap.open{max-height:16000px}
+
+/* ===== דף הפרידה: הטורניר נגמר, האפליקציה נשארת כארכיון ===== */
+.live-dot{display:none} /* אין יותר משחקים חיים */
+.fw{position:relative;background:var(--card);border-radius:30px;padding:26px 24px;margin-top:18px;
+  box-shadow:var(--shadow);overflow:hidden}
+.fw::before{content:"";position:absolute;inset:0;padding:2px;border-radius:30px;
+  background:var(--spine);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;opacity:.55}
+.fw-cup{font-size:3rem;line-height:1;text-align:center;animation:bob 5s ease-in-out infinite}
+.fw h2{font-family:'Baloo 2';font-weight:800;font-size:1.9rem;line-height:1.15;text-align:center;
+  margin:8px auto 8px;max-width:26ch;
+  background:var(--spine);-webkit-background-clip:text;background-clip:text;color:transparent}
+.fw-final{color:var(--ink-soft);font-size:.95rem;text-align:center;max-width:60ch;margin:0 auto}
+.fw-h3{font-family:'Baloo 2';font-weight:800;font-size:1.25rem;margin:22px 2px 10px}
+.fwgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+.fwcard{background:linear-gradient(135deg,#fff4fa,#f6f0ff);border:1.5px solid #f0e2f5;border-radius:16px;
+  padding:13px 15px;font-size:.88rem;line-height:1.55;color:var(--ink-soft)}
+.fwcard b{color:var(--ink);display:block;margin-bottom:2px}
+.fw-app{background:#fff;border:2px dashed #f0e2f5;border-radius:16px;padding:14px 16px;
+  font-size:.9rem;line-height:1.65;color:var(--ink-soft)}
 </style>
 </head>
 <body>
@@ -366,7 +386,7 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
       </div>
     </div>
     <div class="hero-cta">
-      <div class="koband" data-i18n="koband">⚔️ שלב הנוקאאוט · אין מחר</div>
+      <div class="koband" data-i18n="koband">🏆 המונדיאל הסתיים · ספרד אלופת העולם</div>
       <button class="askbig" onclick="askRecap()" data-i18n="askbig">
         <span class="e">⚽</span> מה קרה עד עכשיו במונדיאל</button>
       <div class="row2">
@@ -377,6 +397,23 @@ body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);
       </div>
     </div>
   </header>
+
+  <section class="fw io" id="farewell">
+    <div class="fw-cup">🏆</div>
+    <h2 data-i18n="fw_h">מונדיאל 2026: ניצחה ספרד · נתראה בעוד 4 שנים 💜</h2>
+    <p class="fw-final" data-i18n="fw_final">הגמר, 19.7, ניו ג׳רזי: ספרד 1-0 ארגנטינה בהארכה · שער של פראן טורס בדקה 106 · אליפות שנייה לספרד (הקודמת: 2010) · אמיליאנו מרטינס קבע שיא של 11 הצלות בגמר, וזה עדיין לא הספיק.</p>
+    <div class="fw-h3" data-i18n="fw_story_h">📖 הסיפור של המונדיאל הזה</div>
+    <div class="fwgrid">
+      <div class="fwcard" data-i18n="fw_s1"><b>🇨🇻 הסינדרלה: כף ורדה</b>525 אלף תושבים, המדינה הקטנה ביותר אי פעם שעלתה לנוקאאוט: תיקו בכל שלושת משחקי הבית (כולל 0-0 מול ספרד!), מקום שני בבית, ובסבב ה-32 הפחידה את ארגנטינה עד ההארכה (2-3).</div>
+      <div class="fwcard" data-i18n="fw_s2"><b>💥 ההדחות הגדולות</b>גרמניה הביתה כבר בסבב ה-32, בפנדלים מול פרגוואי. ברזיל נפלה בשמינית לנורבגיה של הולאנד. הולנד הודחה בפנדלים על ידי מרוקו, שהמשיכה עוד רבע גמר, כמו ב-2022.</div>
+      <div class="fwcard" data-i18n="fw_s3"><b>🏠 הבית לא עזר</b>שלוש המארחות, ארה״ב, קנדה ומקסיקו, נעצרו כולן בשמינית הגמר.</div>
+      <div class="fwcard" data-i18n="fw_s4"><b>🥉 המקום ה-3 יצא מדעתו</b>אנגליה 6-4 צרפת: שלושער של סאקה, 10 שערים, המשחק השערי ביותר במונדיאל מאז 1982.</div>
+      <div class="fwcard" data-i18n="fw_s5"><b>👟 נעל הזהב</b>קיליאן אמבפה עם 10 שערים, הראשון אי פעם שזוכה בנעל הזהב פעמיים ברצף. מסי סיים עם 8, והריצה האחרונה שלו נעצרה מטר מהגביע.</div>
+      <div class="fwcard" data-i18n="fw_s6"><b>🌍 מונדיאל של פעמים ראשונות</b>48 נבחרות לראשונה, 3 מדינות מארחות, ו-4 בכורות: כף ורדה, קוראסאו, ירדן ואוזבקיסטן.</div>
+    </div>
+    <div class="fw-h3" data-i18n="fw_app_h">⚽ מה היה המקום הזה?</div>
+    <div class="fw-app" data-i18n="fw_app">מונדיאלה נבדלה ליוותה את המונדיאל מהפתיחה ועד הגמר: אפליקציה לכל מי שרצו להיות בתוך החגיגה בלי להבין כדורגל. היו כאן כפתורים שפתחו שיחה מוכנה עם מונדיאלה (בוט ייעודי עם אופי, אפס שיפוט), לוח "מה רואים עכשיו" לפי השעון המקומי שלכם, עץ נוקאאוט חי, כל 48 הנבחרות עם סיפור וכוכבים, ומילון למי שלא הבינו מילה. ומאחורי הקלעים: אוטומציה שסרקה כל בוקר את התוצאות, אימתה אותן מול המקורות הרשמיים ועדכנה את הברקט לבד. האפליקציה נשארת פה כמזכרת פתוחה · נתראה ב-2030 ⚽💜</div>
+  </section>
 
   <button class="scrolldown" id="scrollCue" onclick="document.querySelector('.sh').scrollIntoView({behavior:'smooth'})">
     <span data-i18n="scrollcue">יש עוד הרבה למטה</span><span class="chev">⌄</span>
@@ -500,7 +537,18 @@ const T={
   moreSub:'מונדיאלה תביא לוח עדכני לפי השעון המקומי שלך',schedBtn:'⏰ הלוח של היום',
   tmwDay:'מחר',tmwRow:'המשחקים של מחר',tmwSub:'כל משחקי המחר, לפי השעון שלך',tmwShowBtn:'הצג',tmwHideBtn:'הסתר',tmwNone:'מחר אין משחקים מתוזמנים 🌙',
   tellAbout:'ספרו לי על',teamHint:'👆 לחצ/י לשיחה עם מונדיאלה',opening:'משחק הפתיחה',
-  koband:'⚔️ שלב הנוקאאוט · אין מחר',
+  koband:'🏆 המונדיאל הסתיים · ספרד אלופת העולם',
+  fw_h:'מונדיאל 2026: ניצחה ספרד · נתראה בעוד 4 שנים 💜',
+  fw_final:'הגמר, 19.7, ניו ג׳רזי: ספרד 1-0 ארגנטינה בהארכה · שער של פראן טורס בדקה 106 · אליפות שנייה לספרד (הקודמת: 2010) · אמיליאנו מרטינס קבע שיא של 11 הצלות בגמר, וזה עדיין לא הספיק.',
+  fw_story_h:'📖 הסיפור של המונדיאל הזה',
+  fw_s1:'<b>🇨🇻 הסינדרלה: כף ורדה</b>525 אלף תושבים, המדינה הקטנה ביותר אי פעם שעלתה לנוקאאוט: תיקו בכל שלושת משחקי הבית (כולל 0-0 מול ספרד!), מקום שני בבית, ובסבב ה-32 הפחידה את ארגנטינה עד ההארכה (2-3).',
+  fw_s2:'<b>💥 ההדחות הגדולות</b>גרמניה הביתה כבר בסבב ה-32, בפנדלים מול פרגוואי. ברזיל נפלה בשמינית לנורבגיה של הולאנד. הולנד הודחה בפנדלים על ידי מרוקו, שהמשיכה עוד רבע גמר, כמו ב-2022.',
+  fw_s3:'<b>🏠 הבית לא עזר</b>שלוש המארחות, ארה״ב, קנדה ומקסיקו, נעצרו כולן בשמינית הגמר.',
+  fw_s4:'<b>🥉 המקום ה-3 יצא מדעתו</b>אנגליה 6-4 צרפת: שלושער של סאקה, 10 שערים, המשחק השערי ביותר במונדיאל מאז 1982.',
+  fw_s5:'<b>👟 נעל הזהב</b>קיליאן אמבפה עם 10 שערים, הראשון אי פעם שזוכה בנעל הזהב פעמיים ברצף. מסי סיים עם 8, והריצה האחרונה שלו נעצרה מטר מהגביע.',
+  fw_s6:'<b>🌍 מונדיאל של פעמים ראשונות</b>48 נבחרות לראשונה, 3 מדינות מארחות, ו-4 בכורות: כף ורדה, קוראסאו, ירדן ואוזבקיסטן.',
+  fw_app_h:'⚽ מה היה המקום הזה?',
+  fw_app:'מונדיאלה נבדלה ליוותה את המונדיאל מהפתיחה ועד הגמר: אפליקציה לכל מי שרצו להיות בתוך החגיגה בלי להבין כדורגל. היו כאן כפתורים שפתחו שיחה מוכנה עם מונדיאלה (בוט ייעודי עם אופי, אפס שיפוט), לוח "מה רואים עכשיו" לפי השעון המקומי שלכם, עץ נוקאאוט חי, כל 48 הנבחרות עם סיפור וכוכבים, ומילון למי שלא הבינו מילה. ומאחורי הקלעים: אוטומציה שסרקה כל בוקר את התוצאות, אימתה אותן מול המקורות הרשמיים ועדכנה את הברקט לבד. האפליקציה נשארת פה כמזכרת פתוחה · נתראה ב-2030 ⚽💜',
   r_R32:'סבב ה-32',r_R16:'שמינית גמר',r_QF:'רבע גמר',r_SF:'חצי גמר',r_THIRD:'הקרב על המקום ה-3',r_FINAL:'הגמר',
   koWinner:'מנצחת משחק',koLoser:'מפסידת משחק',tbd:'טרם נקבע',outTag:'הודחה',koPlayed:'שוחק',koNext:'המשחק הבא',koLive:'עכשיו',
   groupsToggle:'הצג/הסתר',betweenRounds:'בין שלבים — המשחק הבא',noNext:'כרגע אין משחק קרוב בלוח 🌙'},
@@ -539,7 +587,18 @@ const T={
   moreSub:'Mundiala brings an up-to-date schedule in your local time',schedBtn:'⏰ Today’s schedule',
   tmwDay:'Tmrw',tmwRow:'Tomorrow’s matches',tmwSub:'All of tomorrow’s games, your local time',tmwShowBtn:'Show',tmwHideBtn:'Hide',tmwNone:'No matches scheduled tomorrow 🌙',
   tellAbout:'Tell me about',teamHint:'👆 Tap to chat with Mundiala',opening:'Opening match',
-  koband:'⚔️ Knockout stage · no tomorrow',
+  koband:'🏆 The World Cup is over · Spain are world champions',
+  fw_h:'World Cup 2026: Spain won it · see you in 4 years 💜',
+  fw_final:'The final, July 19, New Jersey: Spain 1-0 Argentina after extra time · Ferran Torres in the 106th minute · Spain’s second title (the first: 2010) · Emiliano Martínez set a final record with 11 saves, and it still wasn’t enough.',
+  fw_story_h:'📖 The story of this World Cup',
+  fw_s1:'<b>🇨🇻 The Cinderella: Cabo Verde</b>525,000 people, the smallest nation ever to reach the knockouts: drew all three group games (including 0-0 with Spain!), finished second in the group, and scared Argentina deep into extra time in the round of 32 (3-2).',
+  fw_s2:'<b>💥 The great exits</b>Germany went home in the round of 32, on penalties to Paraguay. Brazil fell to Haaland’s Norway in the last 16. The Netherlands were knocked out on penalties by Morocco, who marched on to another quarter-final, just like 2022.',
+  fw_s3:'<b>🏠 Home didn’t help</b>All three hosts, the USA, Canada and Mexico, were stopped in the round of 16.',
+  fw_s4:'<b>🥉 The bronze game went wild</b>England 6-4 France: a Saka hat-trick, 10 goals, the highest-scoring World Cup match since 1982.',
+  fw_s5:'<b>👟 The Golden Boot</b>Kylian Mbappé with 10 goals, the first player ever to win it twice in a row. Messi finished on 8, his last ride ending one step from the trophy.',
+  fw_s6:'<b>🌍 A World Cup of firsts</b>48 teams for the first time, 3 host nations, and 4 debutants: Cabo Verde, Curaçao, Jordan and Uzbekistan.',
+  fw_app_h:'⚽ What was this place?',
+  fw_app:'Mundiala Nivdala ran from the opening match to the final: an app for anyone who wanted to be part of the celebration without knowing football. There were buttons that opened a ready-made chat with Mundiala (a dedicated bot, zero judgment), a “what’s on now” schedule in your local time, a live knockout bracket, all 48 teams with their story and stars, and a glossary for anyone who didn’t catch a word. And behind the scenes: an automation that checked the results every morning, verified them against official sources and updated the bracket by itself. The app stays here as an open keepsake · see you in 2030 ⚽💜',
   r_R32:'Round of 32',r_R16:'Round of 16',r_QF:'Quarter-final',r_SF:'Semi-final',r_THIRD:'Third-place play-off',r_FINAL:'The Final',
   koWinner:'Winner of match',koLoser:'Loser of match',tbd:'TBD',outTag:'Out',koPlayed:'Played',koNext:'Next up',koLive:'Live',
   groupsToggle:'Show/hide',betweenRounds:'Between rounds — next match',noNext:'No upcoming match scheduled right now 🌙'},
@@ -578,7 +637,18 @@ const T={
   moreSub:'Mundiala bringt einen aktuellen Spielplan in deiner lokalen Zeit',schedBtn:'⏰ Heutiger Spielplan',
   tmwDay:'Morgen',tmwRow:'Spiele von morgen',tmwSub:'Alle morgigen Spiele, deine lokale Zeit',tmwShowBtn:'Zeigen',tmwHideBtn:'Ausblenden',tmwNone:'Morgen keine Spiele angesetzt 🌙',
   tellAbout:'Erzähl mir über',teamHint:'👆 Tippen, um mit Mundiala zu chatten',opening:'Eröffnungsspiel',
-  koband:'⚔️ K.-o.-Runde · kein Morgen',
+  koband:'🏆 Die WM ist vorbei · Spanien ist Weltmeister',
+  fw_h:'WM 2026: Spanien hat gewonnen · wir sehen uns in 4 Jahren 💜',
+  fw_final:'Das Finale, 19. Juli, New Jersey: Spanien 1-0 Argentinien nach Verlängerung · Ferran Torres in der 106. Minute · Spaniens zweiter Titel (der erste: 2010) · Emiliano Martínez stellte mit 11 Paraden einen Finalrekord auf, und es reichte trotzdem nicht.',
+  fw_story_h:'📖 Die Geschichte dieser WM',
+  fw_s1:'<b>🇨🇻 Das Aschenputtel: Kap Verde</b>525.000 Einwohner, die kleinste Nation, die je die K.-o.-Runde erreichte: Remis in allen drei Gruppenspielen (inklusive 0-0 gegen Spanien!), Gruppenzweiter, und im Sechzehntelfinale zitterte Argentinien bis in die Verlängerung (3-2).',
+  fw_s2:'<b>💥 Die großen Abschiede</b>Deutschland flog schon im Sechzehntelfinale raus, im Elfmeterschießen gegen Paraguay. Brasilien fiel im Achtelfinale gegen Haalands Norwegen. Die Niederlande scheiterten im Elfmeterschießen an Marokko, das wie 2022 wieder ins Viertelfinale marschierte.',
+  fw_s3:'<b>🏠 Heimvorteil? Fehlanzeige</b>Alle drei Gastgeber, die USA, Kanada und Mexiko, waren im Achtelfinale Endstation.',
+  fw_s4:'<b>🥉 Das Spiel um Platz 3 drehte durch</b>England 6-4 Frankreich: ein Saka-Hattrick, 10 Tore, das torreichste WM-Spiel seit 1982.',
+  fw_s5:'<b>👟 Der Goldene Schuh</b>Kylian Mbappé mit 10 Toren, der Erste überhaupt, der ihn zweimal in Folge gewinnt. Messi kam auf 8, seine letzte Reise endete einen Schritt vor dem Pokal.',
+  fw_s6:'<b>🌍 Eine WM der Premieren</b>Erstmals 48 Teams, 3 Gastgeberländer und 4 Debütanten: Kap Verde, Curaçao, Jordanien und Usbekistan.',
+  fw_app_h:'⚽ Was war dieser Ort?',
+  fw_app:'Mundiala Nivdala begleitete die WM vom Eröffnungsspiel bis zum Finale: eine App für alle, die Teil des Fests sein wollten, ohne Fußball zu verstehen. Es gab Buttons, die einen fertigen Chat mit Mundiala öffneten (ein eigener Bot, null Urteil), einen „Was läuft jetzt“-Plan in deiner lokalen Zeit, einen lebendigen K.-o.-Baum, alle 48 Teams mit Geschichte und Stars, und ein Glossar für alle, die ein Wort nicht verstanden. Und hinter den Kulissen: eine Automation, die jeden Morgen die Ergebnisse prüfte, gegen offizielle Quellen verifizierte und den Baum selbst aktualisierte. Die App bleibt hier als offenes Andenken · wir sehen uns 2030 ⚽💜',
   r_R32:'Sechzehntelfinale',r_R16:'Achtelfinale',r_QF:'Viertelfinale',r_SF:'Halbfinale',r_THIRD:'Spiel um Platz 3',r_FINAL:'Das Finale',
   koWinner:'Sieger Spiel',koLoser:'Verlierer Spiel',tbd:'offen',outTag:'Raus',koPlayed:'Gespielt',koNext:'Als Nächstes',koLive:'Live',
   groupsToggle:'Ein-/ausblenden',betweenRounds:'Zwischen den Runden — nächstes Spiel',noNext:'Derzeit kein Spiel angesetzt 🌙'}
